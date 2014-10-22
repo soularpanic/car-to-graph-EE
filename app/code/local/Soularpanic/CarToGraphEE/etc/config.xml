@@ -1,0 +1,48 @@
+<?xml version="1.0" ?>
+
+<config>
+    <modules>
+        <Soularpanic_CarToGraphEE>
+            <version>0.1.0</version>
+        </Soularpanic_CarToGraphEE>
+    </modules>
+
+    <global>
+        <!--<resources>-->
+        <!--<magentocountrynames_setup>-->
+        <!--<setup>-->
+        <!--<module>Soularpanic_MagentoCountryNames</module>-->
+        <!--<class>Soularpanic_MagentoCountryNames_Model_Resource_Setup</class>-->
+        <!--</setup>-->
+        <!--</magentocountrynames_setup>-->
+        <!--</resources>-->
+        <helpers>
+            <cartographee>
+                <class>Soularpanic_CarToGraphEE_Helper</class>
+            </cartographee>
+        </helpers>
+    </global>
+
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <Soularpanic_CarToGraphEE after="Mage_Adminhtml">Soularpanic_CarToGraphEE_Admin</Soularpanic_CarToGraphEE>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+
+    <adminhtml>
+        <layout>
+            <updates>
+                <soularpanic_cartographee>
+                    <file>CarToGraphEE.xml</file>
+                </soularpanic_cartographee>
+            </updates>
+        </layout>
+    </adminhtml>
+
+</config>

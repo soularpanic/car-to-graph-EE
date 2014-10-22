@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<config>
+
+    <menu>
+        <catalog>
+            <children>
+                <cartographee translate="title" module="cartographee">
+                    <title>Manage Car Graph</title>
+                    <action>adminhtml/cartographee/index</action>
+                    <sort_order>20</sort_order>
+                </cartographee>
+            </children>
+        </catalog>
+    </menu>
+
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <catalog>
+                        <children>
+                            <cartographee translate="title" module="cartographee">
+                                <title>Manage Car Graph</title>
+                                <sort_order>20</sort_order>
+                            </cartographee>
+                        </children>
+                    </catalog>
+                </children>
+            </admin>
+        </resources>
+    </acl>
+</config>

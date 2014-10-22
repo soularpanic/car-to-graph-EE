@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<layout>
+<adminhtml_cartographee_index>
+    <reference name="content">
+        <block type="core/template" name="foo" as="foo" template="CarToGraphEE/manage.phtml"/>
+    </reference>
+</adminhtml_cartographee_index>
+</layout>
