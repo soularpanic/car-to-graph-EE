@@ -1,1 +1,25 @@
-hey pals
+<?php $_fileInputName = Mage::helper('cartographee/excel')->getUploadElementName(); ?>
+<form id="fileUploadForm" method="post" enctype="multipart/form-data" action="<?php echo Mage::helper('adminhtml')->getUrl('*/*/processExcel') ?>">
+    <input type="file" id="<?php echo $_fileInputName ?>" name="<?php echo $_fileInputName ?>"/>
+    <input type="submit" id="uploadButton" value="Upload"/>
+    <input type="hidden" name="form_key" id="form_key" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>"/>
+    <iframe id="uploadTarget" name="uploadTarget" src=""></iframe>
+</form>
+<button id="resetButton">Blast Em!</button>
+<script>
+    $(document).observe('dom:loaded', function() {
+        console.log('hi');
+        var fileInputId = "<?php echo $_fileInputName ?>";
+        $(fileInputId).onsubmit = function() {
+            $('fileUploadForm').target = "uploadTarget";
+        };
+
+        $('resetButton').on('click', function() {
+            new Ajax.Request('<?php echo Mage::helper('adminhtml')->getUrl('*/*/reset') ?>', {
+                onComplete: function(resp) {
+                    console.log(resp);
+                }
+            });
+        });
+    })
+</script>

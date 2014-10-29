@@ -8,14 +8,34 @@
     </modules>
 
     <global>
-        <!--<resources>-->
-        <!--<magentocountrynames_setup>-->
-        <!--<setup>-->
-        <!--<module>Soularpanic_MagentoCountryNames</module>-->
-        <!--<class>Soularpanic_MagentoCountryNames_Model_Resource_Setup</class>-->
-        <!--</setup>-->
-        <!--</magentocountrynames_setup>-->
-        <!--</resources>-->
+        <models>
+            <cartographee>
+                <class>Soularpanic_CarToGraphEE_Model</class>
+                <resourceModel>cartographee_resource</resourceModel>
+            </cartographee>
+
+            <cartographee_resource>
+                <class>Soularpanic_CarToGraphEE_Model_Resource</class>
+                <entities>
+                    <car>
+                        <table>cartographee_cars</table>
+                    </car>
+                    <car_product>
+                        <table>cartographee_cars_products</table>
+                    </car_product>
+                </entities>
+            </cartographee_resource>
+        </models>
+
+        <resources>
+            <cartographee_setup>
+                <setup>
+                    <module>Soularpanic_CarToGraphEE</module>
+                    <class>Soularpanic_CarToGraphEE_Model_Resource_Setup</class>
+                </setup>
+            </cartographee_setup>
+        </resources>
+
         <helpers>
             <cartographee>
                 <class>Soularpanic_CarToGraphEE_Helper</class>
