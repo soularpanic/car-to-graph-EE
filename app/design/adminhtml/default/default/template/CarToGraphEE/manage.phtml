@@ -8,9 +8,7 @@
 <button id="resetButton">Blast Em!</button>
 <script>
     $(document).observe('dom:loaded', function() {
-        console.log('hi');
-        var fileInputId = "<?php echo $_fileInputName ?>";
-        $(fileInputId).onsubmit = function() {
+        $('fileUploadForm').onsubmit = function() {
             $('fileUploadForm').target = "uploadTarget";
         };
 

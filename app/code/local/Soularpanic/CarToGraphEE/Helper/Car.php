@@ -22,11 +22,12 @@ class Soularpanic_CarToGraphEE_Helper_Car
 
     public function getCarProductRelations($car, $relationsRowArr) {
         $relationsData = [];
-        $option = $relationsRowArr['option'];
+        $option = strtolower(str_replace(' ', '_', trim($relationsRowArr['option'])));
         foreach ($relationsRowArr as $relKey => $relValue) {
             if (in_array($relKey, ['make', 'model', 'year', 'option'])) {
                 continue;
             }
+            $type = strtolower(str_replace(' ', '_', trim($relKey)));
             foreach (explode(',', $relValue) as $relLink) {
                 list($productSku, $preselectSkus) = explode(':', $relLink, 2);
                 if ('-' === $productSku) {
@@ -40,7 +41,7 @@ class Soularpanic_CarToGraphEE_Helper_Car
                         'product_id' => $productId,
                         'preselect_ids' => $preselectIds,
                         'option' => $option,
-                        'type' => $relKey
+                        'type' => $type
                     ];
                 }
             }
@@ -53,12 +54,13 @@ class Soularpanic_CarToGraphEE_Helper_Car
         if (!$_sku) {
             return false;
         }
-        $product = Mage::getModel('catalog/product')->load(trim($_sku), 'sku');
-        if (!$product->getId()) {
+        $product = Mage::getModel('catalog/product');
+        $id = $product->getIdBySku($_sku);
+        if (!$id) {
             $this->_reportResolutionFailure($_sku);
             return false;
         }
-        return $product->getId();
+        return $id;
     }
 
     protected function _resolveProducts($skuArr) {

@@ -47,19 +47,13 @@ class Soularpanic_CarToGraphEE_Admin_CartographeeController
 
             $relations = $carHelper->getCarProductRelations($car, $relationRow);
             $excelHelper->log(print_r($relations, true));
+            foreach ($relations as $relation) {
+                $link = Mage::getModel('cartographee/linkcarproduct');
+                $link->setData($relation);
+                $link->save();
+            }
         }
-//        $parser->setData($data);
-//        $parsed = $parser->parse();
-//        $fp = fopen(Mage::getBaseDir('var').'/tmp/Sizing.xls', 'rb');
-//        if ($fp === FALSE) {
-//            Mage::log('Could not open file to parse', null, 'trs_guide.log');
-//        }
-//        else {
-//            $data = fread($fp, filesize($fp));
-//            $parser->setData($data);
-//        }
-//        fclose($fp);
-        return 'hey';
+        return $this;
     }
 
 

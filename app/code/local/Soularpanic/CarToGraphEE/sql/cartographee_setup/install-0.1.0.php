@@ -3,14 +3,6 @@
 $installer = $this;
 $installer->startSetup();
 
-//$installer->addEntityType('cartographee_car', [
-//    'entity_model'  => 'cartographee/car',
-//    'table'         => 'cartographee/car'
-//]);
-//
-//$installer->createEntityTables(
-//    $this->getTable('cartographee/car')
-//);
 $installer->run("
     CREATE TABLE `{$installer->getTable('cartographee/car')}` (
       `entity_id` INT(10) UNSIGNED PRIMARY KEY AUTO_INCREMENT,
@@ -20,7 +12,7 @@ $installer->run("
       `year` VARCHAR(4)
     ) ENGINE=INNODB;
 
-    CREATE TABLE `{$installer->getTable('cartographee/car_product')}` (
+    CREATE TABLE `{$installer->getTable('cartographee/linkcarproduct')}` (
       `entity_id` INT(10) UNSIGNED PRIMARY KEY AUTO_INCREMENT,
       `car_id` INT(10) UNSIGNED NOT NULL,
       `product_id` INT(10) UNSIGNED NOT NULL,

@@ -20,9 +20,9 @@
                     <car>
                         <table>cartographee_cars</table>
                     </car>
-                    <car_product>
-                        <table>cartographee_cars_products</table>
-                    </car_product>
+                    <linkcarproduct>
+                        <table>cartographee_car_product_links</table>
+                    </linkcarproduct>
                 </entities>
             </cartographee_resource>
         </models>
