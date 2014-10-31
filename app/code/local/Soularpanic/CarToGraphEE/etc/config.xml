@@ -49,6 +49,18 @@
         </blocks>
     </global>
 
+    <frontend>
+        <routers>
+            <cartographee>
+                <use>standard</use>
+                <args>
+                    <module>Soularpanic_CarToGraphEE</module>
+                    <frontName>cartographee</frontName>
+                </args>
+            </cartographee>
+        </routers>
+    </frontend>
+
     <admin>
         <routers>
             <adminhtml>

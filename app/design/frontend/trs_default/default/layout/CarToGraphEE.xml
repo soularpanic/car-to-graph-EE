@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<layout version="0.1.0">
+
+    <cartographee_buyersguide_index>
+        <reference name="content">
+            <block type="cartographee/buyersguide_CategorySelection" name="bar" as="bar" template="CarToGraphEE/buyersguide/category.phtml"/>
+
+        </reference>
+    </cartographee_buyersguide_index>
+
+    <cartographee_buyersguide_listing>
+        <reference name="content">
+            <block type="core/template" name="foo" as="foo" template="CarToGraphEE/buyersguide/category.phtml"/>
+        </reference>
+    </cartographee_buyersguide_listing>
+
+</layout>
