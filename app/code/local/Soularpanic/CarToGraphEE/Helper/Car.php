@@ -4,6 +4,7 @@ class Soularpanic_CarToGraphEE_Helper_Car
 
     private $_resolutionFailures = [];
 
+
     public function fetchCar($carArr = []) {
         $altId = $this->getCarAltId($carArr['make'], $carArr['model'], $carArr['year']);
 
@@ -16,9 +17,11 @@ class Soularpanic_CarToGraphEE_Helper_Car
         return $car;
     }
 
+
     public function getCarAltId($make, $model, $year) {
         return strtolower(sprintf('%s_%s_%s', $make, $model, $year));
     }
+
 
     public function getCarProductRelations($car, $relationsRowArr) {
         $relationsData = [];
@@ -49,6 +52,38 @@ class Soularpanic_CarToGraphEE_Helper_Car
         return $relationsData;
     }
 
+
+    public function getFilteredCarProperties($properties) {
+        $results = [];
+        foreach ($properties as $_propertyName => $_propertyValue) {
+            if ($_propertyValue) {
+                $results[$_propertyName] = [$_propertyValue];
+            }
+            else {
+                $results[$_propertyName] = $this->getFilteredCarProperty($_propertyName, $properties, $_propertyName === 'year' ? 'DESC' : 'ASC');
+            }
+        }
+        return $results;
+    }
+
+
+    public function getFilteredCarProperty($propertyName, $properties = [], $order = 'ASC') {
+        $cars = Mage::getModel('cartographee/car')
+            ->getCollection();
+
+        foreach ($properties as $_property => $_propertyValue) {
+            if ($_propertyValue && $propertyName !== $_property) {
+                $cars->addFieldToFilter($_property, $_propertyValue);
+            }
+        }
+
+        $cars->getSelect()
+            ->group($propertyName)
+            ->order("{$propertyName} {$order}");
+
+        return $cars->getColumnValues($propertyName);
+    }
+
     protected function _resolveProduct($sku) {
         $_sku = trim($sku);
         if (!$_sku) {
@@ -63,6 +98,7 @@ class Soularpanic_CarToGraphEE_Helper_Car
         return $id;
     }
 
+
     protected function _resolveProducts($skuArr) {
         $resolved = [];
         foreach ($skuArr as $sku) {
@@ -71,9 +107,11 @@ class Soularpanic_CarToGraphEE_Helper_Car
         return $resolved;
     }
 
+
     protected function _resolvePreselectProducts($preselectSkus) {
         return implode(',', $this->_resolveProducts(explode(':', $preselectSkus)));
     }
+
 
     protected function _reportResolutionFailure($sku) {
         if (in_array($sku, $this->_resolutionFailures)) {

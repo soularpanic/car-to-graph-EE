@@ -4,19 +4,16 @@
 
     <cartographee_buyersguide_index>
         <reference name="content">
-            <block type="cartographee/buyersguide_CategorySelection" name="bar" as="bar" template="CarToGraphEE/buyersguide/category.phtml"/>
-
+            <!--<block type="cartographee/buyersguide_CategorySelection" name="bar" as="bar" template="CarToGraphEE/buyersguide/category.phtml"/>-->
+            <!--Should put the 'select the category stuff' here-->
         </reference>
     </cartographee_buyersguide_index>
 
-    <cartographee_buyersguide_listing>
-        <reference name="content">
-            <block type="core/template" name="foo" as="foo" template="CarToGraphEE/buyersguide/category.phtml"/>
-        </reference>
-    </cartographee_buyersguide_listing>
-
     <catalog_category_layered>
-
+        <reference name="head">
+            <!--<action method="addJs"><script>soularpanic/buyersguide/buyersguide.js</script></action>-->
+            <!--<action method="addJs"><script>soularpanic/buyersguide/buyersguideinit.js</script></action>-->
+        </reference>
     </catalog_category_layered>
 
 </layout>
