@@ -55,7 +55,7 @@ class Soularpanic_CarToGraphEE_Block_Buyersguide_Layer_View
 
     public function excludeAttribute($attributeName) {
 
-        if (!in_array($attributeName, $this->$_excludedAttributeNames)) {
+        if (!in_array($attributeName, $this->_excludedAttributeNames)) {
             $this->_excludedAttributeNames[] = $attributeName;
         }
     }
