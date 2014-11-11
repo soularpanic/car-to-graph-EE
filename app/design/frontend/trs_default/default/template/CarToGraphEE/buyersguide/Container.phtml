@@ -34,5 +34,9 @@
 
     <input type="button" id="buyersGuideStartButton" value="Go!"/>
     <input type="hidden" id="buyersGuideStartUrl" value="<?php echo $this->getUrl('*/*/*') ?>"/>
-    <div id="buyersGuideControllerData" class="invisible" data-carUpdateUrl="<?php echo $this->getUrl('cartographee/buyersguide/updatecarselection') ?>"/>
+    <div id="buyersGuideControllerData" class="invisible" data-carUpdateUrl="<?php echo $this->getUrl('cartographee/buyersguide/updatecarselection') ?>">
+
+    </div>
+
+    <?php echo $this->getChildHtml('buyersguide_steps') ?>
 </div>

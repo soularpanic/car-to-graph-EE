@@ -55,7 +55,7 @@ class Soularpanic_CarToGraphEE_Block_Buyersguide_Layer_View
 
     public function excludeAttribute($attributeName) {
 
-        if (!in_array($attributeName, $this->$_excludedAttributeNames)) {
+        if (!in_array($attributeName, $this->_excludedAttributeNames)) {
             $this->_excludedAttributeNames[] = $attributeName;
         }
     }
@@ -105,9 +105,16 @@ class Soularpanic_CarToGraphEE_Block_Buyersguide_Layer_View
             ->setLayer($this->getLayer())
             ->init();
 
-        $buyersGuideBlock = $this->getLayout()->createBlock($this->_buyersguideFilterBlockName)
-            ->setLayer($this->getLayer())
-            ->init();
+        $buyersGuideBlock = $this->getChild('buyers_guide');
+        if ($buyersGuideBlock === false) {
+
+            $buyersGuideBlock = $this->getLayout()->createBlock($this->_buyersguideFilterBlockName);
+        }
+
+        $buyersGuideBlock->setLayer($this->getLayer())->init();
+//            $this->getLayout()->createBlock($this->_buyersguideFilterBlockName)
+//            ->setLayer($this->getLayer())
+//            ->init();
 
         $this->setChild('layer_state', $stateBlock);
         $this->setChild('category_filter', $categoryBlock);

@@ -1,0 +1,6 @@
+<h1>I AM A STEP CONTAINER!</h1>
+<ul>
+    <?php foreach ($this->getSteps() as $step): ?>
+        <li><?php echo $step->toHtml() ?></li>
+    <?php endforeach; ?>
+</ul>

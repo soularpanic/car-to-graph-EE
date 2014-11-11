@@ -16,4 +16,34 @@
         </reference>
     </catalog_category_layered>
 
+
+
+    <buyersguide_projectors>
+        <reference name="buyers_guide">
+            <block type="cartographee/buyersguide_layer_filter_step_container" name="buyersguide_steps" as="buyersguide_steps" template="cartographee/buyersguide/step/Container.phtml">
+                <block type="cartographee/buyersguide_layer_filter_step_generic" name="step_1" as="step_1" template="cartographee/buyersguide/step/Generic.phtml">
+                    <action method="setStepConfig">
+                        <config>
+                            <step_question>What is the approximate height &amp; depth of your headlight reflector?</step_question>
+                            <options>
+                                <tiny>
+                                    <title>Tiny</title>
+                                    <description>Height: 55-75mm
+                                        Depth: 106-137mm</description>
+                                </tiny>
+                                <small><title>Small</title></small>
+                                <medium><title>Medium</title></medium>
+                                <large><title>Large</title></large>
+                            </options>
+                        </config>
+                    </action>
+                </block>
+            </block>
+        </reference>
+    </buyersguide_projectors>
+
+    <CATEGORY_6>
+        <update handle="buyersguide_projectors"/>
+    </CATEGORY_6>
+
 </layout>
