@@ -1,8 +1,30 @@
-<div>
-    <h2><?php echo $this->getQuestion() ?></h2>
-    <ul>
-        <?php foreach ($this->getOptions() as $idx => $option): ?>
-            <li><?php echo print_r($option, true) ?></li>
-        <?php endforeach; ?>
-    </ul>
+<div class="buyersGuide-selections">
+    <h2>We&apos;ve got a few more questions before we can find the right projector for you...</h2>
+</div>
+<div class="buyersGuide-select">
+    <span class="productDrop-headline"><?php echo $this->getQuestion() ?></span>
+    <div class="buyersGuide-selectWrap">
+        <div class="selectWrap-full">
+            <div class="selectWrap-column">
+                <?php
+                if ($this->getImage()) {
+                    echo($this->getImage()->render());
+                }
+                ?>
+            </div>
+            <div class="selectWrap-column last">
+                <?php foreach ($this->getOptions() as $idx => $option): ?>
+                    <div class="tile">
+                        <h3 class="tile30"><?php echo $option->getTitle() ?></h3>
+                        <div class="tile50">
+                            <?php foreach (explode("\n", trim($option->getDesc())) as $descriptor): ?>
+                                <span class="product-spec"><?php echo trim($descriptor) ?></span>
+                            <?php endforeach; ?>
+                        </div>
+                        <div class="tile-select">&nbsp;</div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
 </div>

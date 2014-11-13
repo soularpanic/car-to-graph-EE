@@ -1,42 +1,49 @@
-<div class="buyersGuide" style="position:absolute; float:left; z-index:10;">
-    <div class="formFieldContainer year">
-        <select name="car[year]" class="buyersGuide-carSelect">
-            <option value="">Year</option>
-            <?php foreach ($this->getAvailableYears() as $_year): ?>
-                <?php if ($_year): ?>
-                    <option value="<?php echo $_year ?>"><?php echo $_year ?></option>
-                <?php endif; ?>
-            <?php endforeach; ?>
-        </select>
+<div class="<?php echo $this->getContainerClassString() ?>">
+    <div class="buyersGuide-filter">
+        <div class="formFieldContainer year">
+            <select name="car[year]" class="buyersGuide-carSelect">
+                <option value="">Year</option>
+                <?php foreach ($this->getAvailableYears() as $_year): ?>
+                    <?php if ($_year): ?>
+                        <option value="<?php echo $_year ?>"><?php echo $_year ?></option>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </select>
+        </div>
+
+        <div class="formFieldContainer make">
+            <select name="car[make]" class="buyersGuide-carSelect">
+                <option value="">Make</option>
+                <?php foreach ($this->getAvailableMakes() as $_make): ?>
+                    <?php if ($_make): ?>
+                        <option value="<?php echo $_make ?>"><?php echo $_make ?></option>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </select>
+        </div>
+
+        <div class="formFieldContainer model">
+            <select name="car[model]" class="buyersGuide-carSelect">
+                <option value="">Model</option>
+                <?php foreach ($this->getAvailableModels() as $_model): ?>
+                    <?php if ($_model): ?>
+                        <option value="<?php echo $_model ?>"><?php echo $_model ?></option>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </select>
+        </div>
+
+        <input type="button" id="buyersGuideStartButton" value="Go!"/>
+        <input type="hidden" id="buyersGuideStartUrl" value="<?php echo $this->getUrl('*/*/*') ?>"/>
+        <div id="buyersGuideControllerData" class="invisible" data-carUpdateUrl="<?php echo $this->getUrl('cartographee/buyersguide/updatecarselection') ?>">
+
+        </div>
+        <?php echo $this->getChildHtml('buyersguide_steps') ?>
     </div>
-
-    <div class="formFieldContainer make">
-        <select name="car[make]" class="buyersGuide-carSelect">
-            <option value="">Make</option>
-            <?php foreach ($this->getAvailableMakes() as $_make): ?>
-                <?php if ($_make): ?>
-                    <option value="<?php echo $_make ?>"><?php echo $_make ?></option>
-                <?php endif; ?>
-            <?php endforeach; ?>
-        </select>
-    </div>
-
-    <div class="formFieldContainer model">
-        <select name="car[model]" class="buyersGuide-carSelect">
-            <option value="">Model</option>
-            <?php foreach ($this->getAvailableModels() as $_model): ?>
-                <?php if ($_model): ?>
-                    <option value="<?php echo $_model ?>"><?php echo $_model ?></option>
-                <?php endif; ?>
-            <?php endforeach; ?>
-        </select>
-    </div>
-
-    <input type="button" id="buyersGuideStartButton" value="Go!"/>
-    <input type="hidden" id="buyersGuideStartUrl" value="<?php echo $this->getUrl('*/*/*') ?>"/>
-    <div id="buyersGuideControllerData" class="invisible" data-carUpdateUrl="<?php echo $this->getUrl('cartographee/buyersguide/updatecarselection') ?>">
-
-    </div>
-
-    <?php echo $this->getChildHtml('buyersguide_steps') ?>
 </div>
+<script type="text/javascript">
+    document.observe('dom:loaded', function() {
+        $$('.buyersGuide')[0].addClassName('active');
+    });
+
+</script>

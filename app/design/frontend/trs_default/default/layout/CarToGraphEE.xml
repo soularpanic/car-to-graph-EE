@@ -20,20 +20,41 @@
 
     <buyersguide_projectors>
         <reference name="buyers_guide">
+            <action method="addContainerClass"><value>projectors</value></action>
             <block type="cartographee/buyersguide_layer_filter_step_container" name="buyersguide_steps" as="buyersguide_steps" template="cartographee/buyersguide/step/Container.phtml">
                 <block type="cartographee/buyersguide_layer_filter_step_generic" name="step_1" as="step_1" template="cartographee/buyersguide/step/Generic.phtml">
                     <action method="setStepConfig">
                         <config>
                             <step_question>What is the approximate height &amp; depth of your headlight reflector?</step_question>
+                            <step_image>
+                                <url>images/productcategory/projectors-q1.svg</url>
+                                <alt>HID Projectors Diagram</alt>
+                            </step_image>
                             <options>
                                 <tiny>
                                     <title>Tiny</title>
-                                    <description>Height: 55-75mm
-                                        Depth: 106-137mm</description>
+                                    <desc>Height: 55-75mm
+                                        Depth: 106-137mm</desc>
+                                    <action>step:2[MATCHBOX-R]</action>
                                 </tiny>
-                                <small><title>Small</title></small>
-                                <medium><title>Medium</title></medium>
-                                <large><title>Large</title></large>
+                                <small>
+                                    <title>Small</title>
+                                    <desc>Height: 75-80mm
+                                        Depth: 136-138mm</desc>
+                                    <action>step:2[MATCHBOX-R, MH16.0-R]</action>
+                                </small>
+                                <medium>
+                                    <title>Medium</title>
+                                    <desc>Height: 80-95mm
+                                        Depth: 138-149mm</desc>
+                                    <action>step:2[MH16.0-R, MD2S3.0-R]</action>
+                                </medium>
+                                <large>
+                                    <title>Large</title>
+                                    <desc>Height: 95mm +
+                                        Depth: 149mm +</desc>
+                                    <action>step:2[MD2S3.0-R, FXR3.0-R]</action>
+                                </large>
                             </options>
                         </config>
                     </action>
