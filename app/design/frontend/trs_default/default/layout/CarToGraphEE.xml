@@ -21,6 +21,26 @@
     <buyersguide_projectors>
         <reference name="buyers_guide">
             <action method="addContainerClass"><value>projectors</value></action>
+            <block type="cartographee/buyersguide_layer_filter_step_generic" name="buyersguide_toolbar_supplemental" as="buyersguide_toolbar_supplemental" template="cartographee/buyersguide/toolbar/Supplemental.phtml">
+                <action method="setStepConfig">
+                    <config>
+                        <options>
+                            <all>
+                                <title>All Function Types</title>
+                                <action>step:1</action>
+                            </all>
+                            <headlights>
+                                <title>Headlights</title>
+                                <action>step:1</action>
+                            </headlights>
+                            <foglights>
+                                <title>Fog Lights</title>
+                                <action>sku:MATCHBOX-R</action>
+                            </foglights>
+                        </options>
+                    </config>
+                </action>
+            </block>
             <block type="cartographee/buyersguide_layer_filter_step_container" name="buyersguide_steps" as="buyersguide_steps" template="cartographee/buyersguide/step/Container.phtml">
                 <block type="cartographee/buyersguide_layer_filter_step_generic" name="step_1" as="step_1" template="cartographee/buyersguide/step/Generic.phtml">
                     <action method="setStepConfig">

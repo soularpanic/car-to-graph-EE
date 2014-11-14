@@ -1,0 +1,8 @@
+<h2 class="mobile-hide">for the</h2>
+<div class="formFieldContainer last">
+    <select name="supplement">
+        <?php foreach ($this->getOptions() as $option): ?>
+            <option value="<?php $option->getId() ?>"><?php echo $option->getTitle() ?></option>
+        <?php endforeach; ?>
+    </select>
+</div>

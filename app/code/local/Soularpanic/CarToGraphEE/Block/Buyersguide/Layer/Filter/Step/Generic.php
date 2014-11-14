@@ -1,13 +1,29 @@
 <?php
 class Soularpanic_CarToGraphEE_Block_Buyersguide_Layer_Filter_Step_Generic
-extends Mage_Core_Block_Template {
+    extends Mage_Core_Block_Template {
+    //extends Mage_Catalog_Block_Layer_Filter_Abstract {
 
     protected $_stepConfig;
 
     public function __construct() {
         $_stepConfig = [];
+        // $this->_filterModelName = 'cartographee/buyersguide_layer_filter_delegate';
         parent::__construct();
     }
+
+
+    public function getStepId() {
+        return $this->getNameInLayout();
+    }
+
+
+    public function getChainLink() {
+        $link = Mage::getModel('cartographee/buyersguide_layer_filter_chain_link');
+        $link->setData($this->_data);
+        $link->setId($this->getNameInLayout());
+        return $link;
+    }
+
 
     public function setStepConfig($config) {
         Mage::log("step config: ".print_r($config, true), null, 'trs_guide.log');

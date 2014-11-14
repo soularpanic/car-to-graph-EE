@@ -9,7 +9,7 @@ class Soularpanic_CarToGraphEE_Block_Buyersguide_Layer_Filter_Car
     public function __construct() {
         parent::__construct();
         $this->_filterModelName = 'cartographee/buyersguide_layer_filter_car';
-        $this->setTemplate('cartographee/buyersguide/Container.phtml');
+        //$this->setTemplate('cartographee/buyersguide/Container.phtml');
         $this->_carHelper = Mage::helper('cartographee/car');
         $this->setContainerClasses(['buyersGuide']);
     }
@@ -27,17 +27,5 @@ class Soularpanic_CarToGraphEE_Block_Buyersguide_Layer_Filter_Car
 
     public function getAvailableModels() {
         return $this->_carHelper->getFilteredCarProperty('model');
-    }
-
-    public function addContainerClass($containerClass) {
-//        $containerClasses = $this->getContainerClasses();
-//        $containerClasses[] = $containerClass;
-//        $this->setContainerClasses($containerClasses);
-        $this->setContainerClasses(array_merge($this->getContainerClasses(), [$containerClass]));
-    }
-
-    public function getContainerClassString() {
-        $containerClasses = $this->getContainerClasses();
-        return implode(' ', $containerClasses);
     }
 }

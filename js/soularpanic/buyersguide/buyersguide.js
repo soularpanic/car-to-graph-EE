@@ -1,14 +1,20 @@
 var BuyersGuideController = Class.create(TRSCategoryBase, {
 
+    _DEFAULT_BG_CONTAINER_SELECTOR: '.buyersGuide',
+    _DEFAULT_STEP_CONTAINER_SELECTOR: '.buyersGuide-questionMask',
     _DEFAULT_BG_CAR_INPUT_SELECTOR: '.buyersGuide-carSelect',
     _DEFAULT_GO_BUTTON_ID: 'buyersGuideStartButton',
 
     initialize: function($super, args) {
         var _args = args || {};
         this._moduleName = 'buyers_guide';
+        this._isRunning = false;
+        this.stepSelections = {};
+        this.buyersGuideSelector = _args.buyersGuideSelector || this._DEFAULT_BG_CONTAINER_SELECTOR;
         this.carInputSelector = _args.carInputSelector || this._DEFAULT_BG_CAR_INPUT_SELECTOR;
         this.goButtonId = _args.goButtonId || this._DEFAULT_GO_BUTTON_ID;
         this.updateCarInputsUrl = _args.updateCarInputsUrl || '';
+        this.stepContainerSelector = _args.stepContainerSelector || this._DEFAULT_STEP_CONTAINER_SELECTOR;
         this.register();
         this._initializeObservers();
         //$super(args);
@@ -20,11 +26,15 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
 
     _initializeObservers: function() {
         var carSelector = this.carInputSelector,
+            stepContainerSelector = this.stepContainerSelector,
             goId = this.goButtonId,
             newDataEvent = this.NEW_DATA_EVENT,
             context = this;
         $$(carSelector).each(function(elt) {
             elt.observe('change', context.updateCarInputs.bind(context));
+        });
+        $$(stepContainerSelector).each(function(elt) {
+            Event.on(elt, 'click', '.tile-select', context.handleStepSelection.bind(context));
         });
         $(goId).observe('click', context.startBuyersGuide.bind(context));
         //$(document).observe(newDataEvent, context.updateStateUrl.bind(context));
@@ -37,9 +47,28 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
     },
 
 
+    handleStepSelection: function(evt) {
+        console.log("Im handling it!");
+        console.log(evt);
+        var selectedButton = evt.target,
+            selectedValue = selectedButton.readAttribute('data-value'),
+            selectedStep = selectedButton.up('.buyersGuide-select').readAttribute('data-stepId');
+        this.stepSelections[selectedStep] = selectedValue;
+        Event.fire(evt.target, this.FILTER_CHANGE_EVENT, evt.memo);
+    },
+
+
     getFilters: function($super) {
-        var carId = this._getCarId();
-        return carId ? {car: carId} : {};
+        if (!this.isRunning()) {
+            return {};
+        }
+
+        return Object.extend({car: this._getCarId(), buyersGuideActive: true}, this.stepSelections);
+    },
+
+
+    isRunning: function() {
+        return this._isRunning;
     },
 
 
@@ -70,8 +99,13 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
 
 
     startBuyersGuide: function(evt) {
-        var carId = this._getCarId();
+        var carId = this._getCarId(),
+            containerSelector = this.buyersGuideSelector;
         if (carId) {
+            this._isRunning = true;
+            $$(containerSelector).each(function(elt) {
+                elt.addClassName('active');
+            });
             Event.fire(evt.target, this.FILTER_CHANGE_EVENT, evt.memo);
         }
     },

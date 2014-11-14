@@ -5,6 +5,9 @@
         <Soularpanic_CarToGraphEE>
             <active>true</active>
             <codePool>local</codePool>
+            <depends>
+                <Soularpanic_TheRetroFitSourceTheme/>
+            </depends>
         </Soularpanic_CarToGraphEE>
      </modules>
 </config>

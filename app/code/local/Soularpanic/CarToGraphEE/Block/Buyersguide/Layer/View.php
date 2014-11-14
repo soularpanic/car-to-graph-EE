@@ -76,7 +76,7 @@ class Soularpanic_CarToGraphEE_Block_Buyersguide_Layer_View
         $this->_attributeFilterBlockName    = 'catalog/layer_filter_attribute';
         $this->_priceFilterBlockName        = 'catalog/layer_filter_price';
         $this->_decimalFilterBlockName      = 'catalog/layer_filter_decimal';
-        $this->_buyersguideFilterBlockName  = 'cartographee/buyersguide_layer_filter_car';
+        $this->_buyersguideFilterBlockName  = 'cartographee/buyersguide_layer_filter_buyersguide';
     }
 
     /**
