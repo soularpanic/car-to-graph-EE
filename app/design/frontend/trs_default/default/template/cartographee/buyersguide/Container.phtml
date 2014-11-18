@@ -1,5 +1,6 @@
 <div class="<?php echo $this->getContainerClassString() ?>">
     <div class="buyersGuide-filter">
+        <h2><?php echo print_r($this->getActionState(), true); ?></h2>
         <?php echo $this->getChildHtml('buyersguide_toolbar_supplemental') ?>
         <?php echo $this->getChildHtml('car_filter') ?>
 

@@ -4,7 +4,7 @@ class Soularpanic_CarToGraphEE_Helper_Excel
 
     const UPLOAD_ELEMENT_NAME = 'excelUpload';
 
-    function __construct() {
+    function _construct() {
         require_once(Mage::getBaseDir('lib').'/PHPExcel/PHPExcel.php');
     }
 

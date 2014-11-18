@@ -3,6 +3,7 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
     _DEFAULT_BG_CONTAINER_SELECTOR: '.buyersGuide',
     _DEFAULT_STEP_CONTAINER_SELECTOR: '.buyersGuide-questionMask',
     _DEFAULT_BG_CAR_INPUT_SELECTOR: '.buyersGuide-carSelect',
+    _DEFAULT_BG_SUPPLEMENT_INPUT_SELECTOR: '.buyersGuide-supplement',
     _DEFAULT_GO_BUTTON_ID: 'buyersGuideStartButton',
 
     initialize: function($super, args) {
@@ -12,6 +13,7 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
         this.stepSelections = {};
         this.buyersGuideSelector = _args.buyersGuideSelector || this._DEFAULT_BG_CONTAINER_SELECTOR;
         this.carInputSelector = _args.carInputSelector || this._DEFAULT_BG_CAR_INPUT_SELECTOR;
+        this.supplementInputSelector = _args.supplementInputSelector || this._DEFAULT_BG_SUPPLEMENT_INPUT_SELECTOR;
         this.goButtonId = _args.goButtonId || this._DEFAULT_GO_BUTTON_ID;
         this.updateCarInputsUrl = _args.updateCarInputsUrl || '';
         this.stepContainerSelector = _args.stepContainerSelector || this._DEFAULT_STEP_CONTAINER_SELECTOR;
@@ -63,7 +65,21 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
             return {};
         }
 
-        return Object.extend({car: this._getCarId(), buyersGuideActive: true}, this.stepSelections);
+        var filters = {
+                car: this._getCarId(),
+                buyersGuideActive: true
+            },
+            supplementSelector = this.supplementInputSelector,
+            supplementData = {},
+            stepSelections = this.stepSelections;
+
+        $$(supplementSelector).each(function(elt) {
+            supplementData[elt.readAttribute('name')] = elt.value;
+        });
+        filters = Object.extend(filters, supplementData);
+        filters = Object.extend(filters, stepSelections);
+
+        return filters;
     },
 
 

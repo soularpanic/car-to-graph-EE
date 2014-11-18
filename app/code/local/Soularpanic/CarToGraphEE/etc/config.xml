@@ -25,6 +25,12 @@
                     </linkcarproduct>
                 </entities>
             </cartographee_resource>
+
+            <catalog_resource>
+                <rewrite>
+                    <product_collection>Soularpanic_CarToGraphEE_Model_Resource_Catalog_Product_Collection</product_collection>
+                </rewrite>
+            </catalog_resource>
         </models>
 
         <resources>

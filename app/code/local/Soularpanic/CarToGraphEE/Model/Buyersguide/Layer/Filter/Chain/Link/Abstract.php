@@ -1,0 +1,28 @@
+<?php
+abstract class Soularpanic_CarToGraphEE_Model_Buyersguide_Layer_Filter_Chain_Link_Abstract
+    extends Mage_Catalog_Model_Layer_Filter_Abstract {
+
+    public function apply(Zend_Controller_Request_Abstract $request, $filterBlock) {
+        $continueChain = $this->_chainApply($request, $filterBlock);
+
+        $chain = $this->_getChain($request, $filterBlock);
+        if (count($chain) && $continueChain) {
+            $car = reset($chain);
+            Mage::log("next chain link is ".get_class($car), null, 'trs_guide.log');
+            $cdr = array_slice($chain, 1, null, true);
+            Mage::log("after that, we have ".count($cdr)." more", null, 'trs_guide.log');
+            $car->setLayer($this->getLayer());
+            $car->setChain($cdr);
+            $car->setChainState($this->getChainState());
+            $car->init();
+        }
+        return $this;
+    }
+
+    protected function _getChain(Zend_Controller_Request_Abstract $request, $filterBlock) {
+        return $filterBlock->getChain();
+    }
+
+    abstract protected function _chainApply(Zend_Controller_Request_Abstract $request, $filterBlock);
+
+}

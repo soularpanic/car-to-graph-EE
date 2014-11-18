@@ -1,22 +1,45 @@
 <?php
 class Soularpanic_CarToGraphEE_Model_Buyersguide_Layer_Filter_Car
-    extends Mage_Catalog_Model_Layer_Filter_Abstract {
+    extends Soularpanic_CarToGraphEE_Model_Buyersguide_Layer_Filter_Chain_Link_Abstract {
+    //extends Mage_Catalog_Model_Layer_Filter_Abstract {
 
 
     public function __construct() {
-        parent::__construct();
+        parent::_construct();
         $this->_requestVar = 'car';
     }
 
 
-    public function apply(Zend_Controller_Request_Abstract $request, $filterBlock) {
+    protected function _chainApply(Zend_Controller_Request_Abstract $request, $filterBlock) {
         Mage::log("Applying car filter - start", null, 'trs_guide.log');
         $carId = $request->getParam($this->getRequestVar());
-        Mage::log("carArr: [".print_r($carId, true)."]", null, 'trs_guide.log');
+//        Mage::log("carArr: [".print_r($carId, true)."]", null, 'trs_guide.log');
+//        Mage::log('filter block class: '.get_class($filterBlock), null, 'trs_guide.log');
+//        $chainState = $filterBlock->getChainState();
+//        Mage::log('chain state: ['.print_r($chainState, true).']', null, 'trs_guide.log');
+//        Mage::log('chain? '.get_class($filterBlock->getChain()).'/'.count($filterBlock->getChain()), null, 'trs_guide.log');
         if ($carId) {
             $this->_getResource()->applyFilterToCollection($this, $carId);
         }
-        return $this;
+        $chainState = $this->getChainState();
+        Mage::log("after resource application, chain state: [".print_r($chainState, true)."]", null, 'trs_guide.log');
+        return $chainState['has_direct_fit'] < 1;
+
+//
+//        $chain = $filterBlock->getChain();
+//        if (count($chain)) {
+//            $car = reset($chain);
+//            Mage::log("next chain link is ".get_class($car), null, 'trs_guide.log');
+//            $cdr = array_slice($chain, 1, null, true);
+//            Mage::log("after that, we have ".count($cdr)." more", null, 'trs_guide.log');
+//            $car->setLayer($this->getLayer());
+//            $car->setChain($cdr);
+//            $car->setChainState($this->getChainState());
+//            //$car->setChainState([]);
+//            $car->init();
+//        }
+//
+//        return $this;
     }
 
     protected function _getResource() {

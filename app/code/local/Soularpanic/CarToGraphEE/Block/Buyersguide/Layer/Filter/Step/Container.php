@@ -5,11 +5,12 @@ class Soularpanic_CarToGraphEE_Block_Buyersguide_Layer_Filter_Step_Container
     protected $_steps;
 
 
-    public function __construct() {
+    public function _construct() {
+        parent::_construct();
         Mage::log("Constructing step container", null, 'trs_guide.log');
         $this->_steps = [];
         $this->_filterModelName = 'cartographee/buyersguide_layer_filter_chain';
-        parent::__construct();
+
     }
 
 

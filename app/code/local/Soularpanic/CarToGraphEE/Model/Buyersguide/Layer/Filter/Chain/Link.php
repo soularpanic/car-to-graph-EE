@@ -2,8 +2,8 @@
 class Soularpanic_CarToGraphEE_Model_Buyersguide_Layer_Filter_Chain_Link
     extends Mage_Catalog_Model_Layer_Filter_Abstract {
 
-    public function __construct() {
-        parent::__construct();
+    public function _construct() {
+        parent::_construct();
     }
 
     public function getRequestVar() {

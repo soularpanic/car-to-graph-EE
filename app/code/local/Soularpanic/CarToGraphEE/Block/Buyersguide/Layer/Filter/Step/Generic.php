@@ -1,14 +1,19 @@
 <?php
 class Soularpanic_CarToGraphEE_Block_Buyersguide_Layer_Filter_Step_Generic
-    extends Mage_Core_Block_Template {
-    //extends Mage_Catalog_Block_Layer_Filter_Abstract {
+    //extends Mage_Core_Block_Template {
+    extends Mage_Catalog_Block_Layer_Filter_Abstract {
 
     protected $_stepConfig;
 
-    public function __construct() {
+    public function _construct() {
         $_stepConfig = [];
-        // $this->_filterModelName = 'cartographee/buyersguide_layer_filter_delegate';
-        parent::__construct();
+        $this->_filterModelName = 'cartographee/buyersguide_layer_filter_chain_link_configurable';
+        parent::_construct();
+    }
+
+
+    protected function _prepareFilter() {
+        $this->_filter->setData(array_merge($this->_filter->getData(), ['id' => $this->getNameInLayout()], $this->_data));
     }
 
 
@@ -17,12 +22,12 @@ class Soularpanic_CarToGraphEE_Block_Buyersguide_Layer_Filter_Step_Generic
     }
 
 
-    public function getChainLink() {
-        $link = Mage::getModel('cartographee/buyersguide_layer_filter_chain_link');
-        $link->setData($this->_data);
-        $link->setId($this->getNameInLayout());
-        return $link;
-    }
+//    public function getChainLink() {
+//        $link = Mage::getModel('cartographee/buyersguide_layer_filter_chain_link');
+//        $link->setData($this->_data);
+//        $link->setId($this->getNameInLayout());
+//        return $link;
+//    }
 
 
     public function setStepConfig($config) {

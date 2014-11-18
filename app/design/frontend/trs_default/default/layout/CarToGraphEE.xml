@@ -24,6 +24,7 @@
             <block type="cartographee/buyersguide_layer_filter_step_generic" name="buyersguide_toolbar_supplemental" as="buyersguide_toolbar_supplemental" template="cartographee/buyersguide/toolbar/Supplemental.phtml">
                 <action method="setStepConfig">
                     <config>
+                        <id>projector_function</id>
                         <options>
                             <all>
                                 <title>All Function Types</title>

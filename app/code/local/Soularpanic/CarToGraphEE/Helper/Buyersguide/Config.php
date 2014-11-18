@@ -5,6 +5,10 @@ class Soularpanic_CarToGraphEE_Helper_Buyersguide_Config
     public function processStepConfigArray($stepConfigArr) {
         $data = [];
 
+        if (array_key_exists('id', $stepConfigArr)) {
+            $data['id'] = $stepConfigArr['id'];
+        }
+
         $data['question'] = $stepConfigArr['step_question'];
 
         if (array_key_exists('step_image', $stepConfigArr)) {
