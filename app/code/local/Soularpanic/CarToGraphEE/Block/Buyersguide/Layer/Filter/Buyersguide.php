@@ -34,10 +34,13 @@ class Soularpanic_CarToGraphEE_Block_Buyersguide_Layer_Filter_Buyersguide
     }
 
     public function getActionState() {
+
         if ($this->_filter) {
+            Mage::log("_filter chain state: [".print_r($this->_filter->getChainState(), true).']', null, 'trs_guide.log');
+            Mage::log("this chain state: [".print_r($this->getChainState(), true).']', null, 'trs_guide.log');
             return $this->_filter->getChainState();
         }
-        return 'fuck you';
+        return 'no chain state';
         //return $this->_filter->getChainState();
     }
 }

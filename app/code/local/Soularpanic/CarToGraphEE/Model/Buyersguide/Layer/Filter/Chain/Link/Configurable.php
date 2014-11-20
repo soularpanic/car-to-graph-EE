@@ -10,8 +10,8 @@ class Soularpanic_CarToGraphEE_Model_Buyersguide_Layer_Filter_Chain_Link_Configu
         $value = $request->getParam($requestVar);
         $chainState = $filterBlock->getChainState();
         Mage::log("value: {$value}", null, 'trs_guide.log');
-        Mage::log("chainState: ".print_r($chainState, true), null, 'trs_guide.log');
-
+        Mage::log("(filterblock) chainState: [".print_r($chainState, true).']', null, 'trs_guide.log');
+        Mage::log("(this) chainState: [".print_r($this->getChainState(), true).']', null, 'trs_guide.log');
 
         if ($value) {
             foreach ($this->getOptions() as $option) {
@@ -21,14 +21,19 @@ class Soularpanic_CarToGraphEE_Model_Buyersguide_Layer_Filter_Chain_Link_Configu
             }
         }
 
-        $chainState['action'] = $selectedAction;
-        Mage::log("Action: {$selectedAction}", null, 'trs_guide.log');
-        // do something to the collection
         if ($selectedAction) {
+            $chainState['action'] = $selectedAction;
+            $this->setChainState($chainState);
+            Mage::log("chain state at action check: [".print_r($this->getChainState(), true).']', null, 'trs_guide.log');
+            // do something to the collection
+
             $this->_getResource()->applyFilterToCollection($this, $selectedAction);
+
+            $actionHelper = Mage::helper('cartographee/buyersguide_action');
+            return !$actionHelper->isTerminal($selectedAction);
         }
-        $actionHelper = Mage::helper('cartographee/buyersguide_action');
-        return !$actionHelper->isTerminal($selectedAction);
+
+        return false;
     }
 
     protected function _getResource() {

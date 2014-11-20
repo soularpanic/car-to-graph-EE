@@ -1,11 +1,46 @@
 <div class="buyersGuide-questionMask">
     <div class="buyersGuide-questionWrap">
+
+        <!-- error slide -->
+        <div class="buyersGuide-questions q1 invisible" data-stepId="step_error">
+            <div class="buyersGuide-selections">
+                <h2>This is the selections container.</h2>
+            </div>
+            <div class="buyersGuide-select">
+                <h2>Oh no, there was an error!</h2>
+            </div>
+        </div>
+
+        <!-- slide 0 aka the loading slide -->
+        <div class="buyersGuide-questions q4" data-stepId="step_loading">
+            <div class="buyersGuide-selections">
+                <h2>This is the selections container.</h2>
+            </div>
+            <div class="buyersGuide-select" style="text-align: center;">
+                <img src="<?php echo $this->getSkinUrl('images/carousel/ajax-loader.gif') ?>" style="background: white; padding: 1px; border-radius: 15px;"/>
+            </div>
+        </div>
+
         <?php
         $i = 1;
         foreach ($this->getSteps() as $step): ?>
-            <div class="buyersGuide-questions q<?php echo $i ?>">
+            <div class="buyersGuide-questions q1" data-stepId="<?php echo $step->getStepId() ?>">
                 <?php echo $step->toHtml() ?>
             </div>
         <?php endforeach; ?>
+
+        <div class="buyersGuide-questions q4" data-stepId="step_done">
+            <div class="buyersGuide-selections">
+                <h2>This is the selections container.</h2>
+            </div>
+            <div class="buyersGuide-select">
+                <span class="productDrop-headline">Finished! Check out our product recommendation below.</span>
+                <h2>
+                    <span class="note">NOTE: This is a retrofit product - modifications may need to be required for installation.</span>
+                </h2>
+            </div>
+        </div>
+
+
     </div>
 </div>

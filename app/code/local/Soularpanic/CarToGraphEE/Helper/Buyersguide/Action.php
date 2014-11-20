@@ -18,7 +18,7 @@ class Soularpanic_CarToGraphEE_Helper_Buyersguide_Action
             $select = $collection->getSelect()
                 //->from($resource->getMainTable())
                 ->where("e.sku = '{$value}'");
-            Mage::log("Collection sql: ".$collection->getSelect()->__toString(), null, 'trs_guide.log');
+            //Mage::log("Collection sql: ".$collection->getSelect()->__toString(), null, 'trs_guide.log');
         }
 
     }

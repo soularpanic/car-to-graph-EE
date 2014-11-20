@@ -1,17 +1,18 @@
-<div class="<?php echo $this->getContainerClassString() ?>">
-    <div class="buyersGuide-filter">
-        <h2><?php echo print_r($this->getActionState(), true); ?></h2>
-        <?php echo $this->getChildHtml('buyersguide_toolbar_supplemental') ?>
-        <?php echo $this->getChildHtml('car_filter') ?>
+<div id="buyersGuideContainerWrapper">
+    <div class="<?php echo $this->getContainerClassString() ?>" id="buyersGuideContainer">
+        <div class="buyersGuide-filter">
+            <?php echo $this->getChildHtml('buyersguide_toolbar_supplemental') ?>
+            <?php echo $this->getChildHtml('car_filter') ?>
 
-        <div class="buyersGuide-filterInner last">
-            <div class="buyersGuideCTA">
-                <input type="button" class="go" id="buyersGuideStartButton" value="Go!"/>
+            <div class="buyersGuide-filterInner last">
+                <div class="buyersGuideCTA">
+                    <input type="button" class="go" id="buyersGuideStartButton" value="Go!"/>
+                </div>
             </div>
+
+            <input type="hidden" id="buyersGuideStartUrl" value="<?php echo $this->getUrl('*/*/*') ?>"/>
+            <input type="hidden" id="buyersGuideAction" value='<?php echo json_encode($this->getChainState()); ?>'/>
+            <?php echo $this->getChildHtml('buyersguide_steps') ?>
         </div>
-
-        <input type="hidden" id="buyersGuideStartUrl" value="<?php echo $this->getUrl('*/*/*') ?>"/>
-
-        <?php echo $this->getChildHtml('buyersguide_steps') ?>
     </div>
 </div>
