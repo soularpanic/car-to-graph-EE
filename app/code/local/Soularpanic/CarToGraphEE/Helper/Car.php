@@ -1,6 +1,6 @@
 <?php
 class Soularpanic_CarToGraphEE_Helper_Car
-    extends Mage_Core_Helper_Abstract {
+    extends Soularpanic_CarToGraphEE_Helper_Data {
 
     private $_resolutionFailures = [];
 

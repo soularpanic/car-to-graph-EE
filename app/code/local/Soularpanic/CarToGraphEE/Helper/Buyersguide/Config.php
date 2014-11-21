@@ -1,6 +1,6 @@
 <?php
 class Soularpanic_CarToGraphEE_Helper_Buyersguide_Config
-    extends Mage_Core_Helper_Abstract {
+    extends Soularpanic_CarToGraphEE_Helper_Data {
 
     public function processStepConfigArray($stepConfigArr) {
         $data = [];
@@ -10,23 +10,51 @@ class Soularpanic_CarToGraphEE_Helper_Buyersguide_Config
         }
 
         $data['question'] = $stepConfigArr['step_question'];
+        $data['aspects'] = $stepConfigArr['performance_aspects'];
 
         if (array_key_exists('step_image', $stepConfigArr)) {
-            $imageData = $stepConfigArr['step_image'];
-            $image = Mage::getModel('cartographee/buyersguide_layer_filter_step_image');
-            $image->setData($imageData);
-            $data['image'] = $image;
+            $data['image'] = $this->_buildImage($stepConfigArr['step_image']);
         }
 
         $options = [];
         foreach ($stepConfigArr['options'] as $id => $values) {
-            $option = Mage::getModel('cartographee/buyersguide_layer_filter_step_option');
-            $option->setData($values)->setId($id);
-            $options[] = $option;
+
+            if (array_key_exists('binary', $values)) {
+                $binary = $stepConfigArr['binary'];
+                $this->log("binary: ".print_r($binary, true));
+                foreach ($values['binary'] as $binId => $binValues) {
+                    $this->log("binid: {$binId}; binValues: ".print_r($binValues, true));
+                    $combined = array_merge($binary[$binId], $binValues);
+                    if (array_key_exists('image', $combined)) {
+                        $combined['image'] = $this->_buildImage($combined['image']);
+                    }
+                    $this->log("combined: ".print_r($combined, true));
+                    $options[] = $this->_buildOption($id, $combined);
+                }
+            }
+            else {
+                $options[] = $this->_buildOption($id, $values);
+            }
         }
         $data['options'] = $options;
 
         return $data;
+    }
+
+    protected function _buildOption($id, $data) {
+        $data['active'] = array_key_exists('active', $data)
+            ? filter_var($data['active'], FILTER_VALIDATE_BOOLEAN)
+            : true;
+        $option = Mage::getModel('cartographee/buyersguide_layer_filter_step_option');
+        $option->setData($data)->setId($id);
+        return $option;
+    }
+
+
+    protected function _buildImage($data) {
+        $image = Mage::getModel('cartographee/buyersguide_layer_filter_step_image');
+        $image->setData($data);
+        return $image;
     }
 
 }

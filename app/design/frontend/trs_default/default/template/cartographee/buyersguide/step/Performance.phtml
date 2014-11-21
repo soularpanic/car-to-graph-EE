@@ -1,0 +1,42 @@
+<div class="buyersGuide-selections">
+    <h2>We&apos;ve got a few more questions before we can find the right projector for you...</h2>
+</div>
+<div class="buyersGuide-select">
+    <span class="productDrop-headline"><?php echo $this->getQuestion() ?></span>
+    <div class="buyersGuide-selectWrap">
+        <?php foreach ($this->getOptions() as $idx => $option): ?>
+            <div class="selectWrap-full tile<?php if (!$option->getActive()) { echo(' disabled'); } ?>">
+                <h3><?php echo $option->getTitle() ?></h3>
+                <?php
+                $aspectRatings = [];
+                $optionAspects = $option->getAspects();
+                ?>
+                <div class="tile30">
+                    <?php if ($optionAspects): ?>
+                        <?php foreach ($this->getAspects() as $aspectCode => $aspectName): ?>
+                            <?php if (array_key_exists($aspectCode, $optionAspects)): ?>
+                                <?php
+                                $rating = $optionAspects[$aspectCode];
+                                $aspectRatings[] = $rating;
+                                ?>
+                                <span class="product-spec"><?php echo $aspectName ?>: <span class="weightBold-styleNormal"><?php echo $rating ?>/10</span></span>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </div>
+                <div class="tile60">
+                    <?php foreach ($aspectRatings as $activeCount): ?>
+                        <div class="barChart">
+                            <?php for ($i = 0; $i < 10; $i++): ?>
+                                <span class="bar<?php if($i < $activeCount) { echo(' active'); } ?>"></span>
+                            <?php endfor; ?>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+                <?php if ($option->getActive()): ?>
+                    <div class="tile-select" data-value="<?php echo $option->getId() ?>">&nbsp;</div>
+                <?php endif; ?>
+            </div>
+        <?php endforeach; ?>
+    </div>
+</div>

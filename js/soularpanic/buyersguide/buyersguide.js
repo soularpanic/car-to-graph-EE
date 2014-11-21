@@ -5,25 +5,33 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
     _ERROR_STEP_ID: 'error',
 
     _DEFAULT_BG_CONTAINER_SELECTOR: '.buyersGuide',
-    _DEFAULT_STEP_CONTAINER_SELECTOR: '.buyersGuide-questionMask',
+    _DEFAULT_REEL_CONTAINER_SELECTOR: '.buyersGuide-questionMask',
+    _DEFAULT_REEL_SELECTOR: '.buyersGuide-questionWrap',
     _DEFAULT_STEP_SELECTOR: '.buyersGuide-questions',
+    _DEFAULT_STEP_OPTION_SELECTOR: '.tile',
+    _DEFAULT_STEP_SELECT_BUTTON_SELECTOR: '.tile-select',
     _DEFAULT_BG_CAR_INPUT_SELECTOR: '.buyersGuide-carSelect',
     _DEFAULT_BG_SUPPLEMENT_INPUT_SELECTOR: '.buyersGuide-supplement',
     _DEFAULT_GO_BUTTON_ID: 'buyersGuideStartButton',
     _STEP_ID_ATTR_NAME: 'data-stepId',
+    _OPTION_VALUE_ATTR_NAME: 'data-value',
 
     initialize: function($super, args) {
         var _args = args || {};
         this._moduleName = 'buyers_guide';
         this._isRunning = false;
+        this._previousStep = false;
         this.stepSelections = {};
         this.buyersGuideSelector = _args.buyersGuideSelector || this._DEFAULT_BG_CONTAINER_SELECTOR;
         this.carInputSelector = _args.carInputSelector || this._DEFAULT_BG_CAR_INPUT_SELECTOR;
         this.supplementInputSelector = _args.supplementInputSelector || this._DEFAULT_BG_SUPPLEMENT_INPUT_SELECTOR;
         this.goButtonId = _args.goButtonId || this._DEFAULT_GO_BUTTON_ID;
         this.updateCarInputsUrl = _args.updateCarInputsUrl || '';
-        this.stepContainerSelector = _args.stepContainerSelector || this._DEFAULT_STEP_CONTAINER_SELECTOR,
+        this.reelSelector = _args.reelSelector || this._DEFAULT_REEL_SELECTOR;
+        this.reelContainerSelector = _args.reelContainerSelector || this._DEFAULT_REEL_CONTAINER_SELECTOR;
         this.stepSelector = _args.stepSelector || this._DEFAULT_STEP_SELECTOR;
+        this.stepOptionSelector = _args.stepOptionSelector || this._DEFAULT_STEP_OPTION_SELECTOR;
+        this.stepSelectButtonSelector = _args.stepSelectButtonSelector || this._DEFAULT_STEP_SELECT_BUTTON_SELECTOR;
 
         this.register();
         this._initializeObservers();
@@ -36,15 +44,16 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
 
     _initializeObservers: function() {
         var carSelector = this.carInputSelector,
-            stepContainerSelector = this.stepContainerSelector,
+            reelContainerSelector = this.reelContainerSelector,
+            stepSelectButtonSelector = this.stepSelectButtonSelector,
             goId = this.goButtonId,
             newDataEvent = this.NEW_DATA_EVENT,
             context = this;
         $$(carSelector).each(function(elt) {
             elt.observe('change', context.updateCarInputs.bind(context));
         });
-        $$(stepContainerSelector).each(function(elt) {
-            Event.on(elt, 'click', '.tile-select', context.handleStepSelection.bind(context));
+        $$(reelContainerSelector).each(function(elt) {
+            Event.on(elt, 'click', stepSelectButtonSelector, context.handleStepSelection.bind(context));
         });
         $(goId).observe('click', context.startBuyersGuide.bind(context));
         //$(document).observe(newDataEvent, context.updateStateUrl.bind(context));
@@ -62,8 +71,8 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
         console.log("Im handling it!");
         console.log(evt);
         var selectedButton = evt.target,
-            selectedValue = selectedButton.readAttribute('data-value'),
-            selectedStep = selectedButton.up('.buyersGuide-questions').readAttribute(this._STEP_ID_ATTR_NAME);
+            selectedValue = selectedButton.readAttribute(this._OPTION_VALUE_ATTR_NAME),
+            selectedStep = selectedButton.up(this.stepSelector).readAttribute(this._STEP_ID_ATTR_NAME);
         this.stepSelections[selectedStep] = selectedValue;
         Event.fire(evt.target, this.FILTER_CHANGE_EVENT, evt.memo);
     },
@@ -128,6 +137,7 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
             containerSelector = this.buyersGuideSelector;
         if (carId) {
             this._isRunning = true;
+            this.moveToStep(this._LOADING_STEP_ID);
             $$(containerSelector).each(function(elt) {
                 elt.addClassName('active');
             });
@@ -156,18 +166,19 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
     },
 
 
-    moveToStep: function(stepId) {
+    moveToStep: function(stepId, optionsToShowArr) {
         console.log('moving to step [' + stepId + ']');
         var slideStrip = $$('.buyersGuide-questionWrap')[0],
-            stepContainerSelector = this.stepContainerSelector,
-            containerElt = $$(stepContainerSelector)[0],
-            containerWidth = containerElt.getWidth(),
+            reelContainerSelector = this.reelContainerSelector,
+            reelContainer = $$(reelContainerSelector)[0],
+            reelSelector = this.reelSelector,
+            reel = $$(reelSelector)[0],
+            containerWidth = reelContainer.getWidth(),
             multiplier = parseInt(stepId),
-            previousStep = this._previousStep;
+            step = false;
 
-        if (this._ERROR_STEP_ID === previousStep) {
-            this._showErrorStepElt(false);
-        }
+        this._cleanUpPreviousStep();
+        this._prepareNextStep(stepId, optionsToShowArr);
 
         if (isNaN(multiplier)) {
             if (this._LOADING_STEP_ID === stepId) {
@@ -181,8 +192,17 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
                 multiplier = this._getStepCount() - 1;
             }
         }
-        this._previousStep = stepId;
+
+        // adjust vertical height of guide
+        q = this._getQByStepId(stepId);
+        if (q) {
+            reel.addClassName('toggle-' + q);
+        }
+
+        // move strip s.t. correct step is in frame
         slideStrip.setStyle({'marginLeft': (-1 * multiplier * containerWidth).toString() + 'px'});
+
+        this._previousStep = stepId;
     },
 
 
@@ -190,6 +210,32 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
         console.log('we recommend:');
         console.log(recommendedSkus);
         this.moveToStep(this._FINISHED_STEP_ID);
+    },
+
+
+    _prepareNextStep: function(stepId, optionsToShowArr) {
+        var visibleOptions = optionsToShowArr,
+            step = this._getStepEltById(stepId),
+            stepOptionSelector = this.stepOptionSelector,
+            optionButtonSelector = this.stepSelectButtonSelector,
+            optionValueAttr = this._OPTION_VALUE_ATTR_NAME;
+        // hide elements as necessary
+        if (visibleOptions && visibleOptions.length) {
+            visibleOptions.push('stock');
+            var options = step.select(stepOptionSelector);
+            options.each(function (option) {
+                var optionButtons = option.select(optionButtonSelector);
+                optionButtons.each(function (optionButton) {
+                    var optionId = optionButton.readAttribute(optionValueAttr);
+                    if ($A(optionsToShowArr).some(function (showableId) { return showableId === optionId; })) {
+                        option.removeClassName('invisible');
+                    }
+                    else {
+                        option.addClassName('invisible');
+                    }
+                });
+            });
+        }
     },
 
 
@@ -216,6 +262,44 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
         return $$(this.stepSelector + ":not(.invisible)").length;
     },
 
+
+    _cleanUpPreviousStep: function() {
+        var previousStep = this._previousStep,
+            previousElt = false,
+            reelSelector = this.reelSelector,
+            reel = $$(reelSelector)[0],
+            q = false;
+
+        if (false === previousStep) {
+            return;
+        }
+
+        if (this._ERROR_STEP_ID === previousStep) {
+            this._showErrorStepElt(false);
+        }
+
+        q = this._getQByStepId(previousStep);
+        if (q) {
+            reel.removeClassName("toggle-" + q);
+        }
+    },
+
+
+    _getQByStepId: function(stepId) {
+        var previousStep = this._previousStep,
+            targetElt = false,
+            reelSelector = this.reelSelector,
+            reel = $$(reelSelector)[0],
+            qArr = [],
+            q = false;
+        targetElt = this._getStepEltById(stepId);
+        qArr = targetElt.classNames().grep(/^q\d$/);
+        if (qArr.length > 0) {
+            q = qArr[0];
+            return q;
+        }
+        return false;
+    },
 
     _handleUpdateInputJson: function(updateJson) {
         var selectorTemplate = new Template('[name="car[#{field}]"]'),
@@ -288,7 +372,7 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
 
 
     _parseStep: function(remainder) {
-        var reTemplate = new Template("^(\\d+|#{loadId}|#{doneId}|#{errorId})(.*)$"),
+        var reTemplate = new Template("^(\\d+|#{loadId}|#{doneId}|#{errorId})(?:\\[([^\\]]+)\\])?(.*)$"),
             reStr = reTemplate.evaluate({
                 loadId: this._LOADING_STEP_ID,
                 doneId: this._FINISHED_STEP_ID,
@@ -298,15 +382,21 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
         var matches = re.exec(remainder),
             matchCount = matches.length,
             stepId = 'error',
+            optionsToShow = [],
             _remainder = remainder;
 
         if (matchCount >= 2) {
             stepId = matches[1];
         }
 
-        this.moveToStep(stepId);
+        if (matchCount >= 3 && matches[2]) {
+            optionsToShow = matches[2].split(',').map(function (opt) { return opt.trim(); });
+            console.log('options to show:');
+            console.log(optionsToShow);
+        }
 
-        _remainder = matchCount >= 3 ? matchCount[2] : '';
+        _remainder = matchCount >= 4 ? matchCount[3] : '';
+        this.moveToStep(stepId, optionsToShow);
 
         return _remainder;
     },

@@ -8,9 +8,7 @@ class Soularpanic_CarToGraphEE_Helper_Excel
         require_once(Mage::getBaseDir('lib').'/PHPExcel/PHPExcel.php');
     }
 
-    public function log($txt) {
-        Mage::log($txt, null, 'trs_guide.log');
-    }
+
 
 
     public function getUploadElementName() {

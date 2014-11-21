@@ -21,10 +21,8 @@
             </div>
         </div>
 
-        <?php
-        $i = 1;
-        foreach ($this->getSteps() as $step): ?>
-            <div class="buyersGuide-questions q1" data-stepId="<?php echo $step->getStepId() ?>">
+        <?php foreach ($this->getSteps() as $step): ?>
+            <div class="buyersGuide-questions q<?php echo($step->getQ() ?: '1'); ?>" data-stepId="<?php echo $step->getStepId() ?>">
                 <?php echo $step->toHtml() ?>
             </div>
         <?php endforeach; ?>
