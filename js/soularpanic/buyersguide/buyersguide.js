@@ -16,6 +16,8 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
     _STEP_ID_ATTR_NAME: 'data-stepId',
     _OPTION_VALUE_ATTR_NAME: 'data-value',
 
+    _DEFAULT_SELECTIONS_CONTENT: "<h2>We've got a few more questions before we can find the right parts for you...</h2>",
+
     initialize: function($super, args) {
         var _args = args || {};
         this._moduleName = 'buyers_guide';
@@ -35,7 +37,6 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
 
         this.register();
         this._initializeObservers();
-        //$super(args);
     },
 
     register: function() {
@@ -56,20 +57,15 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
             Event.on(elt, 'click', stepSelectButtonSelector, context.handleStepSelection.bind(context));
         });
         $(goId).observe('click', context.startBuyersGuide.bind(context));
-        //$(document).observe(newDataEvent, context.updateStateUrl.bind(context));
         $(document).observe(newDataEvent, context.handleNewCatalogData.bind(context));
         this._registerObserver = document.observe(this.INITIALIZED_EVENT, function() {
             context.register();
             context._registerObserver.stopObserving();
         });
-        //$(document).observe()
-        //$super();
     },
 
 
     handleStepSelection: function(evt) {
-        console.log("Im handling it!");
-        console.log(evt);
         var selectedButton = evt.target,
             selectedValue = selectedButton.readAttribute(this._OPTION_VALUE_ATTR_NAME),
             selectedStep = selectedButton.up(this.stepSelector).readAttribute(this._STEP_ID_ATTR_NAME);
@@ -123,13 +119,6 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
         });
         return complete ? template.evaluate(facets).toLowerCase() : false;
     },
-
-
-//    updateStateUrl: function(evt) {
-//        var elt = evt.memo.select('#filterComponents')[0];
-//        var filterComponents = $(elt).readAttribute('data-filterComponents');
-//        $('buyersGuideStartUrl').setValue(filterComponents);
-//    },
 
 
     startBuyersGuide: function(evt) {
@@ -326,17 +315,39 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
 
     handleNewCatalogData: function(evt) {
         console.log("oh yay! new catalog data");
-        console.log(evt);
         var newDom = $(evt.memo);
         var newGuideElt = newDom.select('#buyersGuideContainer')[0];
         var newActionElt = newGuideElt.select('#buyersGuideAction')[0];
         var newActionStr = newActionElt.value;
         var newActionObj = newActionStr.evalJSON();
         var newAction = newActionObj.action;
-        console.log("new action:");
-        console.log(newAction);
         this.takeAction(newAction);
+        this.updateSelectionControls();
     },
+
+
+    updateSelectionControls: function() {
+        var selections = this.stepSelections,
+            defaultContent = this._DEFAULT_SELECTIONS_CONTENT,
+            template = new Template("<h2>#{stepName}: <a class='buyersGuide-previousSelectionLink' data-stepId='#{stepId}'>#{stepValue}</a></h2>\n"),
+            html = '';
+        $H(selections).each(function(selection) {
+            var stepId = selection.key.split('_')[1];
+            html+= template.evaluate({
+                stepName: selection.key,
+                stepValue: selection.value,
+                stepId: stepId
+            });
+        });
+        if (html.length < 1) {
+            html = defaultContent;
+        }
+        html = "<div class='buyersGuide-selections'>" + html + "</div>";
+        $$('.buyersGuide-selections').each(function (selectionsContainer) {
+           selectionsContainer.replace(html);
+        });
+    },
+
 
     takeAction: function(commandStr) {
         this._parseCommands(commandStr);
