@@ -22,7 +22,7 @@
         </div>
 
         <?php foreach ($this->getSteps() as $step): ?>
-            <div class="buyersGuide-questions q<?php echo($step->getQ() ?: '1'); ?>" data-stepId="<?php echo $step->getStepId() ?>">
+            <div class="buyersGuide-questions q<?php echo($step->getQ() ?: '1'); ?>" data-stepId="<?php echo $step->getStepId() ?>" data-stepDisplayName="<?php echo $step->getDisplayName() ?>">
                 <?php echo $step->toHtml() ?>
             </div>
         <?php endforeach; ?>

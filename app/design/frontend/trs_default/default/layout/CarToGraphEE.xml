@@ -2,22 +2,6 @@
 
 <layout version="0.1.0">
 
-    <cartographee_buyersguide_index>
-        <reference name="content">
-            <!--<block type="cartographee/buyersguide_CategorySelection" name="bar" as="bar" template="CarToGraphEE/buyersguide/category.phtml"/>-->
-            <!--Should put the 'select the category stuff' here-->
-        </reference>
-    </cartographee_buyersguide_index>
-
-    <catalog_category_layered>
-        <reference name="head">
-            <!--<action method="addJs"><script>soularpanic/buyersguide/buyersguide.js</script></action>-->
-            <!--<action method="addJs"><script>soularpanic/buyersguide/buyersguideinit.js</script></action>-->
-        </reference>
-    </catalog_category_layered>
-
-
-
     <buyersguide_projectors>
         <reference name="buyers_guide">
             <action method="addContainerClass"><value>projectors</value></action>
@@ -47,6 +31,7 @@
                     <action method="setQ"><q>1</q></action>
                     <action method="setStepConfig">
                         <config>
+                            <display_name>Projector Size</display_name>
                             <step_question>What is the approximate height &amp; depth of your headlight reflector?</step_question>
                             <step_image>
                                 <url>images/productcategory/projectors-q1.svg</url>
@@ -85,6 +70,7 @@
                     <action method="setQ"><q>2</q></action>
                     <action method="setStepConfig">
                         <config>
+                            <display_name>Performance/Install Balance</display_name>
                             <step_question>What are your performance vs ease-of-install requirements?</step_question>
                             <performance_aspects>
                                 <output>Light Output Performance</output>
@@ -144,6 +130,7 @@
                     <action method="setQ"><q>3</q></action>
                     <action method="setStepConfig">
                         <config>
+                            <display_name>Pattern</display_name>
                             <step_question>What beam pattern do you need?</step_question>
                             <binary>
                                 <lhd>
@@ -162,7 +149,7 @@
                                     <desc>Oncoming traffic drives on the right side of you.</desc>
                                     <ps>UK, Australia, India, Japan</ps>
                                     <image>
-                                        <url>images/productcategory/projectors-q3lefthand.svg</url>
+                                        <url>images/productcategory/projectors-q3righthand.svg</url>
                                         <alt>HID Projectors Diagram</alt>
                                     </image>
                                 </rhd>

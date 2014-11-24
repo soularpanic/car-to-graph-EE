@@ -29,7 +29,6 @@ class Soularpanic_CarToGraphEE_Block_Buyersguide_Layer_Filter_Step_Generic
 //        return $link;
 //    }
 
-
     public function setStepConfig($config) {
         Mage::log("step config: ".print_r($config, true), null, 'trs_guide.log');
         $this->_stepConfig = $config;

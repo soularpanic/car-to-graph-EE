@@ -9,6 +9,10 @@ class Soularpanic_CarToGraphEE_Helper_Buyersguide_Config
             $data['id'] = $stepConfigArr['id'];
         }
 
+        if (array_key_exists('display_name', $stepConfigArr)) {
+            $data['display_name'] = $stepConfigArr['display_name'];
+        }
+
         $data['question'] = $stepConfigArr['step_question'];
         $data['aspects'] = $stepConfigArr['performance_aspects'];
 

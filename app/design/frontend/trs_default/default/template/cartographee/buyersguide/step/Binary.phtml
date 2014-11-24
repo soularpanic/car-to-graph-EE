@@ -13,7 +13,7 @@
                             <span class="weightRegular-styleNormal"><?php echo $option->getSubtitle() ?></span>
                         <?php endif; ?>
                     </h3>
-                    <div class="tile-select" data-value="<?php echo $option->getId() ?>">&nbsp;</div>
+                    <div class="tile-select" data-value="<?php echo $option->getId() ?>" data-displayValue="<?php echo $option->getDisplayValue() ?>">&nbsp;</div>
                     <div class="tile80">
                         <span class="product-spec"><?php echo $option->getDesc() ?></span>
                         <?php if ($option->getPs()): ?>

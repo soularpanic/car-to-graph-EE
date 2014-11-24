@@ -34,7 +34,7 @@
                     <?php endforeach; ?>
                 </div>
                 <?php if ($option->getActive()): ?>
-                    <div class="tile-select" data-value="<?php echo $option->getId() ?>">&nbsp;</div>
+                    <div class="tile-select" data-value="<?php echo $option->getId() ?>" data-displayValue="<?php echo $option->getDisplayValue() ?>">&nbsp;</div>
                 <?php endif; ?>
             </div>
         <?php endforeach; ?>
