@@ -60,11 +60,11 @@
         </blocks>
 
         <!--<catalog>-->
-            <!--<product>-->
-                <!--<url>-->
-                    <!--<model>cartographee/catalog_product_url</model>-->
-                <!--</url>-->
-            <!--</product>-->
+        <!--<product>-->
+        <!--<url>-->
+        <!--<model>cartographee/catalog_product_url</model>-->
+        <!--</url>-->
+        <!--</product>-->
         <!--</catalog>-->
     </global>
 
