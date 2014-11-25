@@ -23,7 +23,8 @@ class Soularpanic_CarToGraphEE_Model_Buyersguide_Layer_Filter_Car
         }
         $chainState = $this->getChainState();
         Mage::log("after resource application, chain state: [".print_r($chainState, true)."]", null, 'trs_guide.log');
-        return $chainState['has_direct_fit'] < 1;
+        //return (!$filterBlock->getContinueOnDirectFit() && $chainState['has_direct_fit'] < 1);
+        return true;
 
 //
 //        $chain = $filterBlock->getChain();

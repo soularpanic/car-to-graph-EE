@@ -13,6 +13,8 @@ class Soularpanic_CarToGraphEE_Helper_Buyersguide_Config
             $data['display_name'] = $stepConfigArr['display_name'];
         }
 
+        $data['apply_to_direct_fit'] = $stepConfigArr['apply_to_direct_fit'];
+
         $data['question'] = $stepConfigArr['step_question'];
         $data['aspects'] = $stepConfigArr['performance_aspects'];
 

@@ -2,6 +2,45 @@
 
 <layout version="0.1.0">
 
+
+
+    <buyersguide_harnesses>
+        <reference name="buyers_guide">
+            <action method="addContainerClass"><value>bulbs</value></action>
+            <block type="cartographee/buyersguide_layer_filter_step_generic" name="buyersguide_toolbar_supplemental" as="buyersguide_toolbar_supplemental" template="cartographee/buyersguide/toolbar/Supplemental.phtml">
+                <action method="setStepConfig">
+                    <config>
+                        <id>harnesses</id>
+                        <apply_to_direct_fit>true</apply_to_direct_fit>
+                        <options>
+                            <all>
+                                <title>All Function Types</title>
+                                <action>step:done</action>
+                            </all>
+                            <high>
+                                <title>High Beams</title>
+                                <action>sql:type=~; step:done</action>
+                            </high>
+                            <low>
+                                <title>Low Beams</title>
+                                <action>sql:type=~; step:done</action>
+                            </low>
+                            <fog>
+                                <title>Fog Lights</title>
+                                <action>sql:type=~; step:done</action>
+                            </fog>
+                        </options>
+                    </config>
+                </action>
+            </block>
+            <block type="cartographee/buyersguide_layer_filter_step_container" name="buyersguide_steps" as="buyersguide_steps" template="cartographee/buyersguide/step/Container.phtml"/>
+        </reference>
+    </buyersguide_harnesses>
+
+    <CATEGORY_32>
+        <update handle="buyersguide_harnesses"/>
+    </CATEGORY_32>
+
     <buyersguide_hidbulbs>
         <reference name="buyers_guide">
             <action method="addContainerClass"><value>bulbs</value></action>
@@ -9,23 +48,24 @@
                 <action method="setStepConfig">
                     <config>
                         <id>hidbulb_function</id>
+                        <apply_to_direct_fit>true</apply_to_direct_fit>
                         <options>
                             <all>
                                 <title>All Function Types</title>
-                                <action>step:1</action>
+                                <action>step:done</action>
                             </all>
-                            <highbeams>
+                            <high>
                                 <title>High Beams</title>
-                                <action>step:1</action>
-                            </highbeams>
-                            <lowbeams>
+                                <action>sql:type=~; step:done</action>
+                            </high>
+                            <low>
                                 <title>Low Beams</title>
-                                <action>step:1</action>
-                            </lowbeams>
-                            <foglights>
+                                <action>sql:type=~; step:done</action>
+                            </low>
+                            <fog>
                                 <title>Fog Lights</title>
-                                <action>step:1</action>
-                            </foglights>
+                                <action>sql:type=~; step:done</action>
+                            </fog>
                         </options>
                     </config>
                 </action>
@@ -37,6 +77,8 @@
     <CATEGORY_7>
         <update handle="buyersguide_hidbulbs"/>
     </CATEGORY_7>
+
+
 
     <buyersguide_projectors>
         <reference name="buyers_guide">

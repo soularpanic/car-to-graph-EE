@@ -387,39 +387,57 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
 
 
     takeAction: function(commandStr) {
+        console.log("Taking action: " + commandStr);
         this._parseCommands(commandStr);
     },
 
 
     _parseCommands: function(actionStr) {
-        var delimiter = ':',
-            delimiterIndex = actionStr.indexOf(delimiter),
-            command = '',
-            remainder = '';
-        if (delimiterIndex < 1) {
-            console.log("ERROR: Could not find delimiter (#{delimiter}) in command string '#{commandStr}'.".interpolate({
-                delimiter: delimiter,
-                commandStr: actionStr
-            }));
-            return false;
-        }
-        command = actionStr.slice(0, delimiterIndex);
-        remainder = actionStr.slice(delimiterIndex + 1);
-        return this._parseCommand(command, remainder);
+        console.log("Actions: " + actionStr);
+        var commands = actionStr.split(';'),
+            parser = this._parseCommand.bind(this);
+        console.log("commands:");
+        console.log(commands);
+        commands.each(function(commandStr) {
+            console.log("command: " + commandStr);
+            var delimiter = ':',
+                delimiterIndex = commandStr.indexOf(delimiter),
+                command = '',
+                remainder = '';
+//            if (delimiterIndex < 1) {
+//                console.log("ERROR: Could not find delimiter (#{delimiter}) in command string '#{commandStr}'.".interpolate({
+//                    delimiter: delimiter,
+//                    commandStr: actionStr
+//                }));
+//                return false;
+//            }
+
+            command = commandStr.slice(0, delimiterIndex);
+            remainder = commandStr.slice(delimiterIndex + 1);
+            console.log("after split: " + command + '/' + remainder);
+            parser(command.trim(), remainder.trim());
+        });
+
+        return true;
     },
 
 
     _parseCommand: function(command, remainder) {
+        console.log("_parseCommand - start");
         if (command === 'step') {
             return this._parseStep(remainder);
         }
-        if (command === 'sku') {
+        else if (command === 'sku') {
             return this._parseSku(remainder);
+        }
+        else {
+            console.log("Unhandled command: [" + command + "]/[" + remainder + "]");
         }
     },
 
 
     _parseStep: function(remainder) {
+        console.log("Parsing step -" + remainder + "-");
         var reTemplate = new Template("^(\\d+|#{loadId}|#{doneId}|#{errorId})(?:\\[([^\\]]+)\\])?(.*)$"),
             reStr = reTemplate.evaluate({
                 loadId: this._LOADING_STEP_ID,
@@ -456,7 +474,18 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
         console.log(skus);
         this.recommendProducts(skus);
         return '';
-    }
+    },
 
+
+    _parseSql: function(remainder) {
+        console.log("i don't do sql");
+        return '';
+    },
+
+
+    _parseDone: function(remainder) {
+        console.log("i'm done!");
+        return '';
+    }
 
 });

@@ -18,7 +18,7 @@ class Soularpanic_CarToGraphEE_Model_Resource_Buyersguide_Layer_Filter_Car
         $originalSelect = clone $directFitSelect;
 
         $carAlias = 'car';
-        $linkAlias = 'carlink';
+        $linkAlias = Mage::helper('cartographee/buyersguide_action')->getCarLinkTableAlias();
         $linkTable = $this->getTable('cartographee/linkcarproduct');
         $directFitSelect
             ->join(
@@ -35,9 +35,10 @@ class Soularpanic_CarToGraphEE_Model_Resource_Buyersguide_Layer_Filter_Car
 
         $directFits = $collection->count();
         Mage::log("Direct fits found: [{$directFits}]", null, 'trs_guide.log');
+        $collection->clear();
         if ($directFits <= 0) {
             Mage::log("Restoring original select to collection", null, 'trs_guide.log');
-            $collection->clear();
+
             $collection->setSelect($originalSelect);
         }
 

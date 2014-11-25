@@ -3,20 +3,36 @@ class Soularpanic_CarToGraphEE_Helper_Buyersguide_Action
     extends Soularpanic_CarToGraphEE_Helper_Data {
 
 
+    public function getCarLinkTableAlias() {
+        return 'carlink';
+    }
+
+
     public function isTerminal($actionStr) {
         return strpos($actionStr, 'sku:') === 0;
     }
 
 
-    public function applyActionToCollection($filter, $actionStr, $resource) {
+    public function applyActionToCollection($filter, $actionsStr) {
         $this->log('applying action to collection - start');
-        list($action, $value) = explode(':', $actionStr, 2);
-        $this->log("action: [{$action}]; value: [{$value}]");
-        if ($action == 'sku') {
-            $this->_applySkuToCollection($filter, $value);
-        }
-        if ($action == 'step') {
-            $this->_applyStepToCollection($filter, $value);
+        $actions = explode(';', $actionsStr);
+        foreach ($actions as $actionStr) {
+            list($action, $value) = explode(':', $actionStr, 2);
+            $action = trim($action);
+            $value = trim($value);
+            $this->log("action: [{$action}]; value: [{$value}]");
+            if ($action == 'sku') {
+                $this->_applySkuToCollection($filter, $value);
+            }
+            elseif ($action == 'step') {
+                $this->_applyStepToCollection($filter, $value);
+            }
+            elseif ($action == 'sql') {
+                $this->_applySqlToCollection($filter, $value);
+            }
+            else {
+                $this->log("Unhandled action: [{$action}]/[{$value}]", null, 'trs_guide.log');
+            }
         }
     }
 
@@ -58,4 +74,18 @@ class Soularpanic_CarToGraphEE_Helper_Buyersguide_Action
         }
     }
 
+
+    protected function _applySqlToCollection($filter, $field) {
+        $this->log("field: [{$field}]");
+        $collection = $filter->getLayer()->getProductCollection();
+        $matches = [];
+        $matched = preg_match('/^([^=]+)=(.+)$/', $field, $matches);
+        if ($matched) {
+            $tableAlias = $this->getCarLinkTableAlias();
+            $column = $matches[1];
+            $value = $matches[2];
+            $collection->getSelect()->where("{$tableAlias}.{$column} = '{$value}'");
+            $this->log("collection sql: ".$collection->getSelect()->__toString());
+        }
+    }
 }

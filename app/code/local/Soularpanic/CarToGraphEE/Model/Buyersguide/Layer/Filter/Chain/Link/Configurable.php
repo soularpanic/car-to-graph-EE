@@ -5,10 +5,18 @@ class Soularpanic_CarToGraphEE_Model_Buyersguide_Layer_Filter_Chain_Link_Configu
 
     protected function _chainApply(Zend_Controller_Request_Abstract $request, $filterBlock) {
         Mage::log("chain link configurable starting", null, 'trs_guide.log');
+        Mage::log("apply to direct fit? [{$this->getApplyToDirectFit()}]", null, 'trs_guide.log');
+
+
+        $chainState = $filterBlock->getChainState();
+        if (!$this->getApplyToDirectFit() && $chainState['has_direct_fit'] > 0) {
+            Mage::log("this link does not apply once direct fits are found", null, 'trs_guide.log');
+            return false;
+        }
+
         $requestVar = $this->getId();
         Mage::log("configurable searching for '{$requestVar}'", null, 'trs_guide.log');
         $value = $request->getParam($requestVar);
-        $chainState = $filterBlock->getChainState();
         Mage::log("value: {$value}", null, 'trs_guide.log');
         Mage::log("(filterblock) chainState: [".print_r($chainState, true).']', null, 'trs_guide.log');
         Mage::log("(this) chainState: [".print_r($this->getChainState(), true).']', null, 'trs_guide.log');
@@ -17,6 +25,7 @@ class Soularpanic_CarToGraphEE_Model_Buyersguide_Layer_Filter_Chain_Link_Configu
             foreach ($this->getOptions() as $option) {
                 if ($option->getId() === $value) {
                     $selectedAction = $option->getAction();
+                    $selectedAction = str_replace('~', $option->getId(), $selectedAction);
                 }
             }
         }
