@@ -3,7 +3,7 @@ abstract class Soularpanic_CarToGraphEE_Model_Buyersguide_Layer_Filter_Chain_Lin
     extends Mage_Catalog_Model_Layer_Filter_Abstract {
 
     public function apply(Zend_Controller_Request_Abstract $request, $filterBlock) {
-        //Mage::log("at abstract apply start, chain state: [".print_r($this->getChainState(), true).']', null, 'trs_guide.log');
+        Mage::log("at abstract apply start, chain state: [".print_r($this->getChainState(), true).']', null, 'trs_guide.log');
         $continueChain = $this->_chainApply($request, $filterBlock);
         //Mage::log("after _chainApply, chain state: [".print_r($this->getChainState(), true).']', null, 'trs_guide.log');
 

@@ -3,25 +3,18 @@
 </div>
 <div class="buyersGuide-select">
     <span class="productDrop-headline"><?php echo $this->getQuestion() ?></span>
+    <?php if ($this->getStepDesc()): ?>
+        <span class="product-spec"><?php echo $this->getStepDesc() ?></span>
+    <?php endif; ?>
     <div class="buyersGuide-selectWrap">
-        <div class="selectWrap full">
+        <div class="selectWrap-ext-fade">
+            <img src="<?php echo $this->getSkinUrl('images/productcategory/selectWrap-ext-fade.png') ?>" alt="Scroll Fade" border="0">
+        </div>
+        <div class="selectWrap-ext">
             <?php foreach ($this->getOptions() as $idx => $option): ?>
                 <div class="selectWrap-column tile">
-                    <h3>
-                        <?php echo $option->getTitle() ?>
-                        <?php if ($option->getSubtitle()): ?>
-                            <span class="weightRegular-styleNormal"><?php echo $option->getSubtitle() ?></span>
-                        <?php endif; ?>
-                    </h3>
+                    <h3><?php echo $option->getTitle() ?></h3>
                     <div class="tile-select" data-value="<?php echo $option->getId() ?>" data-displayValue="<?php echo $option->getDisplayValue() ?>">&nbsp;</div>
-                    <div class="tile80">
-                        <span class="product-spec"><?php echo $option->getDesc() ?></span>
-                        <?php if ($option->getPs()): ?>
-                            <span class="product-spec">
-                                <span class="weightRegular-styleItalic"><?php echo $option->getPs() ?></span>
-                            </span>
-                        <?php endif; ?>
-                    </div>
                     <div class="tile-image">
                         <?php if ($option->getImage()) {
                             echo ($option->getImage()->render());

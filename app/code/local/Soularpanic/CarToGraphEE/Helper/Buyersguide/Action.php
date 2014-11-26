@@ -28,13 +28,81 @@ class Soularpanic_CarToGraphEE_Helper_Buyersguide_Action
                 $this->_applyStepToCollection($filter, $value);
             }
             elseif ($action == 'sql') {
-                $this->_applySqlToCollection($filter, $value);
+                $this->_applySqlToCollection($filter, $value, false);
+            }
+            elseif ($action == 'fit_sql') {
+                $this->_applySqlToCollection($filter, $value, true);
+            }
+            elseif (strpos($action, '(') === 0) {
+                $this->_applyComplex($filter, $action);
             }
             else {
                 $this->log("Unhandled action: [{$action}]/[{$value}]", null, 'trs_guide.log');
             }
         }
     }
+
+
+    protected function _applyComplex($filter, $complex) {
+        $matches = [];
+        $matched = preg_match('/^\((get|set) ([^\)]+)\)$/', $complex, $matches);
+
+        if (!$matched) {
+            $this->log("Could not parse complex -{$complex}-");
+            return false;
+        }
+
+        $command = $matches[1];
+        $remainder = trim($matches[2]);
+        if ($command === "set") {
+            return $this->_setChainVar($filter, $remainder);
+        }
+        if ($command == "get") {
+            return $this->_getChainVar($filter, $remainder);
+        }
+        return false;
+    }
+
+
+    protected function _setChainVar($filter, $command) {
+        list($name, $val) = explode('=', $command);
+        $name = trim($name);
+        $val = trim($val);
+        $chainState = $filter->getChainState();
+        $chainState[$name] = $val;
+        $filter->setChainState($chainState);
+        return;
+    }
+
+
+    protected function _getChainVar($filter, $varName) {
+        $this->log("attempting to fetch [$varName] from chain");
+        $chainState = $filter->getChainState();
+        $val = $chainState[$varName];
+        $this->log("fetched [$val]");
+        return $val;
+    }
+
+
+    protected function _substituteComplexes($filter, $value) {
+        $compiled = '';
+        $token = strtok($value, '()');
+        while ($token !== false) {
+            $this->log("token: -{$token}-");
+            $pos = strpos($token, 'get ');
+            $this->log("get position: $pos");
+            if ($pos === 0) {
+                $varName = trim(substr($token, 3));
+                $compiled .= $this->_getChainVar($filter, $varName);
+            }
+            else {
+                $compiled .= $token;
+            }
+            $token = strtok('()');
+        }
+        return $compiled;
+    }
+
 
     protected function _applySkuToCollection($filter, $skuAction) {
         $this->log("applying sku action");
@@ -44,7 +112,7 @@ class Soularpanic_CarToGraphEE_Helper_Buyersguide_Action
         if ($matched) {
             $this->log("sku matches: ".print_r($matches, true));
             $select = $filter->getLayer()->getProductCollection()->getSelect();
-            $sku = $matches[1];
+            $sku = $this->_substituteComplexes($filter, $matches[1]);
             $select->where("e.sku = '{$sku}'");
 
             if (count($matches) > 1) {
@@ -75,17 +143,35 @@ class Soularpanic_CarToGraphEE_Helper_Buyersguide_Action
     }
 
 
-    protected function _applySqlToCollection($filter, $field) {
+    protected function _applySqlToCollection($filter, $field, $shouldWriteAction = false) {
         $this->log("field: [{$field}]");
         $collection = $filter->getLayer()->getProductCollection();
+        $select = $collection->getSelect();
+        $tables = $select->getPart(Zend_Db_Select::FROM);
+
+        if (!array_key_exists($this->getCarLinkTableAlias(), $tables)) {
+            return;
+        }
+
         $matches = [];
         $matched = preg_match('/^([^=]+)=(.+)$/', $field, $matches);
         if ($matched) {
             $tableAlias = $this->getCarLinkTableAlias();
             $column = $matches[1];
             $value = $matches[2];
-            $collection->getSelect()->where("{$tableAlias}.{$column} = '{$value}'");
-            $this->log("collection sql: ".$collection->getSelect()->__toString());
+            $select->where("{$tableAlias}.{$column} = '{$value}'");
+            $this->log("collection sql: ".$select->__toString());
+            $fits = $collection->count();
+            $collection->clear();
+            $state = $filter->getChainState();
+            $state['has_direct_fit'] = $fits;
+
+            if ($shouldWriteAction) {
+                $state['action'] = $fits ? 'step:directfit' : 'step:nofit';
+            }
+
+            $filter->setChainState($state);
+            $this->log("After supplemental application, chain state: ".print_r($state, true));
         }
     }
 }

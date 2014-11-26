@@ -12,6 +12,8 @@ class Soularpanic_CarToGraphEE_Model_Buyersguide_Layer_Filter_Car
 
     protected function _chainApply(Zend_Controller_Request_Abstract $request, $filterBlock) {
         Mage::log("Applying car filter - start", null, 'trs_guide.log');
+        $noFitAction = $filterBlock->getNoFitAction();
+        Mage::log("no fit action: {$noFitAction}", null, 'trs_guide.log');
         $carId = $request->getParam($this->getRequestVar());
 //        Mage::log("carArr: [".print_r($carId, true)."]", null, 'trs_guide.log');
 //        Mage::log('filter block class: '.get_class($filterBlock), null, 'trs_guide.log');
@@ -19,7 +21,14 @@ class Soularpanic_CarToGraphEE_Model_Buyersguide_Layer_Filter_Car
 //        Mage::log('chain state: ['.print_r($chainState, true).']', null, 'trs_guide.log');
 //        Mage::log('chain? '.get_class($filterBlock->getChain()).'/'.count($filterBlock->getChain()), null, 'trs_guide.log');
         if ($carId) {
-            $this->_getResource()->applyFilterToCollection($this, $carId);
+            Mage::log("getting resource", null, 'trs_guide.log');
+            $resource = $this->_getResource();
+            if ($noFitAction) {
+                Mage::log("setting no fit action to [{$noFitAction}]", null, 'trs_guide.log');
+                $resource->setNoFitAction($noFitAction);
+            }
+            Mage::log("applying!", null, 'trs_guide.log');
+            $resource->applyFilterToCollection($this, $carId);
         }
         $chainState = $this->getChainState();
         Mage::log("after resource application, chain state: [".print_r($chainState, true)."]", null, 'trs_guide.log');

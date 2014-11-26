@@ -2,6 +2,8 @@
 class Soularpanic_CarToGraphEE_Model_Resource_Buyersguide_Layer_Filter_Car
     extends Mage_Core_Model_Resource_Db_Abstract {
 
+    protected $_noFitAction;
+
     /**
      * Resource initialization
      */
@@ -33,6 +35,8 @@ class Soularpanic_CarToGraphEE_Model_Resource_Buyersguide_Layer_Filter_Car
             )
             ->group('e.entity_id');
 
+        Mage::log("DF SQL:\n{$directFitSelect->__toString()}", null, 'trs_guide.log');
+
         $directFits = $collection->count();
         Mage::log("Direct fits found: [{$directFits}]", null, 'trs_guide.log');
         $collection->clear();
@@ -47,9 +51,20 @@ class Soularpanic_CarToGraphEE_Model_Resource_Buyersguide_Layer_Filter_Car
         Mage::log("chain? ".get_class($chain), null, 'trs_guide.log');
         $state = $filter->getChainState();
         $state['has_direct_fit'] = $directFits;// > 0 ? true : false;
+        if (!isset($state['action'])) {
+            $state['action'] = $directFits ? 'step:directfit;' : $this->getNoFitAction();
+        }
         Mage::log("in car resource, chain state: [".print_r($state, true)."]", null, 'trs_guide.log');
         $filter->setChainState($state);
 
         return $this;
+    }
+
+    public function setNoFitAction($noFitAction) {
+        $this->_noFitAction = $noFitAction;
+    }
+
+    public function getNoFitAction() {
+        return $this->_noFitAction ?: 'step:nofit';
     }
 }

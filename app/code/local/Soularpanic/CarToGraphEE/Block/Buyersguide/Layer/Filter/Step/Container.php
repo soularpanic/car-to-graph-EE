@@ -10,12 +10,12 @@ class Soularpanic_CarToGraphEE_Block_Buyersguide_Layer_Filter_Step_Container
         Mage::log("Constructing step container", null, 'trs_guide.log');
         $this->_steps = [];
         $this->_filterModelName = 'cartographee/buyersguide_layer_filter_chain';
-
     }
 
 
     protected function _prepareFilter() {
         $this->_filter->addLinks($this->getSteps());
+        return $this;
     }
 
 
@@ -36,6 +36,11 @@ class Soularpanic_CarToGraphEE_Block_Buyersguide_Layer_Filter_Step_Container
                     $steps[$stepNumber] = $child;
                 }
             }
+//
+//            if (count($steps) === 0) {
+//                $steps[] =
+//            }
+
             $this->_steps = $steps;
         }
         return $this->_steps;

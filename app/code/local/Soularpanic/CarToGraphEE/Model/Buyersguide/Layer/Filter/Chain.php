@@ -25,6 +25,7 @@ class Soularpanic_CarToGraphEE_Model_Buyersguide_Layer_Filter_Chain
 
 
     protected function _chainApply(Zend_Controller_Request_Abstract $request, $filterBlock) {
+
         if (!$this->getChainState()) {
             $blockChainState = $filterBlock->getChainState();
             $this->setChainState($blockChainState ?: []);

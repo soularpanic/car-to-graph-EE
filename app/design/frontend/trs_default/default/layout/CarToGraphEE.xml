@@ -1,12 +1,299 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 
 <layout version="0.1.0">
+
+    <buyersguide_ballasts>
+        <reference name="buyers_guide">
+            <action method="addContainerClass"><value>ballasts</value></action>
+            <block type="cartographee/buyersguide_layer_filter_car" name="buyersguide_car_filter" as="car_filter" template="cartographee/buyersguide/toolbar/Car.phtml">
+                <action method="setNoFitAction"><value>step:1</value></action>
+            </block>
+            <block type="cartographee/buyersguide_layer_filter_step_container" name="buyersguide_steps" as="buyersguide_steps" template="cartographee/buyersguide/step/Container.phtml">
+                <block type="cartographee/buyersguide_layer_filter_step_generic" name="step_1" as="step_1" template="cartographee/buyersguide/step/Binary.phtml">
+                    <action method="setQ"><q>1</q></action>
+                    <action method="setStepConfig">
+                        <config>
+                            <display_name>Light Output</display_name>
+                            <step_question>How much light output do you need?</step_question>
+                            <binary>
+                                <watt35>
+                                    <title>35 Watt Ballast</title>
+                                </watt35>
+                                <watt55>
+                                    <title>55 Watt Ballast</title>
+                                </watt55>
+                            </binary>
+                            <options>
+                                <wattage>
+                                    <binary>
+                                        <watt35><action>(set wattage = 35); step:2</action></watt35>
+                                        <watt55><action>(set wattage = 55); step:2</action></watt55>
+                                    </binary>
+                                </wattage>
+                            </options>
+                        </config>
+                    </action>
+                </block>
+                <block type="cartographee/buyersguide_layer_filter_step_generic" name="step_2" as="step_2" template="cartographee/buyersguide/step/Ribbon.phtml">
+                    <action method="setQ"><q>2</q></action>
+                    <action method="setStepConfig">
+                        <config>
+                            <display_name>Bulb</display_name>
+                            <step_question>What HID bulbs will you be running with the ballasts?</step_question>
+                            <step_desc>This will determine whether you need them for "AMP" or "D2" Fitment</step_desc>
+                            <options>
+                                <d2s>
+                                    <title>D2S</title>
+                                    <image>
+                                        <url>images/productcategory/bulbs-D2S.svg</url>
+                                    </image>
+                                    <action>sku:(get wattage)D2S-R</action>
+                                </d2s>
+                                <d2r>
+                                    <title>D2R</title>
+                                    <image>
+                                        <url>images/productcategory/bulbs-D2R.svg</url>
+                                    </image>
+                                    <action>sku:(get wattage)D2S-R</action>
+                                </d2r>
+                                <h1>
+                                    <title>H1</title>
+                                    <image>
+                                        <url>images/productcategory/bulbs-h1.svg</url>
+                                    </image>
+                                    <action>sku:(get wattage)AMP-R</action>
+                                </h1>
+                                <h3>
+                                    <title>H3</title>
+                                    <image>
+                                        <url>images/productcategory/bulbs-h3.svg</url>
+                                    </image>
+                                    <action>sku:(get wattage)AMP-R</action>
+                                </h3>
+                                <h4>
+                                    <title>H4</title>
+                                    <image>
+                                        <url>images/productcategory/bulbs-h4.svg</url>
+                                    </image>
+                                    <action>sku:(get wattage)AMP-R</action>
+                                </h4>
+                                <h7>
+                                    <title>H7</title>
+                                    <image>
+                                        <url>images/productcategory/bulbs-h7.svg</url>
+                                    </image>
+                                    <action>sku:(get wattage)AMP-R</action>
+                                </h7>
+                                <h8>
+                                    <title>H8</title>
+                                    <image>
+                                        <url>images/productcategory/bulbs-h8.svg</url>
+                                    </image>
+                                    <action>sku:(get wattage)AMP-R</action>
+                                </h8>
+                                <h9>
+                                    <title>H9</title>
+                                    <image>
+                                        <url>images/productcategory/bulbs-h9.svg</url>
+                                    </image>
+                                    <action>sku:(get wattage)AMP-R</action>
+                                </h9>
+                                <h10>
+                                    <title>H10</title>
+                                    <image>
+                                        <url>images/productcategory/bulbs-h10.svg</url>
+                                    </image>
+                                    <action>sku:(get wattage)AMP-R</action>
+                                </h10>
+                                <h11>
+                                    <title>H11</title>
+                                    <image>
+                                        <url>images/productcategory/bulbs-h11.svg</url>
+                                    </image>
+                                    <action>sku:(get wattage)AMP-R</action>
+                                </h11>
+                                <h13>
+                                    <title>H13</title>
+                                    <image>
+                                        <url>images/productcategory/bulbs-h13.svg</url>
+                                    </image>
+                                    <action>sku:(get wattage)AMP-R</action>
+                                </h13>
+                                <x880>
+                                    <title>880</title>
+                                    <image>
+                                        <url>images/productcategory/bulbs-880.svg</url>
+                                    </image>
+                                    <action>sku:(get wattage)AMP-R</action>
+                                </x880>
+                                <x9005>
+                                    <title>9005</title>
+                                    <image>
+                                        <url>images/productcategory/bulbs-9005.svg</url>
+                                    </image>
+                                    <action>sku:(get wattage)AMP-R</action>
+                                </x9005>
+                                <x9006>
+                                    <title>9006</title>
+                                    <image>
+                                        <url>images/productcategory/bulbs-9006.svg</url>
+                                    </image>
+                                    <action>sku:(get wattage)AMP-R</action>
+                                </x9006>
+                                <x9007>
+                                    <title>9007</title>
+                                    <image>
+                                        <url>images/productcategory/bulbs-9007.svg</url>
+                                    </image>
+                                    <action>sku:(get wattage)AMP-R</action>
+                                </x9007>
+                                <x9012>
+                                    <title>9012</title>
+                                    <image>
+                                        <url>images/productcategory/bulbs-9012.svg</url>
+                                    </image>
+                                    <action>sku:(get wattage)AMP-R</action>
+                                </x9012>
+                                <d2h>
+                                    <title>D2H</title>
+                                    <image>
+                                        <url>images/productcategory/bulbs-D2H.svg</url>
+                                    </image>
+                                    <action>sku:(get wattage)AMP-R</action>
+                                </d2h>
+                                <h16>
+                                    <title>H16</title>
+                                    <image>
+                                        <url>images/productcategory/bulbs-h16.svg</url>
+                                    </image>
+                                    <action>sku:(get wattage)AMP-R</action>
+                                </h16>
+                            </options>
+                        </config>
+                    </action>
+                </block>
+            </block>
+        </reference>
+    </buyersguide_ballasts>
+
+    <CATEGORY_21>
+        <update handle="buyersguide_ballasts"/>
+    </CATEGORY_21>
+
+
+
+    <buyersguide_housings>
+        <reference name="buyers_guide">
+            <action method="addContainerClass"><value>bulbs</value></action>
+            <block type="cartographee/buyersguide_layer_filter_car" name="buyersguide_car_filter" as="car_filter" template="cartographee/buyersguide/toolbar/Car.phtml"/>
+            <block type="cartographee/buyersguide_layer_filter_step_generic" name="buyersguide_toolbar_supplemental" as="buyersguide_toolbar_supplemental" template="cartographee/buyersguide/toolbar/Supplemental.phtml">
+                <action method="setStepConfig">
+                    <config>
+                        <id>housing_function</id>
+                        <apply_to_direct_fit>true</apply_to_direct_fit>
+                        <options>
+                            <all>
+                                <title>All Function Types</title>
+                            </all>
+                            <housings>
+                                <title>Headlights</title>
+                                <action>fit_sql:type=~</action>
+                            </housings>
+                            <led_fog>
+                                <title>Fog Lights</title>
+                                <action>fit_sql:type=~</action>
+                            </led_fog>
+                        </options>
+                    </config>
+                </action>
+            </block>
+            <block type="cartographee/buyersguide_layer_filter_step_container" name="buyersguide_steps" as="buyersguide_steps" template="cartographee/buyersguide/step/Container.phtml"/>
+        </reference>
+    </buyersguide_housings>
+
+    <CATEGORY_64>
+        <update handle="buyersguide_housings"/>
+    </CATEGORY_64>
+
+
+
+    <buyersguide_leds>
+        <reference name="buyers_guide">
+            <action method="addContainerClass"><value>bulbs</value></action>
+            <block type="cartographee/buyersguide_layer_filter_car" name="buyersguide_car_filter" as="car_filter" template="cartographee/buyersguide/toolbar/Car.phtml"/>
+            <block type="cartographee/buyersguide_layer_filter_step_generic" name="buyersguide_toolbar_supplemental" as="buyersguide_toolbar_supplemental" template="cartographee/buyersguide/toolbar/Supplemental.phtml">
+                <action method="setStepConfig">
+                    <config>
+                        <id>bulb_function</id>
+                        <apply_to_direct_fit>true</apply_to_direct_fit>
+                        <options>
+                            <all>
+                                <title>All Function Types</title>
+                            </all>
+                            <front_turn>
+                                <title>Front Turn Signals</title>
+                                <action>fit_sql:type=~</action>
+                            </front_turn>
+                            <rear_turn>
+                                <title>Rear Turn Signals</title>
+                                <action>fit_sql:type=~</action>
+                            </rear_turn>
+                            <front_marker>
+                                <title>Front Marker Lights</title>
+                                <action>fit_sql:type=~</action>
+                            </front_marker>
+                            <rear_marker>
+                                <title>Rear Marker Lights</title>
+                                <action>fit_sql:type=~</action>
+                            </rear_marker>
+                            <license_plate>
+                                <title>License Plates</title>
+                                <action>fit_sql:type=~</action>
+                            </license_plate>
+                            <dome>
+                                <title>Dome Lights</title>
+                                <action>fit_sql:type=~</action>
+                            </dome>
+                            <brake>
+                                <title>Brake Lights</title>
+                                <action>fit_sql:type=~</action>
+                            </brake>
+                            <reverse>
+                                <title>Reverse Lights</title>
+                                <action>fit_sql:type=~</action>
+                            </reverse>
+                        </options>
+                    </config>
+                </action>
+            </block>
+            <block type="cartographee/buyersguide_layer_filter_step_container" name="buyersguide_steps" as="buyersguide_steps" template="cartographee/buyersguide/step/Container.phtml"/>
+        </reference>
+    </buyersguide_leds>
+
+    <CATEGORY_47>
+        <update handle="buyersguide_leds"/>
+    </CATEGORY_47>
+
+
+
+    <buyersguide_lenses>
+        <reference name="buyers_guide">
+            <action method="addContainerClass"><value>lenses</value></action>
+            <block type="cartographee/buyersguide_layer_filter_car" name="buyersguide_car_filter" as="car_filter" template="cartographee/buyersguide/toolbar/Car.phtml"/>
+            <block type="cartographee/buyersguide_layer_filter_step_container" name="buyersguide_steps" as="buyersguide_steps" template="cartographee/buyersguide/step/Container.phtml"/>
+        </reference>
+    </buyersguide_lenses>
+
+    <CATEGORY_37>
+        <update handle="buyersguide_lenses"/>
+    </CATEGORY_37>
 
 
 
     <buyersguide_harnesses>
         <reference name="buyers_guide">
             <action method="addContainerClass"><value>bulbs</value></action>
+            <block type="cartographee/buyersguide_layer_filter_car" name="buyersguide_car_filter" as="car_filter" template="cartographee/buyersguide/toolbar/Car.phtml"/>
             <block type="cartographee/buyersguide_layer_filter_step_generic" name="buyersguide_toolbar_supplemental" as="buyersguide_toolbar_supplemental" template="cartographee/buyersguide/toolbar/Supplemental.phtml">
                 <action method="setStepConfig">
                     <config>
@@ -15,19 +302,18 @@
                         <options>
                             <all>
                                 <title>All Function Types</title>
-                                <action>step:done</action>
                             </all>
                             <high>
                                 <title>High Beams</title>
-                                <action>sql:type=~; step:done</action>
+                                <action>fit_sql:type=~</action>
                             </high>
                             <low>
                                 <title>Low Beams</title>
-                                <action>sql:type=~; step:done</action>
+                                <action>fit_sql:type=~</action>
                             </low>
                             <fog>
                                 <title>Fog Lights</title>
-                                <action>sql:type=~; step:done</action>
+                                <action>fit_sql:type=~</action>
                             </fog>
                         </options>
                     </config>
@@ -44,6 +330,7 @@
     <buyersguide_hidbulbs>
         <reference name="buyers_guide">
             <action method="addContainerClass"><value>bulbs</value></action>
+            <block type="cartographee/buyersguide_layer_filter_car" name="buyersguide_car_filter" as="car_filter" template="cartographee/buyersguide/toolbar/Car.phtml"/>
             <block type="cartographee/buyersguide_layer_filter_step_generic" name="buyersguide_toolbar_supplemental" as="buyersguide_toolbar_supplemental" template="cartographee/buyersguide/toolbar/Supplemental.phtml">
                 <action method="setStepConfig">
                     <config>
@@ -52,19 +339,18 @@
                         <options>
                             <all>
                                 <title>All Function Types</title>
-                                <action>step:done</action>
                             </all>
                             <high>
                                 <title>High Beams</title>
-                                <action>sql:type=~; step:done</action>
+                                <action>fit_sql:type=~</action>
                             </high>
                             <low>
                                 <title>Low Beams</title>
-                                <action>sql:type=~; step:done</action>
+                                <action>fit_sql:type=~</action>
                             </low>
                             <fog>
                                 <title>Fog Lights</title>
-                                <action>sql:type=~; step:done</action>
+                                <action>fit_sql:type=~</action>
                             </fog>
                         </options>
                     </config>
@@ -83,6 +369,7 @@
     <buyersguide_projectors>
         <reference name="buyers_guide">
             <action method="addContainerClass"><value>projectors</value></action>
+            <block type="cartographee/buyersguide_layer_filter_car" name="buyersguide_car_filter" as="car_filter" template="cartographee/buyersguide/toolbar/Car.phtml"/>
             <block type="cartographee/buyersguide_layer_filter_step_generic" name="buyersguide_toolbar_supplemental" as="buyersguide_toolbar_supplemental" template="cartographee/buyersguide/toolbar/Supplemental.phtml">
                 <action method="setStepConfig">
                     <config>

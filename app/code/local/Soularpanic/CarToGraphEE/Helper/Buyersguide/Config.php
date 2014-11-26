@@ -13,6 +13,7 @@ class Soularpanic_CarToGraphEE_Helper_Buyersguide_Config
             $data['display_name'] = $stepConfigArr['display_name'];
         }
 
+        $data['step_desc'] = $stepConfigArr['step_desc'];
         $data['apply_to_direct_fit'] = $stepConfigArr['apply_to_direct_fit'];
 
         $data['question'] = $stepConfigArr['step_question'];
@@ -51,6 +52,9 @@ class Soularpanic_CarToGraphEE_Helper_Buyersguide_Config
         $data['active'] = array_key_exists('active', $data)
             ? filter_var($data['active'], FILTER_VALIDATE_BOOLEAN)
             : true;
+        if (array_key_exists('image', $data)) {
+            $data['image'] = $this->_buildImage($data['image']);
+        }
         $option = Mage::getModel('cartographee/buyersguide_layer_filter_step_option');
         $option->setData($data)->setId($id);
         return $option;

@@ -1,7 +1,9 @@
 var BuyersGuideController = Class.create(TRSCategoryBase, {
 
     _LOADING_STEP_ID: 'loading',
-    _FINISHED_STEP_ID: 'done',
+    _ROUGH_FITS_STEP_ID: 'done',
+    _DIRECT_FITS_STEP_ID: 'directfit',
+    _NO_FITS_STEP_ID: 'nofit',
     _ERROR_STEP_ID: 'error',
 
     _DEFAULT_BG_CONTAINER_SELECTOR: '.buyersGuide',
@@ -207,15 +209,16 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
         this._prepareNextStep(stepId, optionsToShowArr);
 
         if (isNaN(multiplier)) {
-            if (this._LOADING_STEP_ID === stepId) {
+            var isStepId = function(step) { return step === stepId; }
+            if (isStepId(this._LOADING_STEP_ID)) {
                 multiplier = 0;
             }
-            if (this._ERROR_STEP_ID === stepId) {
+            if (isStepId(this._ERROR_STEP_ID)) {
                 this._showErrorStepElt(true);
                 multiplier = 0;
             }
-            if (this._FINISHED_STEP_ID === stepId) {
-                multiplier = this._getStepCount() - 1;
+            if ($A([this._ROUGH_FITS_STEP_ID, this._DIRECT_FITS_STEP_ID, this._NO_FITS_STEP_ID]).some(isStepId)) {
+                multiplier = this._getStepEltIndex(stepId);
             }
         }
 
@@ -235,7 +238,15 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
     recommendProducts: function(recommendedSkus) {
         console.log('we recommend:');
         console.log(recommendedSkus);
-        this.moveToStep(this._FINISHED_STEP_ID);
+        this.moveToStep(this._ROUGH_FITS_STEP_ID);
+    },
+
+
+    _getStepEltIndex: function(stepId) {
+        var steps = this._getSteps(),
+            target = this._getStepEltById(stepId),
+            offset = $A(steps).lastIndexOf(target);
+        return offset;
     },
 
 
@@ -285,7 +296,13 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
 
 
     _getStepCount: function() {
-        return $$(this.stepSelector + ":not(.invisible)").length;
+        var steps = this._getSteps();
+        return steps.length;
+    },
+
+
+    _getSteps: function() {
+        return $$(this.stepSelector + ":not(.invisible)");
     },
 
 
@@ -438,10 +455,12 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
 
     _parseStep: function(remainder) {
         console.log("Parsing step -" + remainder + "-");
-        var reTemplate = new Template("^(\\d+|#{loadId}|#{doneId}|#{errorId})(?:\\[([^\\]]+)\\])?(.*)$"),
+        var reTemplate = new Template("^(\\d+|#{loadId}|#{doneRoughId}|#{doneDirectId}|#{doneNadaId}|#{errorId})(?:\\[([^\\]]+)\\])?(.*)$"),
             reStr = reTemplate.evaluate({
                 loadId: this._LOADING_STEP_ID,
-                doneId: this._FINISHED_STEP_ID,
+                doneRoughId: this._ROUGH_FITS_STEP_ID,
+                doneDirectId: this._DIRECT_FITS_STEP_ID,
+                doneNadaId: this._NO_FITS_STEP_ID,
                 errorId: this._ERROR_STEP_ID
             }),
             re = new RegExp(reStr);
