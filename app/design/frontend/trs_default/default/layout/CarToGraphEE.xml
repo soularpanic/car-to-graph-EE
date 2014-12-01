@@ -454,7 +454,7 @@
                                 </MATCHBOX-R>
                                 <MH16.0-R>
                                     <title>Mini H1</title>
-                                    <action>step:3[MH16.0-R]</action>
+                                    <action>step:3[MH16.0-R_lhd, MH16.0-R_rhd]</action>
                                     <aspects>
                                         <output>6</output>
                                         <sharp>8</sharp>
@@ -463,7 +463,7 @@
                                 </MH16.0-R>
                                 <MD2S3.0-R>
                                     <title>Dat MD2</title>
-                                    <action>step:3[MD2S3.0-R]</action>
+                                    <action>step:3[MD2S3.0-R_lhd, MD2S3.0-R_rhd]</action>
                                     <aspects>
                                         <output>6</output>
                                         <sharp>8</sharp>
@@ -472,7 +472,7 @@
                                 </MD2S3.0-R>
                                 <FXR3.0-R>
                                     <title>FXR</title>
-                                    <action>step:3[FXR3.0-R]</action>
+                                    <action>step:3[FXR3.0-R_lhd, FXR3.0-R_rhd]</action>
                                     <aspects>
                                         <output>6</output>
                                         <sharp>8</sharp>

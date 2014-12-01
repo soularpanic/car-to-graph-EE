@@ -15,7 +15,7 @@ class Soularpanic_CarToGraphEE_Model_Resource_Buyersguide_Layer_Filter_Chain_Lin
         //$collection = $filter->getLayer()->getProductCollection();
         $actionHelper = Mage::helper('cartographee/buyersguide_action');
 
-        $actionHelper->applyActionToCollection($filter, $action, $this);
+        $actionHelper->applyActionToCollection($filter, $action);
 
         return $this;
     }

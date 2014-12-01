@@ -36,7 +36,7 @@ class Soularpanic_CarToGraphEE_Helper_Buyersguide_Config
                         $combined['image'] = $this->_buildImage($combined['image']);
                     }
                     $this->log("combined: ".print_r($combined, true));
-                    $options[] = $this->_buildOption($id, $combined);
+                    $options[] = $this->_buildOption("{$id}_{$binId}", $combined);
                 }
             }
             else {
