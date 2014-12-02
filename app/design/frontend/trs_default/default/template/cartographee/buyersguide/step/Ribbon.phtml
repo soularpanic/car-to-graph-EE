@@ -14,7 +14,7 @@
             <?php foreach ($this->getOptions() as $idx => $option): ?>
                 <div class="selectWrap-column tile">
                     <h3><?php echo $option->getTitle() ?></h3>
-                    <div class="tile-select" data-value="<?php echo $option->getId() ?>" data-displayValue="<?php echo $option->getDisplayValue() ?>">&nbsp;</div>
+                    <div class="tile-select" data-id="<?php echo $option->getId() ?>" data-value="<?php echo $option->getValue() ?>" data-displayValue="<?php echo $option->getDisplayValue() ?>">&nbsp;</div>
                     <div class="tile-image">
                         <?php if ($option->getImage()) {
                             echo ($option->getImage()->render());

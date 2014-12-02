@@ -23,31 +23,33 @@ class Soularpanic_CarToGraphEE_Model_Buyersguide_Layer_Filter_Chain_Link_Configu
 
         if ($value) {
             foreach ($this->getOptions() as $option) {
-                if ($option->getId() === $value) {
-                    $selectedAction = $option->getAction();
-                    $selectedAction = str_replace('~', $option->getId(), $selectedAction);
+                if ($option->getValue() === $value) {
+                    $selectedOption = $option;
+                    break;
+                    //$selectedAction = str_replace('~', $option->getId(), $selectedAction);
                 }
             }
         }
 
-        if ($selectedAction) {
-            $chainState['action'] = $selectedAction;
+        if ($selectedOption) {
+            $chainState['action'] = $selectedOption->getAction();
             $this->setChainState($chainState);
             Mage::log("chain state at action check: [".print_r($this->getChainState(), true).']', null, 'trs_guide.log');
             // do something to the collection
-
-            $this->_getResource()->applyFilterToCollection($this, $selectedAction);
+            Mage::log("resource model: -{$selectedOption->getResourceModel()}-", null, 'trs_guide.log');
+            $this->_getResource($selectedOption->getResourceModel())->applyFilterToCollection($this, $selectedOption);
 
             $actionHelper = Mage::helper('cartographee/buyersguide_action');
-            return !$actionHelper->isTerminal($selectedAction);
+            return !$actionHelper->isTerminal($selectedOption);
         }
 
         return false;
     }
 
-    protected function _getResource() {
+    protected function _getResource($resourceModelName) {
+        $_modelName = $resourceModelName ?: 'cartographee/buyersguide_layer_filter_chain_link_configurable';
         if (is_null($this->_resource)) {
-            $this->_resource = Mage::getResourceModel('cartographee/buyersguide_layer_filter_chain_link_configurable');
+            $this->_resource = Mage::getResourceModel($_modelName);
         }
         return $this->_resource;
     }

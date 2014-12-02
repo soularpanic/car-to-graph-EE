@@ -19,6 +19,7 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
     _STEP_ID_ATTR_NAME: 'data-stepId',
     _STEP_DISPLAY_NAME_ATTR_NAME: 'data-stepDisplayName',
     _STEP_DISPLAY_VALUE_ATTR_NAME: 'data-displayValue',
+    _OPTION_ID_ATTR_NAME: 'data-id',
     _OPTION_VALUE_ATTR_NAME: 'data-value',
 
     _DEFAULT_SELECTIONS_CONTENT: "<h2>We've got a few more questions before we can find the right parts for you...</h2>",
@@ -255,7 +256,7 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
             step = this._getStepEltById(stepId),
             stepOptionSelector = this.stepOptionSelector,
             optionButtonSelector = this.stepSelectButtonSelector,
-            optionValueAttr = this._OPTION_VALUE_ATTR_NAME;
+            optionIdAttr = this._OPTION_ID_ATTR_NAME;
         // hide elements as necessary
         if (visibleOptions && visibleOptions.length) {
             visibleOptions.push('stock');
@@ -263,7 +264,7 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
             options.each(function (option) {
                 var optionButtons = option.select(optionButtonSelector);
                 optionButtons.each(function (optionButton) {
-                    var optionId = optionButton.readAttribute(optionValueAttr);
+                    var optionId = optionButton.readAttribute(optionIdAttr);
                     if ($A(optionsToShowArr).some(function (showableId) { return showableId === optionId; })) {
                         option.removeClassName('invisible');
                     }

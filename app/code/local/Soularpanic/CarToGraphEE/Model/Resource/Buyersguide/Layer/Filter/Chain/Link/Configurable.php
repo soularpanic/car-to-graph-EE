@@ -1,17 +1,10 @@
 <?php
 class Soularpanic_CarToGraphEE_Model_Resource_Buyersguide_Layer_Filter_Chain_Link_Configurable
-    extends Mage_Core_Model_Resource_Db_Abstract {
+    extends Soularpanic_CarToGraphEE_Model_Resource_Buyersguide_Layer_Filter_Chain_Link_Abstract {
 
-    /**
-     * Resource initialization
-     */
-    protected function _construct() {
-        $this->_init('catalog/product', 'entity_id');
-    }
-
-
-    public function applyFilterToCollection($filter, $action) {
-        Mage::log('applying configurable filter in resource!', null, 'trs_guide.log');
+    public function applyFilterToCollection($filter, $option) {
+        $action = $option->getAction();
+        Mage::log("applying configurable filter in resource; action=({$action})", null, 'trs_guide.log');
         //$collection = $filter->getLayer()->getProductCollection();
         $actionHelper = Mage::helper('cartographee/buyersguide_action');
 
