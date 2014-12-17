@@ -5,7 +5,7 @@ class Soularpanic_CarToGraphEE_Block_Buyersguide_Layer_Filter_Step_Generic
     protected $_stepConfig;
 
     public function _construct() {
-        $_stepConfig = [];
+        $this->_stepConfig = [];
         $this->_filterModelName = 'cartographee/buyersguide_layer_filter_chain_link_configurable';
         parent::_construct();
     }

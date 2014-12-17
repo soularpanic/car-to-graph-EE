@@ -20,6 +20,7 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
     _STEP_DISPLAY_NAME_ATTR_NAME: 'data-stepDisplayName',
     _STEP_DISPLAY_VALUE_ATTR_NAME: 'data-displayValue',
     _OPTION_ID_ATTR_NAME: 'data-id',
+    _OPTION_GROUP_ATTR_NAME: 'data-groupId',
     _OPTION_VALUE_ATTR_NAME: 'data-value',
 
     _DEFAULT_SELECTIONS_CONTENT: "<h2>We've got a few more questions before we can find the right parts for you...</h2>",
@@ -195,7 +196,7 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
     },
 
 
-    moveToStep: function(stepId, optionsToShowArr) {
+    moveToStep: function(stepId, optionsToShowObj) {
         console.log('moving to step [' + stepId + ']');
         var slideStrip = $$('.buyersGuide-questionWrap')[0],
             reelContainerSelector = this.reelContainerSelector,
@@ -207,7 +208,7 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
             step = false;
 
         this._cleanUpPreviousStep();
-        this._prepareNextStep(stepId, optionsToShowArr);
+        this._prepareNextStep(stepId, optionsToShowObj);
 
         if (isNaN(multiplier)) {
             var isStepId = function(step) { return step === stepId; }
@@ -251,21 +252,50 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
     },
 
 
-    _prepareNextStep: function(stepId, optionsToShowArr) {
-        var visibleOptions = optionsToShowArr,
+    _prepareNextStep: function(stepId, optionsToShowObj) {
+        var maskObj = optionsToShowObj,
             step = this._getStepEltById(stepId),
             stepOptionSelector = this.stepOptionSelector,
             optionButtonSelector = this.stepSelectButtonSelector,
             optionIdAttr = this._OPTION_ID_ATTR_NAME;
         // hide elements as necessary
-        if (visibleOptions && visibleOptions.length) {
-            visibleOptions.push('stock');
-            var options = step.select(stepOptionSelector);
+        $H(maskObj).each(function(mask) {
+            this._maskOptions(step, this['_OPTION_' + mask.key.toUpperCase() + '_ATTR_NAME'], mask.value);
+        }.bind(this));
+
+        /*
+         if (maskObj && maskObj.length) {
+         maskObj.push('stock');
+         var options = step.select(stepOptionSelector);
+         options.each(function (option) {
+         var optionButtons = option.select(optionButtonSelector);
+         optionButtons.each(function (optionButton) {
+         var optionId = optionButton.readAttribute(optionIdAttr);
+         if ($A(optionsToShowObj).some(function (showableId) { return showableId === optionId; })) {
+         option.removeClassName('invisible');
+         }
+         else {
+         option.addClassName('invisible');
+         }
+         });
+         });
+         }
+         */
+    },
+
+
+    _maskOptions: function(stepElt, attrName, attrValues) {
+        var stepOptionSelector = this.stepOptionSelector,
+            optionButtonSelector = this.stepSelectButtonSelector;
+
+        if (attrValues && attrValues.length) {
+            attrValues.push('stock');
+            var options = stepElt.select(stepOptionSelector);
             options.each(function (option) {
                 var optionButtons = option.select(optionButtonSelector);
                 optionButtons.each(function (optionButton) {
-                    var optionId = optionButton.readAttribute(optionIdAttr);
-                    if ($A(optionsToShowArr).some(function (showableId) { return showableId === optionId; })) {
+                    var optionId = optionButton.readAttribute(attrName);
+                    if ($A(attrValues).some(function (showableId) { return showableId === optionId; })) {
                         option.removeClassName('invisible');
                     }
                     else {
@@ -456,7 +486,7 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
 
     _parseStep: function(remainder) {
         console.log("Parsing step -" + remainder + "-");
-        var reTemplate = new Template("^(\\d+|#{loadId}|#{doneRoughId}|#{doneDirectId}|#{doneNadaId}|#{errorId})(?:\\[([^\\]]+)\\])?(.*)$"),
+        var reTemplate = new Template("^(\\d+|#{loadId}|#{doneRoughId}|#{doneDirectId}|#{doneNadaId}|#{errorId})(/\\w+)?(\\[[^\\]]+\\])?(.*)$"),
             reStr = reTemplate.evaluate({
                 loadId: this._LOADING_STEP_ID,
                 doneRoughId: this._ROUGH_FITS_STEP_ID,
@@ -468,7 +498,7 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
         var matches = re.exec(remainder),
             matchCount = matches.length,
             stepId = 'error',
-            optionsToShow = [],
+            optionsToShow = {},
             _remainder = remainder;
 
         if (matchCount >= 2) {
@@ -476,7 +506,12 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
         }
 
         if (matchCount >= 3 && matches[2]) {
-            optionsToShow = matches[2].split(',').map(function (opt) { return opt.trim(); });
+            if (matches[2].charAt(0) === '/') {
+                optionsToShow['group'] = matches[2].substr(1).split(',');
+            }
+            if (matches[2].charAt(0) === '[') {
+                optionsToShow['id'] = matches[2].substr(1, matches[2].length - 2).split(',').map(function (opt) { return opt.trim(); });
+            }
             console.log('options to show:');
             console.log(optionsToShow);
         }

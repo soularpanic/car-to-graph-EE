@@ -13,7 +13,7 @@
                     <action method="setQ"><q>1</q></action>
                     <action method="setStepConfig">
                         <config>
-                            <model>cartographee/buyersguide_layer_filter_chain_link_ballast_wattage</model>
+                            <!--<model>cartographee/buyersguide_layer_filter_chain_link_ballast_wattage</model>-->
                             <display_name>Light Output</display_name>
                             <step_question>How much light output do you need?</step_question>
                             <binary>
@@ -29,8 +29,10 @@
                             <options>
                                 <wattage>
                                     <binary>
-                                        <watt35><action>step:2</action></watt35>
-                                        <watt55><action>step:2</action></watt55>
+                                        <watt35><action>step:2/w35</action></watt35>
+                                        <watt55><action>step:2/w55</action></watt55>
+                                        <!--<watt35><action>step:2[d2s-35, d2r-35, h1-35, h3-35, h4-35, h7-35, h8-35, h9-35, h10-35, h11-35, h13-35, x880-35, x9005-35, x9006-35, x9007-35, x9012-35, d2h-35, h16-35]</action></watt35>-->
+                                        <!--<watt55><action>step:2[d2s-55, d2r-55, h1-55, h3-55, h4-55, h7-55, h8-55, h9-55, h10-55, h11-55, h13-55, x880-55, x9005-55, x9006-55, x9007-55, x9012-55, d2h-55, h16-55]</action></watt55>-->
                                         <!--<watt35><action>(set wattage = 35); step:2</action></watt35>-->
                                         <!--<watt55><action>(set wattage = 55); step:2</action></watt55>-->
                                     </binary>
@@ -52,127 +54,417 @@
                                     <image>
                                         <url>images/productcategory/bulbs-D2S.svg</url>
                                     </image>
-                                    <action>sku:(get wattage)D2S-R</action>
+                                    <action>
+                                        <w35>sku:35D2S-R</w35>
+                                        <w55>sku:55D2S-R</w55></action>
                                 </d2s>
                                 <d2r>
                                     <title>D2R</title>
                                     <image>
                                         <url>images/productcategory/bulbs-D2R.svg</url>
                                     </image>
-                                    <action>sku:(get wattage)D2S-R</action>
+                                    <action>
+                                        <w35>sku:35D2S-R</w35>
+                                        <w55>sku:55D2S-R</w55></action>
                                 </d2r>
                                 <h1>
                                     <title>H1</title>
                                     <image>
                                         <url>images/productcategory/bulbs-h1.svg</url>
                                     </image>
-                                    <action>sku:(get wattage)AMP-R</action>
+                                    <action>
+                                        <w35>sku:35AMP-R</w35>
+                                        <w55>sku:55AMP-R</w55></action>
                                 </h1>
                                 <h3>
                                     <title>H3</title>
                                     <image>
                                         <url>images/productcategory/bulbs-h3.svg</url>
                                     </image>
-                                    <action>sku:(get wattage)AMP-R</action>
+                                    <action>
+                                        <w35>sku:35AMP-R</w35>
+                                        <w55>sku:55AMP-R</w55></action>
                                 </h3>
                                 <h4>
                                     <title>H4</title>
                                     <image>
                                         <url>images/productcategory/bulbs-h4.svg</url>
                                     </image>
-                                    <action>sku:(get wattage)AMP-R</action>
+                                    <action>
+                                        <w35>sku:35AMP-R</w35>
+                                        <w55>sku:55AMP-R</w55></action>
                                 </h4>
                                 <h7>
                                     <title>H7</title>
                                     <image>
                                         <url>images/productcategory/bulbs-h7.svg</url>
                                     </image>
-                                    <action>sku:(get wattage)AMP-R</action>
+                                    <action>
+                                        <w35>sku:35AMP-R</w35>
+                                        <w55>sku:55AMP-R</w55></action>
                                 </h7>
                                 <h8>
                                     <title>H8</title>
                                     <image>
                                         <url>images/productcategory/bulbs-h8.svg</url>
                                     </image>
-                                    <action>sku:(get wattage)AMP-R</action>
+                                    <action>
+                                        <w35>sku:35AMP-R</w35>
+                                        <w55>sku:55AMP-R</w55></action>
                                 </h8>
                                 <h9>
                                     <title>H9</title>
                                     <image>
                                         <url>images/productcategory/bulbs-h9.svg</url>
                                     </image>
-                                    <action>sku:(get wattage)AMP-R</action>
+                                    <action>
+                                        <w35>sku:35AMP-R</w35>
+                                        <w55>sku:55AMP-R</w55></action>
                                 </h9>
                                 <h10>
                                     <title>H10</title>
                                     <image>
                                         <url>images/productcategory/bulbs-h10.svg</url>
                                     </image>
-                                    <action>sku:(get wattage)AMP-R</action>
+                                    <action>
+                                        <w35>sku:35AMP-R</w35>
+                                        <w55>sku:55AMP-R</w55></action>
                                 </h10>
                                 <h11>
                                     <title>H11</title>
                                     <image>
                                         <url>images/productcategory/bulbs-h11.svg</url>
                                     </image>
-                                    <action>sku:(get wattage)AMP-R</action>
+                                    <action>
+                                        <w35>sku:35AMP-R</w35>
+                                        <w55>sku:55AMP-R</w55></action>
                                 </h11>
                                 <h13>
                                     <title>H13</title>
                                     <image>
                                         <url>images/productcategory/bulbs-h13.svg</url>
                                     </image>
-                                    <action>sku:(get wattage)AMP-R</action>
+                                    <action>
+                                        <w35>sku:35AMP-R</w35>
+                                        <w55>sku:55AMP-R</w55></action>
                                 </h13>
                                 <x880>
                                     <title>880</title>
                                     <image>
                                         <url>images/productcategory/bulbs-880.svg</url>
                                     </image>
-                                    <action>sku:(get wattage)AMP-R</action>
+                                    <action>
+                                        <w35>sku:35AMP-R</w35>
+                                        <w55>sku:55AMP-R</w55></action>
                                 </x880>
                                 <x9005>
                                     <title>9005</title>
                                     <image>
                                         <url>images/productcategory/bulbs-9005.svg</url>
                                     </image>
-                                    <action>sku:(get wattage)AMP-R</action>
+                                    <action>
+                                        <w35>sku:35AMP-R</w35>
+                                        <w55>sku:55AMP-R</w55></action>
                                 </x9005>
                                 <x9006>
                                     <title>9006</title>
                                     <image>
                                         <url>images/productcategory/bulbs-9006.svg</url>
                                     </image>
-                                    <action>sku:(get wattage)AMP-R</action>
+                                    <action>
+                                        <w35>sku:35AMP-R</w35>
+                                        <w55>sku:55AMP-R</w55></action>
                                 </x9006>
                                 <x9007>
                                     <title>9007</title>
                                     <image>
                                         <url>images/productcategory/bulbs-9007.svg</url>
                                     </image>
-                                    <action>sku:(get wattage)AMP-R</action>
+                                    <action>
+                                        <w35>sku:35AMP-R</w35>
+                                        <w55>sku:55AMP-R</w55></action>
                                 </x9007>
                                 <x9012>
                                     <title>9012</title>
                                     <image>
                                         <url>images/productcategory/bulbs-9012.svg</url>
                                     </image>
-                                    <action>sku:(get wattage)AMP-R</action>
+                                    <action>
+                                        <w35>sku:35AMP-R</w35>
+                                        <w55>sku:55AMP-R</w55></action>
                                 </x9012>
                                 <d2h>
                                     <title>D2H</title>
                                     <image>
                                         <url>images/productcategory/bulbs-D2H.svg</url>
                                     </image>
-                                    <action>sku:(get wattage)AMP-R</action>
+                                    <action>
+                                        <w35>sku:35AMP-R</w35>
+                                        <w55>sku:55AMP-R</w55></action>
                                 </d2h>
                                 <h16>
                                     <title>H16</title>
                                     <image>
                                         <url>images/productcategory/bulbs-h16.svg</url>
                                     </image>
-                                    <action>sku:(get wattage)AMP-R</action>
+                                    <action>
+                                        <w35>sku:35AMP-R</w35>
+                                        <w55>sku:55AMP-R</w55></action>
                                 </h16>
+                                <!--<d2s-35>-->
+                                <!--<title>D2S</title>-->
+                                <!--<image>-->
+                                <!--<url>images/productcategory/bulbs-D2S.svg</url>-->
+                                <!--</image>-->
+                                <!--<action>sku:35D2S-R</action>-->
+                                <!--</d2s-35>-->
+                                <!--<d2r-35>-->
+                                <!--<title>D2R</title>-->
+                                <!--<image>-->
+                                <!--<url>images/productcategory/bulbs-D2R.svg</url>-->
+                                <!--</image>-->
+                                <!--<action>sku:35D2S-R</action>-->
+                                <!--</d2r-35>-->
+                                <!--<h1-35>-->
+                                <!--<title>H1</title>-->
+                                <!--<image>-->
+                                <!--<url>images/productcategory/bulbs-h1.svg</url>-->
+                                <!--</image>-->
+                                <!--<action>sku:35AMP-R</action>-->
+                                <!--</h1-35>-->
+                                <!--<h3-35>-->
+                                <!--<title>H3</title>-->
+                                <!--<image>-->
+                                <!--<url>images/productcategory/bulbs-h3.svg</url>-->
+                                <!--</image>-->
+                                <!--<action>sku:35AMP-R</action>-->
+                                <!--</h3-35>-->
+                                <!--<h4-35>-->
+                                <!--<title>H4</title>-->
+                                <!--<image>-->
+                                <!--<url>images/productcategory/bulbs-h4.svg</url>-->
+                                <!--</image>-->
+                                <!--<action>sku:35AMP-R</action>-->
+                                <!--</h4-35>-->
+                                <!--<h7-35>-->
+                                <!--<title>H7</title>-->
+                                <!--<image>-->
+                                <!--<url>images/productcategory/bulbs-h7.svg</url>-->
+                                <!--</image>-->
+                                <!--<action>sku:35AMP-R</action>-->
+                                <!--</h7-35>-->
+                                <!--<h8-35>-->
+                                <!--<title>H8</title>-->
+                                <!--<image>-->
+                                <!--<url>images/productcategory/bulbs-h8.svg</url>-->
+                                <!--</image>-->
+                                <!--<action>sku:35AMP-R</action>-->
+                                <!--</h8-35>-->
+                                <!--<h9-35>-->
+                                <!--<title>H9</title>-->
+                                <!--<image>-->
+                                <!--<url>images/productcategory/bulbs-h9.svg</url>-->
+                                <!--</image>-->
+                                <!--<action>sku:35AMP-R</action>-->
+                                <!--</h9-35>-->
+                                <!--<h10-35>-->
+                                <!--<title>H10</title>-->
+                                <!--<image>-->
+                                <!--<url>images/productcategory/bulbs-h10.svg</url>-->
+                                <!--</image>-->
+                                <!--<action>sku:35AMP-R</action>-->
+                                <!--</h10-35>-->
+                                <!--<h11-35>-->
+                                <!--<title>H11</title>-->
+                                <!--<image>-->
+                                <!--<url>images/productcategory/bulbs-h11.svg</url>-->
+                                <!--</image>-->
+                                <!--<action>sku:35AMP-R</action>-->
+                                <!--</h11-35>-->
+                                <!--<h13-35>-->
+                                <!--<title>H13</title>-->
+                                <!--<image>-->
+                                <!--<url>images/productcategory/bulbs-h13.svg</url>-->
+                                <!--</image>-->
+                                <!--<action>sku:35AMP-R</action>-->
+                                <!--</h13-35>-->
+                                <!--<x880-35>-->
+                                <!--<title>880</title>-->
+                                <!--<image>-->
+                                <!--<url>images/productcategory/bulbs-880.svg</url>-->
+                                <!--</image>-->
+                                <!--<action>sku:35AMP-R</action>-->
+                                <!--</x880-35>-->
+                                <!--<x9005-35>-->
+                                <!--<title>9005</title>-->
+                                <!--<image>-->
+                                <!--<url>images/productcategory/bulbs-9005.svg</url>-->
+                                <!--</image>-->
+                                <!--<action>sku:35AMP-R</action>-->
+                                <!--</x9005-35>-->
+                                <!--<x9006-35>-->
+                                <!--<title>9006</title>-->
+                                <!--<image>-->
+                                <!--<url>images/productcategory/bulbs-9006.svg</url>-->
+                                <!--</image>-->
+                                <!--<action>sku:35AMP-R</action>-->
+                                <!--</x9006-35>-->
+                                <!--<x9007-35>-->
+                                <!--<title>9007</title>-->
+                                <!--<image>-->
+                                <!--<url>images/productcategory/bulbs-9007.svg</url>-->
+                                <!--</image>-->
+                                <!--<action>sku:35AMP-R</action>-->
+                                <!--</x9007-35>-->
+                                <!--<x9012-35>-->
+                                <!--<title>9012</title>-->
+                                <!--<image>-->
+                                <!--<url>images/productcategory/bulbs-9012.svg</url>-->
+                                <!--</image>-->
+                                <!--<action>sku:35AMP-R</action>-->
+                                <!--</x9012-35>-->
+                                <!--<d2h-35>-->
+                                <!--<title>D2H</title>-->
+                                <!--<image>-->
+                                <!--<url>images/productcategory/bulbs-D2H.svg</url>-->
+                                <!--</image>-->
+                                <!--<action>sku:35AMP-R</action>-->
+                                <!--</d2h-35>-->
+                                <!--<h16-35>-->
+                                <!--<title>H16</title>-->
+                                <!--<image>-->
+                                <!--<url>images/productcategory/bulbs-h16.svg</url>-->
+                                <!--</image>-->
+                                <!--<action>sku:35AMP-R</action>-->
+                                <!--</h16-35>-->
+
+
+                                <!--<d2s-55>-->
+                                <!--<title>D2S</title>-->
+                                <!--<image>-->
+                                <!--<url>images/productcategory/bulbs-D2S.svg</url>-->
+                                <!--</image>-->
+                                <!--<action>sku:55D2S-R</action>-->
+                                <!--</d2s-55>-->
+                                <!--<d2r-55>-->
+                                <!--<title>D2R</title>-->
+                                <!--<image>-->
+                                <!--<url>images/productcategory/bulbs-D2R.svg</url>-->
+                                <!--</image>-->
+                                <!--<action>sku:55D2S-R</action>-->
+                                <!--</d2r-55>-->
+                                <!--<h1-55>-->
+                                <!--<title>H1</title>-->
+                                <!--<image>-->
+                                <!--<url>images/productcategory/bulbs-h1.svg</url>-->
+                                <!--</image>-->
+                                <!--<action>sku:55AMP-R</action>-->
+                                <!--</h1-55>-->
+                                <!--<h3-55>-->
+                                <!--<title>H3</title>-->
+                                <!--<image>-->
+                                <!--<url>images/productcategory/bulbs-h3.svg</url>-->
+                                <!--</image>-->
+                                <!--<action>sku:55AMP-R</action>-->
+                                <!--</h3-55>-->
+                                <!--<h4-55>-->
+                                <!--<title>H4</title>-->
+                                <!--<image>-->
+                                <!--<url>images/productcategory/bulbs-h4.svg</url>-->
+                                <!--</image>-->
+                                <!--<action>sku:55AMP-R</action>-->
+                                <!--</h4-55>-->
+                                <!--<h7-55>-->
+                                <!--<title>H7</title>-->
+                                <!--<image>-->
+                                <!--<url>images/productcategory/bulbs-h7.svg</url>-->
+                                <!--</image>-->
+                                <!--<action>sku:55AMP-R</action>-->
+                                <!--</h7-55>-->
+                                <!--<h8-55>-->
+                                <!--<title>H8</title>-->
+                                <!--<image>-->
+                                <!--<url>images/productcategory/bulbs-h8.svg</url>-->
+                                <!--</image>-->
+                                <!--<action>sku:55AMP-R</action>-->
+                                <!--</h8-55>-->
+                                <!--<h9-55>-->
+                                <!--<title>H9</title>-->
+                                <!--<image>-->
+                                <!--<url>images/productcategory/bulbs-h9.svg</url>-->
+                                <!--</image>-->
+                                <!--<action>sku:55AMP-R</action>-->
+                                <!--</h9-55>-->
+                                <!--<h10-55>-->
+                                <!--<title>H10</title>-->
+                                <!--<image>-->
+                                <!--<url>images/productcategory/bulbs-h10.svg</url>-->
+                                <!--</image>-->
+                                <!--<action>sku:55AMP-R</action>-->
+                                <!--</h10-55>-->
+                                <!--<h11-55>-->
+                                <!--<title>H11</title>-->
+                                <!--<image>-->
+                                <!--<url>images/productcategory/bulbs-h11.svg</url>-->
+                                <!--</image>-->
+                                <!--<action>sku:55AMP-R</action>-->
+                                <!--</h11-55>-->
+                                <!--<h13-55>-->
+                                <!--<title>H13</title>-->
+                                <!--<image>-->
+                                <!--<url>images/productcategory/bulbs-h13.svg</url>-->
+                                <!--</image>-->
+                                <!--<action>sku:55AMP-R</action>-->
+                                <!--</h13-55>-->
+                                <!--<x880-55>-->
+                                <!--<title>880</title>-->
+                                <!--<image>-->
+                                <!--<url>images/productcategory/bulbs-880.svg</url>-->
+                                <!--</image>-->
+                                <!--<action>sku:55AMP-R</action>-->
+                                <!--</x880-55>-->
+                                <!--<x9005-55>-->
+                                <!--<title>9005</title>-->
+                                <!--<image>-->
+                                <!--<url>images/productcategory/bulbs-9005.svg</url>-->
+                                <!--</image>-->
+                                <!--<action>sku:55AMP-R</action>-->
+                                <!--</x9005-55>-->
+                                <!--<x9006-55>-->
+                                <!--<title>9006</title>-->
+                                <!--<image>-->
+                                <!--<url>images/productcategory/bulbs-9006.svg</url>-->
+                                <!--</image>-->
+                                <!--<action>sku:55AMP-R</action>-->
+                                <!--</x9006-55>-->
+                                <!--<x9007-55>-->
+                                <!--<title>9007</title>-->
+                                <!--<image>-->
+                                <!--<url>images/productcategory/bulbs-9007.svg</url>-->
+                                <!--</image>-->
+                                <!--<action>sku:55AMP-R</action>-->
+                                <!--</x9007-55>-->
+                                <!--<x9012-55>-->
+                                <!--<title>9012</title>-->
+                                <!--<image>-->
+                                <!--<url>images/productcategory/bulbs-9012.svg</url>-->
+                                <!--</image>-->
+                                <!--<action>sku:55AMP-R</action>-->
+                                <!--</x9012-55>-->
+                                <!--<d2h-55>-->
+                                <!--<title>D2H</title>-->
+                                <!--<image>-->
+                                <!--<url>images/productcategory/bulbs-D2H.svg</url>-->
+                                <!--</image>-->
+                                <!--<action>sku:55AMP-R</action>-->
+                                <!--</d2h-55>-->
+                                <!--<h16-55>-->
+                                <!--<title>H16</title>-->
+                                <!--<image>-->
+                                <!--<url>images/productcategory/bulbs-h16.svg</url>-->
+                                <!--</image>-->
+                                <!--<action>sku:55AMP-R</action>-->
+                                <!--</h16-55>-->
                             </options>
                         </config>
                     </action>

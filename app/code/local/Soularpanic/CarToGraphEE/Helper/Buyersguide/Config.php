@@ -41,13 +41,31 @@ class Soularpanic_CarToGraphEE_Helper_Buyersguide_Config
                 }
             }
             else {
-                $options[] = $this->_buildOption($id, $values);
+                $options += array_merge($options, $this->_buildOptions($id, $values));
             }
         }
         $data['options'] = $options;
-
+        $this->log("parsed options:".print_r($options, true));
         return $data;
     }
+
+    protected function _buildOptions($id, $data) {
+
+        $options = [];
+        if (is_array($data['action'])) {
+            foreach ($data['action'] as $groupId => $groupAction) {
+                $newData = $data;
+                $newData['action'] = $groupAction;
+                $newData['group_id'] = $groupId;
+                $options[] = $this->_buildOption($id, $newData);
+            }
+        }
+        else {
+            $options[] = $this->_buildOption($id, $$data);
+        }
+        return $options;
+    }
+
 
     protected function _buildOption($id, $data) {
         $data['active'] = array_key_exists('active', $data)
