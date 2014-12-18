@@ -2,9 +2,142 @@
 
 <layout version="0.1.0">
 
+    <buyersguide_shrouds>
+        <reference name="buyers_guide">
+            <action method="addContainerClass"><value>shrouds</value></action>
+            <block type="cartographee/buyersguide_layer_filter_car" name="buyersguide_car_filter" as="car_filter" template="cartographee/buyersguide/toolbar/Car.phtml">
+                <action method="setNoFitAction"><value>step:1</value></action>
+            </block>
+            <block type="cartographee/buyersguide_layer_filter_step_container" name="buyersguide_steps" as="buyersguide_steps" template="cartographee/buyersguide/step/Container.phtml">
+                <block type="cartographee/buyersguide_layer_filter_step_generic" name="step_1" as="step_1" template="cartographee/buyersguide/step/Ribbon.phtml">
+                    <action method="setStepConfig">
+                        <config>
+                            <display_name>Projectors</display_name>
+                            <step_question>What projectors are you using?</step_question>
+                            <options>
+                                <matchbox>
+                                    <title>Matchbox</title>
+                                    <image>
+                                        <url>images/productcategory/projectors-matchbox.svg</url>
+                                    </image>
+                                    <action>sku:MICROGAT-R</action>
+                                </matchbox>
+                                <miniH1>
+                                    <title>Mini H1</title>
+                                    <image><url>images/productcategory/projectors-h1.svg</url></image>
+                                    <action>step:2/minih1</action>
+                                    <!--<action>step:2[!MICROGAT-R]</action>-->
+                                </miniH1>
+                                <miniD2S-O>
+                                    <title>Mini D2S</title>
+                                    <subtitle>(O Lens)</subtitle>
+                                    <image><url>images/productcategory/projectors-D2S-O.svg</url></image>
+                                    <!--<action>step:2[!MICROGAT-R, MiniGat-R, GRAPH-R]</action>-->
+                                    <action>step:2/minid2so</action>
+                                </miniD2S-O>
+                                <miniD2S-X>
+                                    <title>Mini D2S</title>
+                                    <subtitle>(X Lens)</subtitle>
+                                    <image><url>images/productcategory/projectors-D2S-X.svg</url></image>
+                                    <!--<action>step:2[PanaSquare-R, Apollo1Square-R, Gatling2.0Square-R, OcularSquare-R, Apollo2SQ-R]</action>-->
+                                    <action>step:2/minid2sx</action>
+                                </miniD2S-X>
+                                <fxr3.0>
+                                    <title>FX-R 3.0</title>
+                                    <image><url>images/productcategory/projectors-FXR.svg</url></image>
+                                    <!--<action>step:2[!MiniGat-R, GRAPH-R, MICROGAT-R, GATLING-R]</action>-->
+                                    <action>step:2/fxr30</action>
+                                </fxr3.0>
+                                <other>
+                                    <title>Other</title>
+                                    <image><url>images/productcategory/projectors-other.svg</url></image>
+                                    <!--<action>step:2[!MiniGat-R, GRAPH-R, MICROGAT-R]</action>-->
+                                    <action>step:2/other</action>
+                                </other>
+                            </options>
+                        </config>
+                    </action>
+                </block>
+                <block type="cartographee/buyersguide_layer_filter_step_generic" name="step_2" as="step_2" template="cartographee/buyersguide/step/Ribbon.phtml">
+                    <action method="setStepConfig">
+                        <config>
+                            <display_name>Reflector Shape</display_name>
+                            <step_question>What is the overall size/shape of your headlight reflector?</step_question>
+                            <step_desc>This will give you a good idea what shrouds would look best, but overall, the choice is purely aesthetic.
+                                Please note that trimming shrouds in retrofits is very common.</step_desc>
+                            <options>
+                                <round>
+                                    <title>Round</title>
+                                    <image><url>images/productcategory/shrouds-round.svg</url></image>
+                                    <action>
+                                        <minih1>sku:MiniGat-R, GRAPH-R, APOLLO-R, APOLLO2-R, APOLLO3-R, ORBIT-R, MCR-R, Panamera-R, GTIR-R, BULLET-R, GAT2.0-R, GATLING-R, G37C-R, G37-R</minih1>
+                                        <minid2so>sku:APOLLO-R, APOLLO2-R, APOLLO3-R, ORBIT-R, MCR-R, Panamera-R, GTIR-R, BULLET-R, G37C-R, G37-R</minid2so>
+                                        <minid2sx>sku:Gatling2.0Square-R</minid2sx>
+                                        <fxr30>sku:APOLLO-R, APOLLO2-R, APOLLO3-R, ORBIT-R, MCR-R, Panamera-R, BULLET-R, G37C-R, G37-R</fxr30>
+                                        <other>sku:APOLLO-R, APOLLO2-R, APOLLO3-R, ORBIT-R, MCR-R, Panamera-R, BULLET-R, G37C-R, G37-R</other>
+                                    </action>
+                                </round>
+                                <oval>
+                                    <title>Oval</title>
+                                    <image><url>images/productcategory/shrouds-oval.svg</url></image>
+                                    <action>
+                                        <minih1>sku:E55R-R, OCULAR-R</minih1>
+                                        <minid2so>sku:E55R-R, OCULAR-R</minid2so>
+                                        <minid2sx>sku:Apollo2SQ-R, OcularSquare-R</minid2sx>
+                                        <fxr30>sku:E55R-R, OCULAR-R</fxr30>
+                                        <other>sku:E55R-R, OCULAR-R</other>
+                                    </action>
+                                </oval>
+                                <flatsided>
+                                    <title>Flat-sided</title>
+                                    <image><url>images/productcategory/shrouds-flatsided.svg</url></image>
+                                    <action>
+                                        <minih1>sku:E46R-R, E46EXT-R, IRIS-R</minih1>
+                                        <minid2so>sku:E46R-R, E46EXT-R, IRIS-R</minid2so>
+                                        <minid2sx>sku:Apollo2SQ-R, OcularSquare-R</minid2sx>
+                                        <fxr30>sku:E46R-R, E46EXT-R, IRIS-R</fxr30>
+                                        <other>sku:E46R-R, E46EXT-R, IRIS-R</other>
+                                    </action>
+                                </flatsided>
+                                <big>
+                                    <title>Big</title>
+                                    <image><url>images/productcategory/shrouds-large.svg</url></image>
+                                    <action>
+                                        <minih1>sku:APOLLO-R, APOLLO2-R, APOLLO3-R, ORBIT-R, MCR-R, Panamera-R, BULLET-R, GAT2.0-R, GATLING-R, G37C-R, G37-R</minih1>
+                                        <minid2so>sku:APOLLO-R, APOLLO2-R, APOLLO3-R, ORBIT-R, MCR-R, BULLET-R, G37C-R, G37-R, Panamera-R</minid2so>
+                                        <minid2sx>sku:PanaSquare-R, Apollo1Square-R, Gatling2.0Square-R, Apollo2SQ-R</minid2sx>
+                                        <fxr30>sku:APOLLO-R, APOLLO2-R, APOLLO3-R, ORBIT-R, MCR-R, BULLET-R, G37C-R, G37-R, Panamera-R</fxr30>
+                                        <other>sku:APOLLO-R, APOLLO2-R, APOLLO3-R, ORBIT-R, MCR-R, BULLET-R, G37C-R, G37-R, Panamera-R</other>
+                                    </action>
+                                </big>
+                                <odd>
+                                    <title>Compact/Odd</title>
+                                    <image><url>images/productcategory/shrouds-small.svg</url></image>
+                                    <action>
+                                        <minih1>sku:MiniGat-R, GRAPH-R</minih1>
+                                        <minid2so>sku:E46-R, E46EXT-R, IRIS-R, BULLET-R</minid2so>
+                                        <minid2sx>sku:Gatling2.0Square-R, PanaSquare-R</minid2sx>
+                                        <fxr30>sku:E46-R, E46EXT-R, IRIS-R, BULLET-R</fxr30>
+                                        <other>sku:Gatling2.0Square-R, PanaSquare-R</other>
+                                    </action>
+                                </odd>
+                            </options>
+                        </config>
+                    </action>
+                </block>
+            </block>
+        </reference>
+    </buyersguide_shrouds>
+
+    <CATEGORY_26>
+        <update handle="buyersguide_shrouds"/>
+    </CATEGORY_26>
+
+
     <buyersguide_ballasts>
         <reference name="buyers_guide">
-            <action method="addContainerClass"><value>ballasts</value></action>
+            <action method="addContainerClass"><value>ballasts</value>
+            </action>
             <block type="cartographee/buyersguide_layer_filter_car" name="buyersguide_car_filter" as="car_filter" template="cartographee/buyersguide/toolbar/Car.phtml">
                 <action method="setNoFitAction"><value>step:1</value></action>
             </block>
@@ -13,17 +146,14 @@
                     <action method="setQ"><q>1</q></action>
                     <action method="setStepConfig">
                         <config>
-                            <!--<model>cartographee/buyersguide_layer_filter_chain_link_ballast_wattage</model>-->
                             <display_name>Light Output</display_name>
                             <step_question>How much light output do you need?</step_question>
                             <binary>
                                 <watt35>
                                     <title>35 Watt Ballast</title>
-                                    <!--<model>cartographee/buyersguide_layer_filter_ballast_wattage</model>-->
                                 </watt35>
                                 <watt55>
                                     <title>55 Watt Ballast</title>
-                                    <!--<model>cartographee/buyersguide_layer_filter_ballast_wattage</model>-->
                                 </watt55>
                             </binary>
                             <options>
@@ -31,10 +161,6 @@
                                     <binary>
                                         <watt35><action>step:2/w35</action></watt35>
                                         <watt55><action>step:2/w55</action></watt55>
-                                        <!--<watt35><action>step:2[d2s-35, d2r-35, h1-35, h3-35, h4-35, h7-35, h8-35, h9-35, h10-35, h11-35, h13-35, x880-35, x9005-35, x9006-35, x9007-35, x9012-35, d2h-35, h16-35]</action></watt35>-->
-                                        <!--<watt55><action>step:2[d2s-55, d2r-55, h1-55, h3-55, h4-55, h7-55, h8-55, h9-55, h10-55, h11-55, h13-55, x880-55, x9005-55, x9006-55, x9007-55, x9012-55, d2h-55, h16-55]</action></watt55>-->
-                                        <!--<watt35><action>(set wattage = 35); step:2</action></watt35>-->
-                                        <!--<watt55><action>(set wattage = 55); step:2</action></watt55>-->
                                     </binary>
                                 </wattage>
                             </options>
@@ -42,7 +168,8 @@
                     </action>
                 </block>
                 <block type="cartographee/buyersguide_layer_filter_step_generic" name="step_2" as="step_2" template="cartographee/buyersguide/step/Ribbon.phtml">
-                    <action method="setQ"><q>2</q></action>
+                    <action method="setQ"><q>2</q>
+                    </action>
                     <action method="setStepConfig">
                         <config>
                             <display_name>Bulb</display_name>
@@ -56,7 +183,8 @@
                                     </image>
                                     <action>
                                         <w35>sku:35D2S-R</w35>
-                                        <w55>sku:55D2S-R</w55></action>
+                                        <w55>sku:55D2S-R</w55>
+                                    </action>
                                 </d2s>
                                 <d2r>
                                     <title>D2R</title>
@@ -65,7 +193,8 @@
                                     </image>
                                     <action>
                                         <w35>sku:35D2S-R</w35>
-                                        <w55>sku:55D2S-R</w55></action>
+                                        <w55>sku:55D2S-R</w55>
+                                    </action>
                                 </d2r>
                                 <h1>
                                     <title>H1</title>
@@ -74,7 +203,8 @@
                                     </image>
                                     <action>
                                         <w35>sku:35AMP-R</w35>
-                                        <w55>sku:55AMP-R</w55></action>
+                                        <w55>sku:55AMP-R</w55>
+                                    </action>
                                 </h1>
                                 <h3>
                                     <title>H3</title>
@@ -83,7 +213,8 @@
                                     </image>
                                     <action>
                                         <w35>sku:35AMP-R</w35>
-                                        <w55>sku:55AMP-R</w55></action>
+                                        <w55>sku:55AMP-R</w55>
+                                    </action>
                                 </h3>
                                 <h4>
                                     <title>H4</title>
@@ -92,7 +223,8 @@
                                     </image>
                                     <action>
                                         <w35>sku:35AMP-R</w35>
-                                        <w55>sku:55AMP-R</w55></action>
+                                        <w55>sku:55AMP-R</w55>
+                                    </action>
                                 </h4>
                                 <h7>
                                     <title>H7</title>
@@ -101,7 +233,8 @@
                                     </image>
                                     <action>
                                         <w35>sku:35AMP-R</w35>
-                                        <w55>sku:55AMP-R</w55></action>
+                                        <w55>sku:55AMP-R</w55>
+                                    </action>
                                 </h7>
                                 <h8>
                                     <title>H8</title>
@@ -110,7 +243,8 @@
                                     </image>
                                     <action>
                                         <w35>sku:35AMP-R</w35>
-                                        <w55>sku:55AMP-R</w55></action>
+                                        <w55>sku:55AMP-R</w55>
+                                    </action>
                                 </h8>
                                 <h9>
                                     <title>H9</title>
@@ -119,7 +253,8 @@
                                     </image>
                                     <action>
                                         <w35>sku:35AMP-R</w35>
-                                        <w55>sku:55AMP-R</w55></action>
+                                        <w55>sku:55AMP-R</w55>
+                                    </action>
                                 </h9>
                                 <h10>
                                     <title>H10</title>
@@ -128,7 +263,8 @@
                                     </image>
                                     <action>
                                         <w35>sku:35AMP-R</w35>
-                                        <w55>sku:55AMP-R</w55></action>
+                                        <w55>sku:55AMP-R</w55>
+                                    </action>
                                 </h10>
                                 <h11>
                                     <title>H11</title>
@@ -137,7 +273,8 @@
                                     </image>
                                     <action>
                                         <w35>sku:35AMP-R</w35>
-                                        <w55>sku:55AMP-R</w55></action>
+                                        <w55>sku:55AMP-R</w55>
+                                    </action>
                                 </h11>
                                 <h13>
                                     <title>H13</title>
@@ -146,7 +283,8 @@
                                     </image>
                                     <action>
                                         <w35>sku:35AMP-R</w35>
-                                        <w55>sku:55AMP-R</w55></action>
+                                        <w55>sku:55AMP-R</w55>
+                                    </action>
                                 </h13>
                                 <x880>
                                     <title>880</title>
@@ -155,7 +293,8 @@
                                     </image>
                                     <action>
                                         <w35>sku:35AMP-R</w35>
-                                        <w55>sku:55AMP-R</w55></action>
+                                        <w55>sku:55AMP-R</w55>
+                                    </action>
                                 </x880>
                                 <x9005>
                                     <title>9005</title>
@@ -164,7 +303,8 @@
                                     </image>
                                     <action>
                                         <w35>sku:35AMP-R</w35>
-                                        <w55>sku:55AMP-R</w55></action>
+                                        <w55>sku:55AMP-R</w55>
+                                    </action>
                                 </x9005>
                                 <x9006>
                                     <title>9006</title>
@@ -173,7 +313,8 @@
                                     </image>
                                     <action>
                                         <w35>sku:35AMP-R</w35>
-                                        <w55>sku:55AMP-R</w55></action>
+                                        <w55>sku:55AMP-R</w55>
+                                    </action>
                                 </x9006>
                                 <x9007>
                                     <title>9007</title>
@@ -182,7 +323,8 @@
                                     </image>
                                     <action>
                                         <w35>sku:35AMP-R</w35>
-                                        <w55>sku:55AMP-R</w55></action>
+                                        <w55>sku:55AMP-R</w55>
+                                    </action>
                                 </x9007>
                                 <x9012>
                                     <title>9012</title>
@@ -191,7 +333,8 @@
                                     </image>
                                     <action>
                                         <w35>sku:35AMP-R</w35>
-                                        <w55>sku:55AMP-R</w55></action>
+                                        <w55>sku:55AMP-R</w55>
+                                    </action>
                                 </x9012>
                                 <d2h>
                                     <title>D2H</title>
@@ -200,7 +343,8 @@
                                     </image>
                                     <action>
                                         <w35>sku:35AMP-R</w35>
-                                        <w55>sku:55AMP-R</w55></action>
+                                        <w55>sku:55AMP-R</w55>
+                                    </action>
                                 </d2h>
                                 <h16>
                                     <title>H16</title>
@@ -209,262 +353,9 @@
                                     </image>
                                     <action>
                                         <w35>sku:35AMP-R</w35>
-                                        <w55>sku:55AMP-R</w55></action>
+                                        <w55>sku:55AMP-R</w55>
+                                    </action>
                                 </h16>
-                                <!--<d2s-35>-->
-                                <!--<title>D2S</title>-->
-                                <!--<image>-->
-                                <!--<url>images/productcategory/bulbs-D2S.svg</url>-->
-                                <!--</image>-->
-                                <!--<action>sku:35D2S-R</action>-->
-                                <!--</d2s-35>-->
-                                <!--<d2r-35>-->
-                                <!--<title>D2R</title>-->
-                                <!--<image>-->
-                                <!--<url>images/productcategory/bulbs-D2R.svg</url>-->
-                                <!--</image>-->
-                                <!--<action>sku:35D2S-R</action>-->
-                                <!--</d2r-35>-->
-                                <!--<h1-35>-->
-                                <!--<title>H1</title>-->
-                                <!--<image>-->
-                                <!--<url>images/productcategory/bulbs-h1.svg</url>-->
-                                <!--</image>-->
-                                <!--<action>sku:35AMP-R</action>-->
-                                <!--</h1-35>-->
-                                <!--<h3-35>-->
-                                <!--<title>H3</title>-->
-                                <!--<image>-->
-                                <!--<url>images/productcategory/bulbs-h3.svg</url>-->
-                                <!--</image>-->
-                                <!--<action>sku:35AMP-R</action>-->
-                                <!--</h3-35>-->
-                                <!--<h4-35>-->
-                                <!--<title>H4</title>-->
-                                <!--<image>-->
-                                <!--<url>images/productcategory/bulbs-h4.svg</url>-->
-                                <!--</image>-->
-                                <!--<action>sku:35AMP-R</action>-->
-                                <!--</h4-35>-->
-                                <!--<h7-35>-->
-                                <!--<title>H7</title>-->
-                                <!--<image>-->
-                                <!--<url>images/productcategory/bulbs-h7.svg</url>-->
-                                <!--</image>-->
-                                <!--<action>sku:35AMP-R</action>-->
-                                <!--</h7-35>-->
-                                <!--<h8-35>-->
-                                <!--<title>H8</title>-->
-                                <!--<image>-->
-                                <!--<url>images/productcategory/bulbs-h8.svg</url>-->
-                                <!--</image>-->
-                                <!--<action>sku:35AMP-R</action>-->
-                                <!--</h8-35>-->
-                                <!--<h9-35>-->
-                                <!--<title>H9</title>-->
-                                <!--<image>-->
-                                <!--<url>images/productcategory/bulbs-h9.svg</url>-->
-                                <!--</image>-->
-                                <!--<action>sku:35AMP-R</action>-->
-                                <!--</h9-35>-->
-                                <!--<h10-35>-->
-                                <!--<title>H10</title>-->
-                                <!--<image>-->
-                                <!--<url>images/productcategory/bulbs-h10.svg</url>-->
-                                <!--</image>-->
-                                <!--<action>sku:35AMP-R</action>-->
-                                <!--</h10-35>-->
-                                <!--<h11-35>-->
-                                <!--<title>H11</title>-->
-                                <!--<image>-->
-                                <!--<url>images/productcategory/bulbs-h11.svg</url>-->
-                                <!--</image>-->
-                                <!--<action>sku:35AMP-R</action>-->
-                                <!--</h11-35>-->
-                                <!--<h13-35>-->
-                                <!--<title>H13</title>-->
-                                <!--<image>-->
-                                <!--<url>images/productcategory/bulbs-h13.svg</url>-->
-                                <!--</image>-->
-                                <!--<action>sku:35AMP-R</action>-->
-                                <!--</h13-35>-->
-                                <!--<x880-35>-->
-                                <!--<title>880</title>-->
-                                <!--<image>-->
-                                <!--<url>images/productcategory/bulbs-880.svg</url>-->
-                                <!--</image>-->
-                                <!--<action>sku:35AMP-R</action>-->
-                                <!--</x880-35>-->
-                                <!--<x9005-35>-->
-                                <!--<title>9005</title>-->
-                                <!--<image>-->
-                                <!--<url>images/productcategory/bulbs-9005.svg</url>-->
-                                <!--</image>-->
-                                <!--<action>sku:35AMP-R</action>-->
-                                <!--</x9005-35>-->
-                                <!--<x9006-35>-->
-                                <!--<title>9006</title>-->
-                                <!--<image>-->
-                                <!--<url>images/productcategory/bulbs-9006.svg</url>-->
-                                <!--</image>-->
-                                <!--<action>sku:35AMP-R</action>-->
-                                <!--</x9006-35>-->
-                                <!--<x9007-35>-->
-                                <!--<title>9007</title>-->
-                                <!--<image>-->
-                                <!--<url>images/productcategory/bulbs-9007.svg</url>-->
-                                <!--</image>-->
-                                <!--<action>sku:35AMP-R</action>-->
-                                <!--</x9007-35>-->
-                                <!--<x9012-35>-->
-                                <!--<title>9012</title>-->
-                                <!--<image>-->
-                                <!--<url>images/productcategory/bulbs-9012.svg</url>-->
-                                <!--</image>-->
-                                <!--<action>sku:35AMP-R</action>-->
-                                <!--</x9012-35>-->
-                                <!--<d2h-35>-->
-                                <!--<title>D2H</title>-->
-                                <!--<image>-->
-                                <!--<url>images/productcategory/bulbs-D2H.svg</url>-->
-                                <!--</image>-->
-                                <!--<action>sku:35AMP-R</action>-->
-                                <!--</d2h-35>-->
-                                <!--<h16-35>-->
-                                <!--<title>H16</title>-->
-                                <!--<image>-->
-                                <!--<url>images/productcategory/bulbs-h16.svg</url>-->
-                                <!--</image>-->
-                                <!--<action>sku:35AMP-R</action>-->
-                                <!--</h16-35>-->
-
-
-                                <!--<d2s-55>-->
-                                <!--<title>D2S</title>-->
-                                <!--<image>-->
-                                <!--<url>images/productcategory/bulbs-D2S.svg</url>-->
-                                <!--</image>-->
-                                <!--<action>sku:55D2S-R</action>-->
-                                <!--</d2s-55>-->
-                                <!--<d2r-55>-->
-                                <!--<title>D2R</title>-->
-                                <!--<image>-->
-                                <!--<url>images/productcategory/bulbs-D2R.svg</url>-->
-                                <!--</image>-->
-                                <!--<action>sku:55D2S-R</action>-->
-                                <!--</d2r-55>-->
-                                <!--<h1-55>-->
-                                <!--<title>H1</title>-->
-                                <!--<image>-->
-                                <!--<url>images/productcategory/bulbs-h1.svg</url>-->
-                                <!--</image>-->
-                                <!--<action>sku:55AMP-R</action>-->
-                                <!--</h1-55>-->
-                                <!--<h3-55>-->
-                                <!--<title>H3</title>-->
-                                <!--<image>-->
-                                <!--<url>images/productcategory/bulbs-h3.svg</url>-->
-                                <!--</image>-->
-                                <!--<action>sku:55AMP-R</action>-->
-                                <!--</h3-55>-->
-                                <!--<h4-55>-->
-                                <!--<title>H4</title>-->
-                                <!--<image>-->
-                                <!--<url>images/productcategory/bulbs-h4.svg</url>-->
-                                <!--</image>-->
-                                <!--<action>sku:55AMP-R</action>-->
-                                <!--</h4-55>-->
-                                <!--<h7-55>-->
-                                <!--<title>H7</title>-->
-                                <!--<image>-->
-                                <!--<url>images/productcategory/bulbs-h7.svg</url>-->
-                                <!--</image>-->
-                                <!--<action>sku:55AMP-R</action>-->
-                                <!--</h7-55>-->
-                                <!--<h8-55>-->
-                                <!--<title>H8</title>-->
-                                <!--<image>-->
-                                <!--<url>images/productcategory/bulbs-h8.svg</url>-->
-                                <!--</image>-->
-                                <!--<action>sku:55AMP-R</action>-->
-                                <!--</h8-55>-->
-                                <!--<h9-55>-->
-                                <!--<title>H9</title>-->
-                                <!--<image>-->
-                                <!--<url>images/productcategory/bulbs-h9.svg</url>-->
-                                <!--</image>-->
-                                <!--<action>sku:55AMP-R</action>-->
-                                <!--</h9-55>-->
-                                <!--<h10-55>-->
-                                <!--<title>H10</title>-->
-                                <!--<image>-->
-                                <!--<url>images/productcategory/bulbs-h10.svg</url>-->
-                                <!--</image>-->
-                                <!--<action>sku:55AMP-R</action>-->
-                                <!--</h10-55>-->
-                                <!--<h11-55>-->
-                                <!--<title>H11</title>-->
-                                <!--<image>-->
-                                <!--<url>images/productcategory/bulbs-h11.svg</url>-->
-                                <!--</image>-->
-                                <!--<action>sku:55AMP-R</action>-->
-                                <!--</h11-55>-->
-                                <!--<h13-55>-->
-                                <!--<title>H13</title>-->
-                                <!--<image>-->
-                                <!--<url>images/productcategory/bulbs-h13.svg</url>-->
-                                <!--</image>-->
-                                <!--<action>sku:55AMP-R</action>-->
-                                <!--</h13-55>-->
-                                <!--<x880-55>-->
-                                <!--<title>880</title>-->
-                                <!--<image>-->
-                                <!--<url>images/productcategory/bulbs-880.svg</url>-->
-                                <!--</image>-->
-                                <!--<action>sku:55AMP-R</action>-->
-                                <!--</x880-55>-->
-                                <!--<x9005-55>-->
-                                <!--<title>9005</title>-->
-                                <!--<image>-->
-                                <!--<url>images/productcategory/bulbs-9005.svg</url>-->
-                                <!--</image>-->
-                                <!--<action>sku:55AMP-R</action>-->
-                                <!--</x9005-55>-->
-                                <!--<x9006-55>-->
-                                <!--<title>9006</title>-->
-                                <!--<image>-->
-                                <!--<url>images/productcategory/bulbs-9006.svg</url>-->
-                                <!--</image>-->
-                                <!--<action>sku:55AMP-R</action>-->
-                                <!--</x9006-55>-->
-                                <!--<x9007-55>-->
-                                <!--<title>9007</title>-->
-                                <!--<image>-->
-                                <!--<url>images/productcategory/bulbs-9007.svg</url>-->
-                                <!--</image>-->
-                                <!--<action>sku:55AMP-R</action>-->
-                                <!--</x9007-55>-->
-                                <!--<x9012-55>-->
-                                <!--<title>9012</title>-->
-                                <!--<image>-->
-                                <!--<url>images/productcategory/bulbs-9012.svg</url>-->
-                                <!--</image>-->
-                                <!--<action>sku:55AMP-R</action>-->
-                                <!--</x9012-55>-->
-                                <!--<d2h-55>-->
-                                <!--<title>D2H</title>-->
-                                <!--<image>-->
-                                <!--<url>images/productcategory/bulbs-D2H.svg</url>-->
-                                <!--</image>-->
-                                <!--<action>sku:55AMP-R</action>-->
-                                <!--</d2h-55>-->
-                                <!--<h16-55>-->
-                                <!--<title>H16</title>-->
-                                <!--<image>-->
-                                <!--<url>images/productcategory/bulbs-h16.svg</url>-->
-                                <!--</image>-->
-                                <!--<action>sku:55AMP-R</action>-->
-                                <!--</h16-55>-->
                             </options>
                         </config>
                     </action>
@@ -481,7 +372,8 @@
 
     <buyersguide_housings>
         <reference name="buyers_guide">
-            <action method="addContainerClass"><value>bulbs</value></action>
+            <action method="addContainerClass"><value>bulbs</value>
+            </action>
             <block type="cartographee/buyersguide_layer_filter_car" name="buyersguide_car_filter" as="car_filter" template="cartographee/buyersguide/toolbar/Car.phtml"/>
             <block type="cartographee/buyersguide_layer_filter_step_generic" name="buyersguide_toolbar_supplemental" as="buyersguide_toolbar_supplemental" template="cartographee/buyersguide/toolbar/Supplemental.phtml">
                 <action method="setStepConfig">
@@ -516,7 +408,8 @@
 
     <buyersguide_leds>
         <reference name="buyers_guide">
-            <action method="addContainerClass"><value>bulbs</value></action>
+            <action method="addContainerClass"><value>bulbs</value>
+            </action>
             <block type="cartographee/buyersguide_layer_filter_car" name="buyersguide_car_filter" as="car_filter" template="cartographee/buyersguide/toolbar/Car.phtml"/>
             <block type="cartographee/buyersguide_layer_filter_step_generic" name="buyersguide_toolbar_supplemental" as="buyersguide_toolbar_supplemental" template="cartographee/buyersguide/toolbar/Supplemental.phtml">
                 <action method="setStepConfig">
@@ -575,7 +468,8 @@
 
     <buyersguide_lenses>
         <reference name="buyers_guide">
-            <action method="addContainerClass"><value>lenses</value></action>
+            <action method="addContainerClass"><value>lenses</value>
+            </action>
             <block type="cartographee/buyersguide_layer_filter_car" name="buyersguide_car_filter" as="car_filter" template="cartographee/buyersguide/toolbar/Car.phtml"/>
             <block type="cartographee/buyersguide_layer_filter_step_container" name="buyersguide_steps" as="buyersguide_steps" template="cartographee/buyersguide/step/Container.phtml"/>
         </reference>
@@ -589,7 +483,8 @@
 
     <buyersguide_harnesses>
         <reference name="buyers_guide">
-            <action method="addContainerClass"><value>bulbs</value></action>
+            <action method="addContainerClass"><value>bulbs</value>
+            </action>
             <block type="cartographee/buyersguide_layer_filter_car" name="buyersguide_car_filter" as="car_filter" template="cartographee/buyersguide/toolbar/Car.phtml"/>
             <block type="cartographee/buyersguide_layer_filter_step_generic" name="buyersguide_toolbar_supplemental" as="buyersguide_toolbar_supplemental" template="cartographee/buyersguide/toolbar/Supplemental.phtml">
                 <action method="setStepConfig">
@@ -626,7 +521,8 @@
 
     <buyersguide_hidbulbs>
         <reference name="buyers_guide">
-            <action method="addContainerClass"><value>bulbs</value></action>
+            <action method="addContainerClass"><value>bulbs</value>
+            </action>
             <block type="cartographee/buyersguide_layer_filter_car" name="buyersguide_car_filter" as="car_filter" template="cartographee/buyersguide/toolbar/Car.phtml"/>
             <block type="cartographee/buyersguide_layer_filter_step_generic" name="buyersguide_toolbar_supplemental" as="buyersguide_toolbar_supplemental" template="cartographee/buyersguide/toolbar/Supplemental.phtml">
                 <action method="setStepConfig">
@@ -665,7 +561,8 @@
 
     <buyersguide_projectors>
         <reference name="buyers_guide">
-            <action method="addContainerClass"><value>projectors</value></action>
+            <action method="addContainerClass"><value>projectors</value>
+            </action>
             <block type="cartographee/buyersguide_layer_filter_car" name="buyersguide_car_filter" as="car_filter" template="cartographee/buyersguide/toolbar/Car.phtml"/>
             <block type="cartographee/buyersguide_layer_filter_step_generic" name="buyersguide_toolbar_supplemental" as="buyersguide_toolbar_supplemental" template="cartographee/buyersguide/toolbar/Supplemental.phtml">
                 <action method="setStepConfig">
@@ -690,7 +587,8 @@
             </block>
             <block type="cartographee/buyersguide_layer_filter_step_container" name="buyersguide_steps" as="buyersguide_steps" template="cartographee/buyersguide/step/Container.phtml">
                 <block type="cartographee/buyersguide_layer_filter_step_generic" name="step_1" as="step_1" template="cartographee/buyersguide/step/Diagram.phtml">
-                    <action method="setQ"><q>1</q></action>
+                    <action method="setQ"><q>1</q>
+                    </action>
                     <action method="setStepConfig">
                         <config>
                             <display_name>Projector Size</display_name>
@@ -729,7 +627,8 @@
                     </action>
                 </block>
                 <block type="cartographee/buyersguide_layer_filter_step_generic" name="step_2" as="step_2" template="cartographee/buyersguide/step/Performance.phtml">
-                    <action method="setQ"><q>2</q></action>
+                    <action method="setQ"><q>2</q>
+                    </action>
                     <action method="setStepConfig">
                         <config>
                             <display_name>Performance/Install Balance</display_name>
@@ -789,7 +688,8 @@
                     </action>
                 </block>
                 <block type="cartographee/buyersguide_layer_filter_step_generic" name="step_3" as="step_3" template="cartographee/buyersguide/step/Binary.phtml">
-                    <action method="setQ"><q>3</q></action>
+                    <action method="setQ"><q>3</q>
+                    </action>
                     <action method="setStepConfig">
                         <config>
                             <display_name>Pattern</display_name>
@@ -819,20 +719,26 @@
                             <options>
                                 <MH16.0-R>
                                     <binary>
-                                        <lhd><action>sku:MH16.0-R[MH16-LH]</action></lhd>
-                                        <rhd><action>sku:MH16.0-R[MH16-RH]</action></rhd>
+                                        <lhd><action>sku:MH16.0-R[MH16-LH]</action>
+                                        </lhd>
+                                        <rhd><action>sku:MH16.0-R[MH16-RH]</action>
+                                        </rhd>
                                     </binary>
                                 </MH16.0-R>
                                 <MD2S3.0-R>
                                     <binary>
-                                        <lhd><action>sku:MD2S3.0-R[MD2S-3LH]</action></lhd>
-                                        <rhd><action>sku:MD2S3.0-R[MD2S-3RH]</action></rhd>
+                                        <lhd><action>sku:MD2S3.0-R[MD2S-3LH]</action>
+                                        </lhd>
+                                        <rhd><action>sku:MD2S3.0-R[MD2S-3RH]</action>
+                                        </rhd>
                                     </binary>
                                 </MD2S3.0-R>
                                 <FXR3.0-R>
                                     <binary>
-                                        <lhd><action>sku:FXR3.0-R[FXR3-3LH]</action></lhd>
-                                        <rhd><action>sku:FXR3.0-R[FXR3-3RH]</action></rhd>
+                                        <lhd><action>sku:FXR3.0-R[FXR3-3LH]</action>
+                                        </lhd>
+                                        <rhd><action>sku:FXR3.0-R[FXR3-3RH]</action>
+                                        </rhd>
                                     </binary>
                                 </FXR3.0-R>
                             </options>

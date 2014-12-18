@@ -509,14 +509,15 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
             if (matches[2].charAt(0) === '/') {
                 optionsToShow['group'] = matches[2].substr(1).split(',');
             }
-            if (matches[2].charAt(0) === '[') {
-                optionsToShow['id'] = matches[2].substr(1, matches[2].length - 2).split(',').map(function (opt) { return opt.trim(); });
-            }
-            console.log('options to show:');
-            console.log(optionsToShow);
         }
 
-        _remainder = matchCount >= 4 ? matchCount[3] : '';
+        if (matchCount >= 4 && matches[3]) {
+            if (matches[3].charAt(0) === '[') {
+                optionsToShow['id'] = matches[3].substr(1, matches[3].length - 2).split(',').map(function (opt) { return opt.trim(); });
+            }
+        }
+
+        _remainder = matchCount >= 5 ? matchCount[4] : '';
         this.moveToStep(stepId, optionsToShow);
 
         return _remainder;

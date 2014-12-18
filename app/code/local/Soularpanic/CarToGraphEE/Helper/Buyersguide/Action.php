@@ -84,47 +84,42 @@ class Soularpanic_CarToGraphEE_Helper_Buyersguide_Action
     }
 
 
-    protected function _substituteComplexes($filter, $value) {
-        $compiled = '';
-        $token = strtok($value, '()');
-        while ($token !== false) {
-            $this->log("token: -{$token}-");
-            $pos = strpos($token, 'get ');
-            $this->log("get position: $pos");
-            if ($pos === 0) {
-                $varName = trim(substr($token, 3));
-                $compiled .= $this->_getChainVar($filter, $varName);
-            }
-            else {
-                $compiled .= $token;
-            }
-            $token = strtok('()');
-        }
-        return $compiled;
-    }
-
-
     protected function _applySkuToCollection($filter, $skuAction) {
         $this->log("applying sku action");
-        $matches = [];
-        $matched = preg_match('/^([^\[]+)(?:\[([^\]]+)\])?$/', $skuAction, $matches);
 
-        if ($matched) {
-            $this->log("sku matches: ".print_r($matches, true));
-            $select = $filter->getLayer()->getProductCollection()->getSelect();
-            $sku = $this->_substituteComplexes($filter, $matches[1]);
-            $select->where("e.sku = '{$sku}'");
+        $skuPairs = explode(',', $skuAction);
 
-            if (count($matches) > 1) {
-                $preselector = $matches[2];
-                $select->joinLeft(new Zend_Db_Expr("(select '{$sku}' as sku, '{$preselector}' as preselect)"),
-                    "e.sku = '{$sku}'",
-                    ['preselect']
-                );
+        $skuPreselects = [];
+
+        foreach ($skuPairs as $skuPair) {
+            $matches = [];
+            $matched = preg_match('/^([^\[]+)(?:\[([^\]]+)\])?$/', trim($skuPair), $matches);
+
+            if ($matched) {
+                $sku = $matches[1];
+                $preselect = count($matches > 1) ? $matches[2] : '';
+                $skuPreselects[$sku] = $preselect;
             }
-
-            $this->log("sku SQL:\n".$select->__toString());
         }
+
+        $skuInStmt = "e.sku in ('" . implode("', '", array_keys($skuPreselects)) . "')";
+
+        $preselectStmtArr = array_map(
+            function($sku, $preselector) { return "select '{$sku}' as sku, '{$preselector}' as preselect"; },
+            array_keys($skuPreselects),
+            $skuPreselects
+        );
+
+        $preselectStmt = '('.implode(' union ', $preselectStmtArr).')';
+
+        $select = $filter->getLayer()->getProductCollection()->getSelect();
+        $select
+            ->joinLeft(['preselects' => new Zend_Db_Expr($preselectStmt)],
+                "e.sku = preselects.sku",
+                ['preselect'])
+            ->where($skuInStmt);
+
+        $this->log("sku SQL:\n".$select->__toString());
     }
 
 
