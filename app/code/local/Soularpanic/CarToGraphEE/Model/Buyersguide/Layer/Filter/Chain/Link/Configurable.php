@@ -14,6 +14,11 @@ class Soularpanic_CarToGraphEE_Model_Buyersguide_Layer_Filter_Chain_Link_Configu
             return false;
         }
 
+        if ($this->getApplyToDirectFit() && !$chainState['has_direct_fit']) {
+            Mage::log("this link applies to direct fits but there aren't any!", null, 'trs_guide.log');
+            return false;
+        }
+
         $requestVar = $this->getId();
         Mage::log("configurable searching for '{$requestVar}'", null, 'trs_guide.log');
         $value = $request->getParam($requestVar);
@@ -31,7 +36,9 @@ class Soularpanic_CarToGraphEE_Model_Buyersguide_Layer_Filter_Chain_Link_Configu
             }
         }
 
-        if ($selectedOption) {
+        Mage::log("selected option: ".($selectedOption ? "{$selectedOption->getId()}/{$selectedOption->getAction()}" : "NOTHING"), null, 'trs_guide.log');
+
+        if ($selectedOption && $selectedOption->getAction()) {
             $chainState['action'] = $selectedOption->getAction();
             $this->setChainState($chainState);
             Mage::log("chain state at action check: [".print_r($this->getChainState(), true).']', null, 'trs_guide.log');

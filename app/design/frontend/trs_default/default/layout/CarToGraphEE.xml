@@ -2,6 +2,278 @@
 
 <layout version="0.1.0">
 
+    <!--<buyersguide_completekits>-->
+
+    <!--</buyersguide_completekits>-->
+    <!--<CATEGORY_5>-->
+    <!--<update handle="buyersguide_completekits"/>-->
+    <!--</CATEGORY_5>-->
+
+
+
+    <buyersguide_hidsystems>
+        <reference name="buyers_guide">
+            <action method="addContainerClass"><value>hidsystems</value></action>
+            <block type="cartographee/buyersguide_layer_filter_car" name="buyersguide_car_filter" as="car_filter" template="cartographee/buyersguide/toolbar/Car.phtml">
+                <action method="setDirectFitBundleTargets"><targets>HID Bulbs, Harnesses</targets></action>
+                <action method="setDirectFitAction"><value>step:1</value></action>
+                <!--<action method="setNoFitAction"><value>step:1</value></action>-->
+
+            </block>
+            <block type="cartographee/buyersguide_layer_filter_step_generic" name="buyersguide_toolbar_supplemental" as="buyersguide_toolbar_supplemental" template="cartographee/buyersguide/toolbar/Supplemental.phtml">
+                <action method="setStepConfig">
+                    <config>
+                        <id>hidbulb_function</id>
+                        <apply_to_direct_fit>true</apply_to_direct_fit>
+                        <options>
+                            <all>
+                                <title>All Function Types</title>
+                                <action>step:1</action>
+                            </all>
+                            <high>
+                                <title>High Beams</title>
+                                <action>sql:type=high</action>
+                            </high>
+                            <low>
+                                <title>Low Beams</title>
+                                <action>sql:type=low</action>
+                            </low>
+                            <fog>
+                                <title>Fog Lights</title>
+                                <action>sql:type=fog</action>
+                            </fog>
+                        </options>
+                    </config>
+                </action>
+            </block>
+            <block type="cartographee/buyersguide_layer_filter_step_container" name="buyersguide_steps" as="buyersguide_steps" template="cartographee/buyersguide/step/Container.phtml">
+                <block type="cartographee/buyersguide_layer_filter_step_hidsystems_wattage" name="step_1" as="step_1" template="cartographee/buyersguide/step/Binary.phtml">
+                    <action method="setQ"><q>1</q></action>
+                    <action method="setStepConfig">
+                        <config>
+                            <apply_to_direct_fit>true</apply_to_direct_fit>
+                            <display_name>Light Output</display_name>
+                            <step_question>How much light output do you need?</step_question>
+                            <binary>
+                                <watt35>
+                                    <title>35 Watt Ballast</title>
+                                </watt35>
+                                <watt55>
+                                    <title>55 Watt Ballast</title>
+                                </watt55>
+                            </binary>
+                            <options>
+                                <wattage>
+                                    <binary>
+                                        <watt35><action>step:2/w35</action></watt35>
+                                        <watt55><action>step:2/w55</action></watt55>
+                                    </binary>
+                                </wattage>
+                            </options>
+                        </config>
+                    </action>
+                </block>
+                <block type="cartographee/buyersguide_layer_filter_step_generic" name="step_2" as="step_2" template="cartographee/buyersguide/step/Ribbon.phtml">
+                    <action method="setQ"><q>1</q></action>
+                    <action method="setStepConfig">
+                        <config>
+                            <apply_to_direct_fit>true</apply_to_direct_fit>
+                            <display_name>Bulb</display_name>
+                            <step_question>What HID bulbs will you be running with the ballasts?</step_question>
+                            <step_desc>This will determine whether you need them for "AMP" or "D2" Fitment</step_desc>
+                            <options>
+                                <d2s>
+                                    <title>D2S</title>
+                                    <image>
+                                        <url>images/productcategory/bulbs-D2S.svg</url>
+                                    </image>
+                                    <action>
+                                        <w35>bundle:35D2S-DSP</w35>
+                                        <w55>bundle:55D2S-DSP</w55>
+                                    </action>
+                                </d2s>
+                                <d2r>
+                                    <title>D2R</title>
+                                    <image>
+                                        <url>images/productcategory/bulbs-D2R.svg</url>
+                                    </image>
+                                    <action>
+                                        <w35>bundle:35D2S-DSP</w35>
+                                        <w55>bundle:55D2S-DSP</w55>
+                                    </action>
+                                </d2r>
+                                <h1>
+                                    <title>H1</title>
+                                    <image>
+                                        <url>images/productcategory/bulbs-h1.svg</url>
+                                    </image>
+                                    <action>
+                                        <w35>bundle:35AMP-DSP</w35>
+                                        <w55>bundle:55AMP-DSP</w55>
+                                    </action>
+                                </h1>
+                                <h3>
+                                    <title>H3</title>
+                                    <image>
+                                        <url>images/productcategory/bulbs-h3.svg</url>
+                                    </image>
+                                    <action>
+                                        <w35>bundle:35AMP-DSP</w35>
+                                        <w55>bundle:55AMP-DSP</w55>
+                                    </action>
+                                </h3>
+                                <h4>
+                                    <title>H4</title>
+                                    <image>
+                                        <url>images/productcategory/bulbs-h4.svg</url>
+                                    </image>
+                                    <action>
+                                        <w35>bundle:35AMP-DSP</w35>
+                                        <w55>bundle:55AMP-DSP</w55>
+                                    </action>
+                                </h4>
+                                <h7>
+                                    <title>H7</title>
+                                    <image>
+                                        <url>images/productcategory/bulbs-h7.svg</url>
+                                    </image>
+                                    <action>
+                                        <w35>bundle:35AMP-DSP</w35>
+                                        <w55>bundle:55AMP-DSP</w55>
+                                    </action>
+                                </h7>
+                                <h8>
+                                    <title>H8</title>
+                                    <image>
+                                        <url>images/productcategory/bulbs-h8.svg</url>
+                                    </image>
+                                    <action>
+                                        <w35>bundle:35AMP-DSP</w35>
+                                        <w55>bundle:55AMP-DSP</w55>
+                                    </action>
+                                </h8>
+                                <h9>
+                                    <title>H9</title>
+                                    <image>
+                                        <url>images/productcategory/bulbs-h9.svg</url>
+                                    </image>
+                                    <action>
+                                        <w35>bundle:35AMP-DSP</w35>
+                                        <w55>bundle:55AMP-DSP</w55>
+                                    </action>
+                                </h9>
+                                <h10>
+                                    <title>H10</title>
+                                    <image>
+                                        <url>images/productcategory/bulbs-h10.svg</url>
+                                    </image>
+                                    <action>
+                                        <w35>bundle:35AMP-DSP</w35>
+                                        <w55>bundle:55AMP-DSP</w55>
+                                    </action>
+                                </h10>
+                                <h11>
+                                    <title>H11</title>
+                                    <image>
+                                        <url>images/productcategory/bulbs-h11.svg</url>
+                                    </image>
+                                    <action>
+                                        <w35>bundle:35AMP-DSP</w35>
+                                        <w55>bundle:55AMP-DSP</w55>
+                                    </action>
+                                </h11>
+                                <h13>
+                                    <title>H13</title>
+                                    <image>
+                                        <url>images/productcategory/bulbs-h13.svg</url>
+                                    </image>
+                                    <action>
+                                        <w35>bundle:35AMP-DSP</w35>
+                                        <w55>bundle:55AMP-DSP</w55>
+                                    </action>
+                                </h13>
+                                <x880>
+                                    <title>880</title>
+                                    <image>
+                                        <url>images/productcategory/bulbs-880.svg</url>
+                                    </image>
+                                    <action>
+                                        <w35>bundle:35AMP-DSP</w35>
+                                        <w55>bundle:55AMP-DSP</w55>
+                                    </action>
+                                </x880>
+                                <x9005>
+                                    <title>9005</title>
+                                    <image>
+                                        <url>images/productcategory/bulbs-9005.svg</url>
+                                    </image>
+                                    <action>
+                                        <w35>bundle:35AMP-DSP</w35>
+                                        <w55>bundle:55AMP-DSP</w55>
+                                    </action>
+                                </x9005>
+                                <x9006>
+                                    <title>9006</title>
+                                    <image>
+                                        <url>images/productcategory/bulbs-9006.svg</url>
+                                    </image>
+                                    <action>
+                                        <w35>bundle:35AMP-DSP</w35>
+                                        <w55>bundle:55AMP-DSP</w55>
+                                    </action>
+                                </x9006>
+                                <x9007>
+                                    <title>9007</title>
+                                    <image>
+                                        <url>images/productcategory/bulbs-9007.svg</url>
+                                    </image>
+                                    <action>
+                                        <w35>bundle:35AMP-DSP</w35>
+                                        <w55>bundle:55AMP-DSP</w55>
+                                    </action>
+                                </x9007>
+                                <x9012>
+                                    <title>9012</title>
+                                    <image>
+                                        <url>images/productcategory/bulbs-9012.svg</url>
+                                    </image>
+                                    <action>
+                                        <w35>bundle:35AMP-DSP</w35>
+                                        <w55>bundle:55AMP-DSP</w55>
+                                    </action>
+                                </x9012>
+                                <d2h>
+                                    <title>D2H</title>
+                                    <image>
+                                        <url>images/productcategory/bulbs-D2H.svg</url>
+                                    </image>
+                                    <action>
+                                        <w35>bundle:35AMP-DSP</w35>
+                                        <w55>bundle:55AMP-DSP</w55>
+                                    </action>
+                                </d2h>
+                                <h16>
+                                    <title>H16</title>
+                                    <image>
+                                        <url>images/productcategory/bulbs-h16.svg</url>
+                                    </image>
+                                    <action>
+                                        <w35>bundle:35AMP-DSP</w35>
+                                        <w55>bundle:55AMP-DSP</w55>
+                                    </action>
+                                </h16>
+                            </options>
+                        </config>
+                    </action>
+                </block>
+            </block>
+        </reference>
+    </buyersguide_hidsystems>
+    <CATEGORY_4>
+        <update handle="buyersguide_hidsystems"/>
+    </CATEGORY_4>
+
+
     <buyersguide_shrouds>
         <reference name="buyers_guide">
             <action method="addContainerClass"><value>shrouds</value></action>
@@ -26,32 +298,27 @@
                                     <title>Mini H1</title>
                                     <image><url>images/productcategory/projectors-h1.svg</url></image>
                                     <action>step:2/minih1</action>
-                                    <!--<action>step:2[!MICROGAT-R]</action>-->
                                 </miniH1>
                                 <miniD2S-O>
                                     <title>Mini D2S</title>
                                     <subtitle>(O Lens)</subtitle>
                                     <image><url>images/productcategory/projectors-D2S-O.svg</url></image>
-                                    <!--<action>step:2[!MICROGAT-R, MiniGat-R, GRAPH-R]</action>-->
                                     <action>step:2/minid2so</action>
                                 </miniD2S-O>
                                 <miniD2S-X>
                                     <title>Mini D2S</title>
                                     <subtitle>(X Lens)</subtitle>
                                     <image><url>images/productcategory/projectors-D2S-X.svg</url></image>
-                                    <!--<action>step:2[PanaSquare-R, Apollo1Square-R, Gatling2.0Square-R, OcularSquare-R, Apollo2SQ-R]</action>-->
                                     <action>step:2/minid2sx</action>
                                 </miniD2S-X>
                                 <fxr3.0>
                                     <title>FX-R 3.0</title>
                                     <image><url>images/productcategory/projectors-FXR.svg</url></image>
-                                    <!--<action>step:2[!MiniGat-R, GRAPH-R, MICROGAT-R, GATLING-R]</action>-->
                                     <action>step:2/fxr30</action>
                                 </fxr3.0>
                                 <other>
                                     <title>Other</title>
                                     <image><url>images/productcategory/projectors-other.svg</url></image>
-                                    <!--<action>step:2[!MiniGat-R, GRAPH-R, MICROGAT-R]</action>-->
                                     <action>step:2/other</action>
                                 </other>
                             </options>
@@ -374,7 +641,9 @@
         <reference name="buyers_guide">
             <action method="addContainerClass"><value>bulbs</value>
             </action>
-            <block type="cartographee/buyersguide_layer_filter_car" name="buyersguide_car_filter" as="car_filter" template="cartographee/buyersguide/toolbar/Car.phtml"/>
+            <block type="cartographee/buyersguide_layer_filter_car" name="buyersguide_car_filter" as="car_filter" template="cartographee/buyersguide/toolbar/Car.phtml">
+                <action method="setNoFitAction"><value>step:nofit</value></action>
+            </block>
             <block type="cartographee/buyersguide_layer_filter_step_generic" name="buyersguide_toolbar_supplemental" as="buyersguide_toolbar_supplemental" template="cartographee/buyersguide/toolbar/Supplemental.phtml">
                 <action method="setStepConfig">
                     <config>
@@ -386,11 +655,11 @@
                             </all>
                             <housings>
                                 <title>Headlights</title>
-                                <action>fit_sql:type=~</action>
+                                <action>fit_sql:type=housings</action>
                             </housings>
                             <led_fog>
                                 <title>Fog Lights</title>
-                                <action>fit_sql:type=~</action>
+                                <action>fit_sql:type=led_fog</action>
                             </led_fog>
                         </options>
                     </config>
@@ -422,35 +691,35 @@
                             </all>
                             <front_turn>
                                 <title>Front Turn Signals</title>
-                                <action>fit_sql:type=~</action>
+                                <action>fit_sql:type=front_turn</action>
                             </front_turn>
                             <rear_turn>
                                 <title>Rear Turn Signals</title>
-                                <action>fit_sql:type=~</action>
+                                <action>fit_sql:type=rear_turn</action>
                             </rear_turn>
                             <front_marker>
                                 <title>Front Marker Lights</title>
-                                <action>fit_sql:type=~</action>
+                                <action>fit_sql:type=front_marker</action>
                             </front_marker>
                             <rear_marker>
                                 <title>Rear Marker Lights</title>
-                                <action>fit_sql:type=~</action>
+                                <action>fit_sql:type=rear_marker</action>
                             </rear_marker>
                             <license_plate>
                                 <title>License Plates</title>
-                                <action>fit_sql:type=~</action>
+                                <action>fit_sql:type=license_plate</action>
                             </license_plate>
                             <dome>
                                 <title>Dome Lights</title>
-                                <action>fit_sql:type=~</action>
+                                <action>fit_sql:type=dome</action>
                             </dome>
                             <brake>
                                 <title>Brake Lights</title>
-                                <action>fit_sql:type=~</action>
+                                <action>fit_sql:type=brake</action>
                             </brake>
                             <reverse>
                                 <title>Reverse Lights</title>
-                                <action>fit_sql:type=~</action>
+                                <action>fit_sql:type=reverse</action>
                             </reverse>
                         </options>
                     </config>
@@ -497,15 +766,15 @@
                             </all>
                             <high>
                                 <title>High Beams</title>
-                                <action>fit_sql:type=~</action>
+                                <action>fit_sql:type=high</action>
                             </high>
                             <low>
                                 <title>Low Beams</title>
-                                <action>fit_sql:type=~</action>
+                                <action>fit_sql:type=low</action>
                             </low>
                             <fog>
                                 <title>Fog Lights</title>
-                                <action>fit_sql:type=~</action>
+                                <action>fit_sql:type=fog</action>
                             </fog>
                         </options>
                     </config>
@@ -535,15 +804,15 @@
                             </all>
                             <high>
                                 <title>High Beams</title>
-                                <action>fit_sql:type=~</action>
+                                <action>fit_sql:type=high</action>
                             </high>
                             <low>
                                 <title>Low Beams</title>
-                                <action>fit_sql:type=~</action>
+                                <action>fit_sql:type=low</action>
                             </low>
                             <fog>
                                 <title>Fog Lights</title>
-                                <action>fit_sql:type=~</action>
+                                <action>fit_sql:type=fog</action>
                             </fog>
                         </options>
                     </config>

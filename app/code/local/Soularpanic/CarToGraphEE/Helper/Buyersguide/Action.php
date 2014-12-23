@@ -155,7 +155,7 @@ class Soularpanic_CarToGraphEE_Helper_Buyersguide_Action
             $column = $matches[1];
             $value = $matches[2];
             $select->where("{$tableAlias}.{$column} = '{$value}'");
-            $this->log("collection sql: ".$select->__toString());
+            $this->log("collection sql:\n ".$select->__toString());
             $fits = $collection->count();
             $collection->clear();
             $state = $filter->getChainState();

@@ -14,6 +14,10 @@ class Soularpanic_CarToGraphEE_Model_Buyersguide_Layer_Filter_Car
         Mage::log("Applying car filter - start", null, 'trs_guide.log');
         $noFitAction = $filterBlock->getNoFitAction();
         Mage::log("no fit action: {$noFitAction}", null, 'trs_guide.log');
+        $directFitAction = $filterBlock->getDirectFitAction();
+        Mage::log("direct fit action: {$directFitAction}", null, 'trs_guide.log');
+        $bundleTargets = $filterBlock->getDirectFitBundleTargets();
+        Mage::log("direct fit bundle targets: {$bundleTargets}", null, 'trs_guide.log');
         $carId = $request->getParam($this->getRequestVar());
 //        Mage::log("carArr: [".print_r($carId, true)."]", null, 'trs_guide.log');
 //        Mage::log('filter block class: '.get_class($filterBlock), null, 'trs_guide.log');
@@ -27,6 +31,13 @@ class Soularpanic_CarToGraphEE_Model_Buyersguide_Layer_Filter_Car
                 Mage::log("setting no fit action to [{$noFitAction}]", null, 'trs_guide.log');
                 $resource->setNoFitAction($noFitAction);
             }
+            if ($directFitAction) {
+                $resource->setDirectFitAction($directFitAction);
+            }
+            if ($bundleTargets) {
+                $resource->setDirectFitBundleTargets(array_map('trim', explode(',', $bundleTargets)));
+            }
+
             Mage::log("applying!", null, 'trs_guide.log');
             $resource->applyFilterToCollection($this, $carId);
         }

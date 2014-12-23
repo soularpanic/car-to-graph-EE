@@ -36,7 +36,7 @@ class Soularpanic_CarToGraphEE_Helper_Buyersguide_Config
                     if (array_key_exists('image', $combined)) {
                         $combined['image'] = $this->_buildImage($combined['image']);
                     }
-                    $this->log("combined: ".print_r($combined, true));
+                    //$this->log("combined: ".print_r($combined, true));
                     $options[] = $this->_buildOption($id, $combined);
                 }
             }
@@ -48,7 +48,7 @@ class Soularpanic_CarToGraphEE_Helper_Buyersguide_Config
             }
         }
         $data['options'] = $options;
-        $this->log("parsed options:".print_r($options, true));
+        //$this->log("parsed options:".print_r($options, true));
         return $data;
     }
 
@@ -78,7 +78,7 @@ class Soularpanic_CarToGraphEE_Helper_Buyersguide_Config
             $data['image'] = $this->_buildImage($data['image']);
         }
         $option = Mage::getModel('cartographee/buyersguide_layer_filter_step_option');
-        $this->log("Seeding option with this data: ".print_r($data, true));
+        //$this->log("Seeding option with this data: ".print_r($data, true));
         $option->setData($data)->setId($id);
         return $option;
     }
