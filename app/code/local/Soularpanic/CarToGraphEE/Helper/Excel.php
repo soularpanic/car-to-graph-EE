@@ -4,12 +4,15 @@ class Soularpanic_CarToGraphEE_Helper_Excel
 
     const UPLOAD_ELEMENT_NAME = 'excelUpload';
 
-    function _construct() {
+    function __construct() {
         require_once(Mage::getBaseDir('lib').'/PHPExcel/PHPExcel.php');
     }
 
 
-
+    public function log($message) {
+        Mage::log($message, null, 'trs_guide.log');
+        return $this;
+    }
 
     public function getUploadElementName() {
         return self::UPLOAD_ELEMENT_NAME;

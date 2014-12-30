@@ -28,6 +28,7 @@ class Soularpanic_CarToGraphEE_Block_Buyersguide_Layer_Filter_Step_Generic
         $processed = Mage::helper('cartographee/buyersguide_config')->processStepConfigArray($config);
         $this->_data = array_merge($this->_data, $processed);
         if ($this->_data['model']) {
+            Mage::log("overwriting filter model from {$this->_filterModelName} to {$this->_data['model']}", null, 'trs_guide.log');
             $this->_filterModelName = $this->_data['model'];
         }
     }

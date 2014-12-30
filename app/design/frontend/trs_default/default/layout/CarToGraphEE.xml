@@ -13,7 +13,7 @@
 
     <buyersguide_hidsystems>
         <reference name="buyers_guide">
-            <action method="addContainerClass"><value>hidsystems</value></action>
+            <action method="addContainerClass"><value>hidsystems ballasts</value></action>
             <block type="cartographee/buyersguide_layer_filter_car" name="buyersguide_car_filter" as="car_filter" template="cartographee/buyersguide/toolbar/Car.phtml">
                 <action method="setDirectFitBundleTargets"><targets>HID Bulbs, Harnesses</targets></action>
                 <action method="setDirectFitAction"><value>step:1</value></action>
@@ -73,7 +73,7 @@
                         </config>
                     </action>
                 </block>
-                <block type="cartographee/buyersguide_layer_filter_step_generic" name="step_2" as="step_2" template="cartographee/buyersguide/step/Ribbon.phtml">
+                <block type="cartographee/buyersguide_layer_filter_step_noop" name="step_2" as="step_2" template="cartographee/buyersguide/step/Ribbon.phtml">
                     <action method="setQ"><q>1</q></action>
                     <action method="setStepConfig">
                         <config>

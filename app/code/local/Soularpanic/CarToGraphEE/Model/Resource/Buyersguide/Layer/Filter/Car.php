@@ -26,30 +26,83 @@ class Soularpanic_CarToGraphEE_Model_Resource_Buyersguide_Layer_Filter_Car
         $carAlias = 'car';
         $linkAlias = Mage::helper('cartographee/buyersguide_action')->getCarLinkTableAlias();
         $linkTable = $this->getTable('cartographee/linkcarproduct');
+        $attributeSetAlias = 'eas';
         if ($dfBundleTargets) {
             $bundleHelper = Mage::helper('cartographee/buyersguide_bundle');
-
-            $targetsStmt = "('".implode("', '", $dfBundleTargets)."')";
             $directFitSelect
                 ->join(['package_options' => $this->getTable('bundle/selection')],
                     "package_options.parent_product_id = e.entity_id",
                     [])
-                ->join(['option_products' => $this->getTable('catalog/product_flat').'_'.Mage::app()->getStore()->getStoreId()],
-                    "option_products.entity_id = package_options.product_id",
-                    ['preselect' => "GROUP_CONCAT(DISTINCT option_products.sku SEPARATOR ',')"])
-                ->join(['fit_options' => $this->getTable('bundle/selection')],
-                    "fit_options.product_id = package_options.product_id and fit_options.parent_product_id != package_options.parent_product_id",
-                    [])
-                ->join(['attribute_sets' => 'eav_attribute_set'],
-                    "attribute_sets.attribute_set_id = option_products.attribute_set_id and attribute_sets.attribute_set_name in $targetsStmt",
-                    [])
-                ->join([$linkAlias => $linkTable],
-                    "$linkAlias.product_id = fit_options.parent_product_id",
-                    [])
-                ->join([$carAlias => $this->getMainTable()],
-                    "$carAlias.entity_id = $linkAlias.car_id and $carAlias.alt_id = '$value'",
-                    [])
+//                ->join(['f' => $this->getTable('catalog/product_flat').'_'.Mage::app()->getStore()->getStoreId()],
+//                    "f.entity_id = package_options.product_id",
+//                    [])
+//                ->join([$attributeSetAlias => 'eav_attribute_set'],
+//                    "$attributeSetAlias.attribute_set_id = f.attribute_set_id",
+//                    [])
                 ->group('e.entity_id');
+            foreach ($dfBundleTargets as $_dfBundleTarget) {
+                //$targetsStmt = "('".implode("', '", $dfBundleTargets)."')";
+                $dfBundleTarget = strtolower(str_replace(' ', '_', $_dfBundleTarget));
+                $carAlias = "car_$dfBundleTarget";
+                $linkAlias = "carlink_$dfBundleTarget";
+                $optionProductAlias = "option_product_$dfBundleTarget";
+                $fitOptionAlias = "fit_option_$dfBundleTarget";
+                $attributeSetAlias = "attribute_set_$dfBundleTarget";
+                $f = "f_$dfBundleTarget";
+
+                $sqlString = "(select
+                    f.entity_id
+                    ,f.sku
+                    ,links.option, links.type
+                    ,cars.alt_id
+                from
+                    catalog_product_flat_1 as f
+                    inner join eav_attribute_set as eas
+                        on eas.attribute_set_id = f.attribute_set_id
+                    inner join cartographee_car_product_links as links
+                        on links.product_id = f.entity_id and eas.attribute_set_name = '$_dfBundleTarget'
+                    inner join cartographee_cars as cars
+                        on cars.entity_id = links.car_id and cars.alt_id = '$value')";
+
+                $directFitSelect
+                    ->joinLeft([$f => new Zend_Db_Expr($sqlString)],
+                        "$f.entity_id = package_options.product_id",
+                        ["preselect_$dfBundleTarget" => "GROUP_CONCAT(DISTINCT $f.sku SEPARATOR ',')"])
+                    ->orWhere("$f.sku is not null");
+
+
+//                $directFitSelect
+//                    ->join([$f => $this->getTable('catalog/product_flat').'_'.Mage::app()->getStore()->getStoreId()],
+//                        "$f.entity_id = package_options.product_id",
+//                        [])
+//                    ->join([$attributeSetAlias => 'eav_attribute_set'],
+//                        "$attributeSetAlias.attribute_set_id = $f.attribute_set_id and $attributeSetAlias.attribute_set_name = '$_dfBundleTarget'",
+//                        [])
+//                    ->join([$linkAlias => $linkTable],
+//                        "{$linkAlias}.product_id = $f.entity_id and {$attributeSetAlias}.attribute_set_name = '{$_dfBundleTarget}'",
+//                        ["preselect_$dfBundleTarget" => "$f.sku"])
+//                    ->join([$carAlias => $this->getMainTable()],
+//                        "$carAlias.entity_id = $linkAlias.car_id and $carAlias.alt_id = '$value'",
+//                        []);
+                //$directFitSelect
+
+//                                                              ->join([$optionProductAlias => $this->getTable('catalog/product_flat').'_'.Mage::app()->getStore()->getStoreId()],
+//                        "$optionProductAlias.entity_id = package_options.product_id",
+//                        ["preselect_$dfBundleTarget" => "GROUP_CONCAT(DISTINCT $optionProductAlias.sku SEPARATOR ',')"])
+//
+//                    ->joinLeft([$fitOptionAlias => $this->getTable('bundle/selection')],
+//                        "$fitOptionAlias.product_id = package_options.product_id",
+//                        [])
+//                    ->joinLeft([$attributeSetAlias => 'eav_attribute_set'],
+//                        "$attributeSetAlias.attribute_set_id = $optionProductAlias.attribute_set_id and $attributeSetAlias.attribute_set_name = '$_dfBundleTarget'",
+//                        [])
+//                    ->joinLeft([$linkAlias => $linkTable],
+//                        "$linkAlias.product_id = $fitOptionAlias.parent_product_id",
+//                        [])
+//                    ->joinLeft([$carAlias => $this->getMainTable()],
+//                        "$carAlias.entity_id = $linkAlias.car_id and $carAlias.alt_id = '$value'",
+//                        []);
+            }
         }
         else {
             $directFitSelect
