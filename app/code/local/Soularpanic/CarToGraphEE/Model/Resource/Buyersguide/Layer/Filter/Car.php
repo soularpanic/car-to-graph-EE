@@ -63,12 +63,13 @@ class Soularpanic_CarToGraphEE_Model_Resource_Buyersguide_Layer_Filter_Car
                         on links.product_id = f.entity_id and eas.attribute_set_name = '$_dfBundleTarget'
                     inner join cartographee_cars as cars
                         on cars.entity_id = links.car_id and cars.alt_id = '$value')";
-
+                $preselectAlias = "preselect_$dfBundleTarget";
                 $directFitSelect
                     ->joinLeft([$f => new Zend_Db_Expr($sqlString)],
                         "$f.entity_id = package_options.product_id",
-                        ["preselect_$dfBundleTarget" => "GROUP_CONCAT(DISTINCT $f.sku SEPARATOR ',')"])
-                    ->orWhere("$f.sku is not null");
+                        [$preselectAlias => "GROUP_CONCAT(DISTINCT $f.sku SEPARATOR ',')"])
+                    ->orWhere("$f.sku is not null")
+                    ->having("$preselectAlias is not null");
 
 
 //                $directFitSelect

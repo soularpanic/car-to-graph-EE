@@ -26,6 +26,8 @@ class Soularpanic_CarToGraphEE_Model_Buyersguide_Layer_Filter_Chain_Link_Configu
         Mage::log("(filterblock) chainState: [".print_r($chainState, true).']', null, 'trs_guide.log');
         Mage::log("(this) chainState: [".print_r($this->getChainState(), true).']', null, 'trs_guide.log');
 
+
+
         if ($value) {
             foreach ($this->getOptions() as $option) {
                 if ($option->getValue() === $value) {
@@ -33,6 +35,13 @@ class Soularpanic_CarToGraphEE_Model_Buyersguide_Layer_Filter_Chain_Link_Configu
                     break;
                     //$selectedAction = str_replace('~', $option->getId(), $selectedAction);
                 }
+            }
+            if ($value === '_SKIP' && !isset($selectedOption)) {
+                $selectedOption = new Varien_Object([
+                    'id' => -1,
+                    'action' => '_SKIP',
+                    'value' => '_SKIP'
+                ]);
             }
         }
 

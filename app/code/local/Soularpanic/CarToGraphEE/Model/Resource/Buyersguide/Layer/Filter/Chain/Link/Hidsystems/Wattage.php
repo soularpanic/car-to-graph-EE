@@ -75,14 +75,14 @@ class Soularpanic_CarToGraphEE_Model_Resource_Buyersguide_Layer_Filter_Chain_Lin
 
         $originalSelect = clone $directFitSelect;
 
-
+        $productTable = $this->getTable('catalog/product_flat').'_'.Mage::app()->getStore()->getStoreId();
         $sqlString = "(select
                     f.entity_id
                     ,f.sku
                     ,links.option, links.type
                     ,cars.alt_id
                 from
-                    catalog_product_flat_1 as f
+                    $productTable as f
                     inner join eav_attribute_set as eas
                         on eas.attribute_set_id = f.attribute_set_id
                     inner join cartographee_car_product_links as links
@@ -94,13 +94,13 @@ class Soularpanic_CarToGraphEE_Model_Resource_Buyersguide_Layer_Filter_Chain_Lin
         $step2Value = Mage::app()->getRequest()->getParam('step_2');
         $fallback = 'null';
         if ($step2Value) {
-            $fallback = $wattage . (in_array($step2Value, ['d2s', 'd2r']) ? "D2S" : "AMP") . "-DSP";
+            $fallback = "'$wattage" . (in_array($step2Value, ['d2s', 'd2r']) ? "D2S" : "AMP") . "-DSP'";
         }
 
         $directFitSelect
             ->joinLeft([$f => new Zend_Db_Expr($sqlString)],
                 "$f.entity_id = package_options.product_id",
-                ["preselect_$dfBundleTarget" => "GROUP_CONCAT(DISTINCT IFNULL($f.sku, IF($bulbAlias.sku is not null, IF($bulbAlias.sku REGEXP 'D2[SR]', '{$wattage}D2S-DSP', '{$wattage}AMP-DSP') , '$fallback')) SEPARATOR ',')"])
+                ["preselect_$dfBundleTarget" => "GROUP_CONCAT(DISTINCT IFNULL($f.sku, IF($bulbAlias.sku is not null, IF($bulbAlias.sku REGEXP 'D2[SR]', '{$wattage}D2S-DSP', '{$wattage}AMP-DSP') , $fallback)) SEPARATOR ',')"])
             ->orWhere("$f.sku is not null");
 
         $refineFurther = false;

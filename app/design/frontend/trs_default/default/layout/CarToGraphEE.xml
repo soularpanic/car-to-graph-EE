@@ -2,12 +2,530 @@
 
 <layout version="0.1.0">
 
-    <!--<buyersguide_completekits>-->
+    <!--Complete Kits: Interactive on projectors, ballasts + shrouds + accessories + easy on bulbs + wire harnesses-->
+    <!---	Projectors: Interactive (per below)-->
+    <!---	Shrouds: Mixed (Already have our answer to Step 1 (so skips it) then Answer Step 2 to arrive at selection)-->
+    <!---	Ballasts: Mixed (answer to Step 3 based on Projectors above (skip it) only answer Step 2 to arrive at selection)-->
+    <!--Bulbs: Direct-fit (Answer completely based on recommended projector above)-->
+    <!---	Harnesses: Direct-Fit (Answer based on Function-type and vehicle year/make/model)-->
 
-    <!--</buyersguide_completekits>-->
-    <!--<CATEGORY_5>-->
-    <!--<update handle="buyersguide_completekits"/>-->
-    <!--</CATEGORY_5>-->
+
+    <buyersguide_completekits>
+        <reference name="buyers_guide">
+            <action method="addContainerClass"><value>completekits ballasts</value></action>
+            <block type="cartographee/buyersguide_layer_filter_car" name="buyersguide_car_filter" as="car_filter" template="cartographee/buyersguide/toolbar/Car.phtml">
+                <action method="setDirectFitBundleTargets"><targets>Harnesses</targets></action>
+                <action method="setDirectFitAction"><value>step:1</value></action>
+                <!--<action method="setNoFitAction"><value>step:1</value></action>-->
+
+            </block>
+            <block type="cartographee/buyersguide_layer_filter_step_generic" name="buyersguide_toolbar_supplemental" as="buyersguide_toolbar_supplemental" template="cartographee/buyersguide/toolbar/Supplemental.phtml">
+                <action method="setStepConfig">
+                    <config>
+                        <id>hidbulb_function</id>
+                        <apply_to_direct_fit>true</apply_to_direct_fit>
+                        <options>
+                            <all>
+                                <title>All Function Types</title>
+                                <action>step:1</action>
+                            </all>
+                            <high>
+                                <title>High Beams</title>
+                                <action>sql:type=high</action>
+                            </high>
+                            <low>
+                                <title>Low Beams</title>
+                                <action>sql:type=low</action>
+                            </low>
+                            <fog>
+                                <title>Fog Lights</title>
+                                <action>sql:type=fog</action>
+                            </fog>
+                        </options>
+                    </config>
+                </action>
+            </block>
+            <block type="cartographee/buyersguide_layer_filter_step_container" name="buyersguide_steps" as="buyersguide_steps" template="cartographee/buyersguide/step/Container.phtml">
+                <block type="cartographee/buyersguide_layer_filter_step_completekits_projector_size" name="step_1" as="step_1" template="cartographee/buyersguide/step/Diagram.phtml">
+                    <action method="setQ"><q>1</q></action>
+                    <action method="setStepConfig">
+                        <config>
+                            <display_name>Projector Size</display_name>
+                            <apply_to_direct_fit>true</apply_to_direct_fit>
+                            <step_question>What is the approximate height &amp; depth of your headlight reflector?</step_question>
+                            <step_image>
+                                <url>images/productcategory/projectors-q1.svg</url>
+                                <alt>HID Projectors Diagram</alt>
+                            </step_image>
+                            <options>
+                                <tiny>
+                                    <title>Tiny</title>
+                                    <desc>Height: 55-75mm
+                                        Depth: 106-137mm</desc>
+                                    <action>step:2[MATCHBOX-R]</action>
+                                </tiny>
+                                <small>
+                                    <title>Small</title>
+                                    <desc>Height: 75-80mm
+                                        Depth: 136-138mm</desc>
+                                    <action>step:2[MATCHBOX-R, MH16.0-R]</action>
+                                </small>
+                                <medium>
+                                    <title>Medium</title>
+                                    <desc>Height: 80-95mm
+                                        Depth: 138-149mm</desc>
+                                    <action>step:2[MH16.0-R, MD2S3.0-R]</action>
+                                </medium>
+                                <large>
+                                    <title>Large</title>
+                                    <desc>Height: 95mm +
+                                        Depth: 149mm +</desc>
+                                    <action>step:2[MD2S3.0-R, FXR3.0-R]</action>
+                                </large>
+                            </options>
+                        </config>
+                    </action>
+                </block>
+                <block type="cartographee/buyersguide_layer_filter_step_completekits_projector_performance" name="step_2" as="step_2" template="cartographee/buyersguide/step/Performance.phtml">
+                    <action method="setQ"><q>2</q></action>
+                    <action method="setStepConfig">
+                        <config>
+                            <display_name>Performance/Install Balance</display_name>
+                            <step_question>What are your performance vs ease-of-install requirements?</step_question>
+                            <apply_to_direct_fit>true</apply_to_direct_fit>
+                            <performance_aspects>
+                                <output>Light Output Performance</output>
+                                <sharp>Cutoff Sharpness</sharp>
+                                <install>Install Difficulty</install>
+                            </performance_aspects>
+                            <options>
+                                <MATCHBOX-R>
+                                    <title>Matchbox</title>
+                                    <action>step:5</action>
+                                    <aspects>
+                                        <output>4</output>
+                                        <sharp>6</sharp>
+                                        <install>3</install>
+                                    </aspects>
+                                </MATCHBOX-R>
+                                <MH16.0-R>
+                                    <title>Mini H1</title>
+                                    <action>step:3[MH16.0-R]</action>
+                                    <aspects>
+                                        <output>7</output>
+                                        <sharp>8</sharp>
+                                        <install>5</install>
+                                    </aspects>
+                                </MH16.0-R>
+                                <MD2S3.0-R>
+                                    <title>Mini D2S</title>
+                                    <action>step:3[MD2S3.0-R]</action>
+                                    <aspects>
+                                        <output>8</output>
+                                        <sharp>8</sharp>
+                                        <install>6</install>
+                                    </aspects>
+                                </MD2S3.0-R>
+                                <FXR3.0-R>
+                                    <title>FXR</title>
+                                    <action>step:3[FXR3.0-R]</action>
+                                    <aspects>
+                                        <output>9</output>
+                                        <sharp>9</sharp>
+                                        <install>9</install>
+                                    </aspects>
+                                </FXR3.0-R>
+                                <stock>
+                                    <title>Baseline (Stock)</title>
+                                    <active>0</active>
+                                    <aspects>
+                                        <output>4</output>
+                                        <sharp>2</sharp>
+                                    </aspects>
+                                </stock>
+                            </options>
+                        </config>
+                    </action>
+                </block>
+                <block type="cartographee/buyersguide_layer_filter_step_completekits_projector_orientation" name="step_3" as="step_3" template="cartographee/buyersguide/step/Binary.phtml">
+                    <action method="setQ"><q>3</q></action>
+                    <action method="setStepConfig">
+                        <config>
+                            <display_name>Pattern</display_name>
+                            <step_question>What beam pattern do you need?</step_question>
+                            <apply_to_direct_fit>true</apply_to_direct_fit>
+                            <binary>
+                                <lhd>
+                                    <title>Left Hand Drive</title>
+                                    <subtitle>(LHD)</subtitle>
+                                    <desc>Oncoming traffic drives on the left side of you.</desc>
+                                    <ps>United States</ps>
+                                    <image>
+                                        <url>images/productcategory/projectors-q3lefthand.svg</url>
+                                        <alt>HID Projectors Diagram</alt>
+                                    </image>
+                                </lhd>
+                                <rhd>
+                                    <title>Right Hand Drive</title>
+                                    <subtitle>(RHD)</subtitle>
+                                    <desc>Oncoming traffic drives on the right side of you.</desc>
+                                    <ps>UK, Australia, India, Japan</ps>
+                                    <image>
+                                        <url>images/productcategory/projectors-q3righthand.svg</url>
+                                        <alt>HID Projectors Diagram</alt>
+                                    </image>
+                                </rhd>
+                            </binary>
+                            <options>
+                                <MH16.0-R>
+                                    <binary>
+                                        <!--<lhd><action>sku:MH16.0-R[MH16-LH]</action></lhd>-->
+                                        <!--<rhd><action>sku:MH16.0-R[MH16-RH]</action></rhd>-->
+                                        <lhd><action>step:4/minih1</action></lhd>
+                                        <rhd><action>step:4/minih1</action></rhd>
+                                    </binary>
+                                </MH16.0-R>
+                                <MD2S3.0-R>
+                                    <binary>
+                                        <!--<lhd><action>sku:MD2S3.0-R[MD2S-3LH]</action></lhd>-->
+                                        <!--<rhd><action>sku:MD2S3.0-R[MD2S-3RH]</action></rhd>-->
+                                        <lhd><action>step:4/minid2so</action></lhd>
+                                        <rhd><action>step:4/minid2so</action></rhd>
+                                    </binary>
+                                </MD2S3.0-R>
+                                <FXR3.0-R>
+                                    <binary>
+                                        <!--<lhd><action>sku:FXR3.0-R[FXR3-3LH]</action></lhd>-->
+                                        <!--<rhd><action>sku:FXR3.0-R[FXR3-3RH]</action></rhd>-->
+                                        <lhd><action>step:4/fxr30</action></lhd>
+                                        <rhd><action>step:4/fxr30</action></rhd>
+                                    </binary>
+                                </FXR3.0-R>
+                            </options>
+                        </config>
+                    </action>
+                </block>
+                <block type="cartographee/buyersguide_layer_filter_step_completekits_shroud" name="step_4" as="step_4" template="cartographee/buyersguide/step/Ribbon.phtml">
+                    <action method="setStepConfig">
+                        <config>
+                            <display_name>Reflector Shape</display_name>
+                            <apply_to_direct_fit>true</apply_to_direct_fit>
+                            <step_question>What is the overall size/shape of your headlight reflector?</step_question>
+                            <step_desc>This will give you a good idea what shrouds would look best, but overall, the choice is purely aesthetic.
+                                Please note that trimming shrouds in retrofits is very common.</step_desc>
+                            <options>
+                                <_SKIP>
+                                    <action>step:5</action>
+                                </_SKIP>
+                                <round>
+                                    <title>Round</title>
+                                    <image><url>images/productcategory/shrouds-round.svg</url></image>
+                                    <action>
+                                        <!--<minih1>sku:MiniGat-R, GRAPH-R, APOLLO-R, APOLLO2-R, APOLLO3-R, ORBIT-R, MCR-R, Panamera-R, GTIR-R, BULLET-R, GAT2.0-R, GATLING-R, G37C-R, G37-R</minih1>-->
+                                        <!--<minid2so>sku:APOLLO-R, APOLLO2-R, APOLLO3-R, ORBIT-R, MCR-R, Panamera-R, GTIR-R, BULLET-R, G37C-R, G37-R</minid2so>-->
+                                        <!--<minid2sx>sku:Gatling2.0Square-R</minid2sx>-->
+                                        <!--<fxr30>sku:APOLLO-R, APOLLO2-R, APOLLO3-R, ORBIT-R, MCR-R, Panamera-R, BULLET-R, G37C-R, G37-R</fxr30>-->
+                                        <!--<other>sku:APOLLO-R, APOLLO2-R, APOLLO3-R, ORBIT-R, MCR-R, Panamera-R, BULLET-R, G37C-R, G37-R</other>-->
+                                        <minih1>step:5</minih1>
+                                        <minid2so>step:5</minid2so>
+                                        <minid2sx>step:5</minid2sx>
+                                        <fxr30>step:5</fxr30>
+                                        <other>step:5</other>
+                                    </action>
+                                </round>
+                                <oval>
+                                    <title>Oval</title>
+                                    <image><url>images/productcategory/shrouds-oval.svg</url></image>
+                                    <action>
+                                        <!--<minih1>sku:E55R-R, OCULAR-R</minih1>-->
+                                        <!--<minid2so>sku:E55R-R, OCULAR-R</minid2so>-->
+                                        <!--<minid2sx>sku:Apollo2SQ-R, OcularSquare-R</minid2sx>-->
+                                        <!--<fxr30>sku:E55R-R, OCULAR-R</fxr30>-->
+                                        <!--<other>sku:E55R-R, OCULAR-R</other>-->
+                                        <minih1>step:5</minih1>
+                                        <minid2so>step:5</minid2so>
+                                        <minid2sx>step:5</minid2sx>
+                                        <fxr30>step:5</fxr30>
+                                        <other>step:5</other>
+                                    </action>
+                                </oval>
+                                <flatsided>
+                                    <title>Flat-sided</title>
+                                    <image><url>images/productcategory/shrouds-flatsided.svg</url></image>
+                                    <action>
+                                        <!--<minih1>sku:E46R-R, E46EXT-R, IRIS-R</minih1>-->
+                                        <!--<minid2so>sku:E46R-R, E46EXT-R, IRIS-R</minid2so>-->
+                                        <!--<minid2sx>sku:Apollo2SQ-R, OcularSquare-R</minid2sx>-->
+                                        <!--<fxr30>sku:E46R-R, E46EXT-R, IRIS-R</fxr30>-->
+                                        <!--<other>sku:E46R-R, E46EXT-R, IRIS-R</other>-->
+                                        <minih1>step:5</minih1>
+                                        <minid2so>step:5</minid2so>
+                                        <minid2sx>step:5</minid2sx>
+                                        <fxr30>step:5</fxr30>
+                                        <other>step:5</other>
+                                    </action>
+                                </flatsided>
+                                <big>
+                                    <title>Big</title>
+                                    <image><url>images/productcategory/shrouds-large.svg</url></image>
+                                    <action>
+                                        <!--<minih1>sku:APOLLO-R, APOLLO2-R, APOLLO3-R, ORBIT-R, MCR-R, Panamera-R, BULLET-R, GAT2.0-R, GATLING-R, G37C-R, G37-R</minih1>-->
+                                        <!--<minid2so>sku:APOLLO-R, APOLLO2-R, APOLLO3-R, ORBIT-R, MCR-R, BULLET-R, G37C-R, G37-R, Panamera-R</minid2so>-->
+                                        <!--<minid2sx>sku:PanaSquare-R, Apollo1Square-R, Gatling2.0Square-R, Apollo2SQ-R</minid2sx>-->
+                                        <!--<fxr30>sku:APOLLO-R, APOLLO2-R, APOLLO3-R, ORBIT-R, MCR-R, BULLET-R, G37C-R, G37-R, Panamera-R</fxr30>-->
+                                        <!--<other>sku:APOLLO-R, APOLLO2-R, APOLLO3-R, ORBIT-R, MCR-R, BULLET-R, G37C-R, G37-R, Panamera-R</other>-->
+                                        <minih1>step:5</minih1>
+                                        <minid2so>step:5</minid2so>
+                                        <minid2sx>step:5</minid2sx>
+                                        <fxr30>step:5</fxr30>
+                                        <other>step:5</other>
+                                    </action>
+                                </big>
+                                <odd>
+                                    <title>Compact/Odd</title>
+                                    <image><url>images/productcategory/shrouds-small.svg</url></image>
+                                    <action>
+                                        <!--<minih1>sku:MiniGat-R, GRAPH-R</minih1>-->
+                                        <!--<minid2so>sku:E46-R, E46EXT-R, IRIS-R, BULLET-R</minid2so>-->
+                                        <!--<minid2sx>sku:Gatling2.0Square-R, PanaSquare-R</minid2sx>-->
+                                        <!--<fxr30>sku:E46-R, E46EXT-R, IRIS-R, BULLET-R</fxr30>-->
+                                        <!--<other>sku:Gatling2.0Square-R, PanaSquare-R</other>-->
+                                        <minih1>step:5</minih1>
+                                        <minid2so>step:5</minid2so>
+                                        <minid2sx>step:5</minid2sx>
+                                        <fxr30>step:5</fxr30>
+                                        <other>step:5</other>
+                                    </action>
+                                </odd>
+                            </options>
+                        </config>
+                    </action>
+                </block>
+                <block type="cartographee/buyersguide_layer_filter_step_completekits_ballast" name="step_5" as="step_5" template="cartographee/buyersguide/step/Binary.phtml">
+                    <action method="setQ"><q>1</q></action>
+                    <action method="setStepConfig">
+                        <config>
+                            <apply_to_direct_fit>true</apply_to_direct_fit>
+                            <display_name>Light Output</display_name>
+                            <step_question>How much light output do you need?</step_question>
+                            <binary>
+                                <watt35>
+                                    <title>35 Watt Ballast</title>
+                                </watt35>
+                                <watt55>
+                                    <title>55 Watt Ballast</title>
+                                </watt55>
+                            </binary>
+                            <options>
+                                <wattage>
+                                    <binary>
+                                        <watt35><action>step:done</action></watt35>
+                                        <watt55><action>step:done</action></watt55>
+                                    </binary>
+                                </wattage>
+                            </options>
+                        </config>
+                    </action>
+                </block>
+                <!--<block type="cartographee/buyersguide_layer_filter_step_noop" name="step_6" as="step_6" template="cartographee/buyersguide/step/Ribbon.phtml">-->
+                    <!--<action method="setQ"><q>1</q></action>-->
+                    <!--<action method="setStepConfig">-->
+                        <!--<config>-->
+                            <!--<apply_to_direct_fit>true</apply_to_direct_fit>-->
+                            <!--<display_name>Bulb</display_name>-->
+                            <!--<step_question>What HID bulbs will you be running with the ballasts?</step_question>-->
+                            <!--<step_desc>This will determine whether you need them for "AMP" or "D2" Fitment</step_desc>-->
+                            <!--<options>-->
+                                <!--<d2s>-->
+                                    <!--<title>D2S</title>-->
+                                    <!--<image>-->
+                                        <!--<url>images/productcategory/bulbs-D2S.svg</url>-->
+                                    <!--</image>-->
+                                    <!--<action>-->
+                                        <!--<w35>bundle:35D2S-DSP</w35>-->
+                                        <!--<w55>bundle:55D2S-DSP</w55>-->
+                                    <!--</action>-->
+                                <!--</d2s>-->
+                                <!--<d2r>-->
+                                    <!--<title>D2R</title>-->
+                                    <!--<image>-->
+                                        <!--<url>images/productcategory/bulbs-D2R.svg</url>-->
+                                    <!--</image>-->
+                                    <!--<action>-->
+                                        <!--<w35>bundle:35D2S-DSP</w35>-->
+                                        <!--<w55>bundle:55D2S-DSP</w55>-->
+                                    <!--</action>-->
+                                <!--</d2r>-->
+                                <!--<h1>-->
+                                    <!--<title>H1</title>-->
+                                    <!--<image>-->
+                                        <!--<url>images/productcategory/bulbs-h1.svg</url>-->
+                                    <!--</image>-->
+                                    <!--<action>-->
+                                        <!--<w35>bundle:35AMP-DSP</w35>-->
+                                        <!--<w55>bundle:55AMP-DSP</w55>-->
+                                    <!--</action>-->
+                                <!--</h1>-->
+                                <!--<h3>-->
+                                    <!--<title>H3</title>-->
+                                    <!--<image>-->
+                                        <!--<url>images/productcategory/bulbs-h3.svg</url>-->
+                                    <!--</image>-->
+                                    <!--<action>-->
+                                        <!--<w35>bundle:35AMP-DSP</w35>-->
+                                        <!--<w55>bundle:55AMP-DSP</w55>-->
+                                    <!--</action>-->
+                                <!--</h3>-->
+                                <!--<h4>-->
+                                    <!--<title>H4</title>-->
+                                    <!--<image>-->
+                                        <!--<url>images/productcategory/bulbs-h4.svg</url>-->
+                                    <!--</image>-->
+                                    <!--<action>-->
+                                        <!--<w35>bundle:35AMP-DSP</w35>-->
+                                        <!--<w55>bundle:55AMP-DSP</w55>-->
+                                    <!--</action>-->
+                                <!--</h4>-->
+                                <!--<h7>-->
+                                    <!--<title>H7</title>-->
+                                    <!--<image>-->
+                                        <!--<url>images/productcategory/bulbs-h7.svg</url>-->
+                                    <!--</image>-->
+                                    <!--<action>-->
+                                        <!--<w35>bundle:35AMP-DSP</w35>-->
+                                        <!--<w55>bundle:55AMP-DSP</w55>-->
+                                    <!--</action>-->
+                                <!--</h7>-->
+                                <!--<h8>-->
+                                    <!--<title>H8</title>-->
+                                    <!--<image>-->
+                                        <!--<url>images/productcategory/bulbs-h8.svg</url>-->
+                                    <!--</image>-->
+                                    <!--<action>-->
+                                        <!--<w35>bundle:35AMP-DSP</w35>-->
+                                        <!--<w55>bundle:55AMP-DSP</w55>-->
+                                    <!--</action>-->
+                                <!--</h8>-->
+                                <!--<h9>-->
+                                    <!--<title>H9</title>-->
+                                    <!--<image>-->
+                                        <!--<url>images/productcategory/bulbs-h9.svg</url>-->
+                                    <!--</image>-->
+                                    <!--<action>-->
+                                        <!--<w35>bundle:35AMP-DSP</w35>-->
+                                        <!--<w55>bundle:55AMP-DSP</w55>-->
+                                    <!--</action>-->
+                                <!--</h9>-->
+                                <!--<h10>-->
+                                    <!--<title>H10</title>-->
+                                    <!--<image>-->
+                                        <!--<url>images/productcategory/bulbs-h10.svg</url>-->
+                                    <!--</image>-->
+                                    <!--<action>-->
+                                        <!--<w35>bundle:35AMP-DSP</w35>-->
+                                        <!--<w55>bundle:55AMP-DSP</w55>-->
+                                    <!--</action>-->
+                                <!--</h10>-->
+                                <!--<h11>-->
+                                    <!--<title>H11</title>-->
+                                    <!--<image>-->
+                                        <!--<url>images/productcategory/bulbs-h11.svg</url>-->
+                                    <!--</image>-->
+                                    <!--<action>-->
+                                        <!--<w35>bundle:35AMP-DSP</w35>-->
+                                        <!--<w55>bundle:55AMP-DSP</w55>-->
+                                    <!--</action>-->
+                                <!--</h11>-->
+                                <!--<h13>-->
+                                    <!--<title>H13</title>-->
+                                    <!--<image>-->
+                                        <!--<url>images/productcategory/bulbs-h13.svg</url>-->
+                                    <!--</image>-->
+                                    <!--<action>-->
+                                        <!--<w35>bundle:35AMP-DSP</w35>-->
+                                        <!--<w55>bundle:55AMP-DSP</w55>-->
+                                    <!--</action>-->
+                                <!--</h13>-->
+                                <!--<x880>-->
+                                    <!--<title>880</title>-->
+                                    <!--<image>-->
+                                        <!--<url>images/productcategory/bulbs-880.svg</url>-->
+                                    <!--</image>-->
+                                    <!--<action>-->
+                                        <!--<w35>bundle:35AMP-DSP</w35>-->
+                                        <!--<w55>bundle:55AMP-DSP</w55>-->
+                                    <!--</action>-->
+                                <!--</x880>-->
+                                <!--<x9005>-->
+                                    <!--<title>9005</title>-->
+                                    <!--<image>-->
+                                        <!--<url>images/productcategory/bulbs-9005.svg</url>-->
+                                    <!--</image>-->
+                                    <!--<action>-->
+                                        <!--<w35>bundle:35AMP-DSP</w35>-->
+                                        <!--<w55>bundle:55AMP-DSP</w55>-->
+                                    <!--</action>-->
+                                <!--</x9005>-->
+                                <!--<x9006>-->
+                                    <!--<title>9006</title>-->
+                                    <!--<image>-->
+                                        <!--<url>images/productcategory/bulbs-9006.svg</url>-->
+                                    <!--</image>-->
+                                    <!--<action>-->
+                                        <!--<w35>bundle:35AMP-DSP</w35>-->
+                                        <!--<w55>bundle:55AMP-DSP</w55>-->
+                                    <!--</action>-->
+                                <!--</x9006>-->
+                                <!--<x9007>-->
+                                    <!--<title>9007</title>-->
+                                    <!--<image>-->
+                                        <!--<url>images/productcategory/bulbs-9007.svg</url>-->
+                                    <!--</image>-->
+                                    <!--<action>-->
+                                        <!--<w35>bundle:35AMP-DSP</w35>-->
+                                        <!--<w55>bundle:55AMP-DSP</w55>-->
+                                    <!--</action>-->
+                                <!--</x9007>-->
+                                <!--<x9012>-->
+                                    <!--<title>9012</title>-->
+                                    <!--<image>-->
+                                        <!--<url>images/productcategory/bulbs-9012.svg</url>-->
+                                    <!--</image>-->
+                                    <!--<action>-->
+                                        <!--<w35>bundle:35AMP-DSP</w35>-->
+                                        <!--<w55>bundle:55AMP-DSP</w55>-->
+                                    <!--</action>-->
+                                <!--</x9012>-->
+                                <!--<d2h>-->
+                                    <!--<title>D2H</title>-->
+                                    <!--<image>-->
+                                        <!--<url>images/productcategory/bulbs-D2H.svg</url>-->
+                                    <!--</image>-->
+                                    <!--<action>-->
+                                        <!--<w35>bundle:35AMP-DSP</w35>-->
+                                        <!--<w55>bundle:55AMP-DSP</w55>-->
+                                    <!--</action>-->
+                                <!--</d2h>-->
+                                <!--<h16>-->
+                                    <!--<title>H16</title>-->
+                                    <!--<image>-->
+                                        <!--<url>images/productcategory/bulbs-h16.svg</url>-->
+                                    <!--</image>-->
+                                    <!--<action>-->
+                                        <!--<w35>bundle:35AMP-DSP</w35>-->
+                                        <!--<w55>bundle:55AMP-DSP</w55>-->
+                                    <!--</action>-->
+                                <!--</h16>-->
+                            <!--</options>-->
+                        <!--</config>-->
+                    <!--</action>-->
+                <!--</block>-->
+            </block>
+        </reference>
+    </buyersguide_completekits>
+    <CATEGORY_5>
+        <update handle="buyersguide_completekits"/>
+    </CATEGORY_5>
 
 
 
@@ -912,36 +1430,36 @@
                                     <title>Matchbox</title>
                                     <action>sku:MATCHBOX-R</action>
                                     <aspects>
-                                        <output>3</output>
-                                        <sharp>5</sharp>
-                                        <install>5</install>
+                                        <output>4</output>
+                                        <sharp>6</sharp>
+                                        <install>3</install>
                                     </aspects>
                                 </MATCHBOX-R>
                                 <MH16.0-R>
                                     <title>Mini H1</title>
                                     <action>step:3[MH16.0-R]</action>
                                     <aspects>
-                                        <output>6</output>
+                                        <output>7</output>
                                         <sharp>8</sharp>
-                                        <install>7</install>
+                                        <install>5</install>
                                     </aspects>
                                 </MH16.0-R>
                                 <MD2S3.0-R>
-                                    <title>Dat MD2</title>
+                                    <title>Mini D2S</title>
                                     <action>step:3[MD2S3.0-R]</action>
                                     <aspects>
-                                        <output>6</output>
+                                        <output>8</output>
                                         <sharp>8</sharp>
-                                        <install>7</install>
+                                        <install>6</install>
                                     </aspects>
                                 </MD2S3.0-R>
                                 <FXR3.0-R>
                                     <title>FXR</title>
                                     <action>step:3[FXR3.0-R]</action>
                                     <aspects>
-                                        <output>6</output>
-                                        <sharp>8</sharp>
-                                        <install>7</install>
+                                        <output>9</output>
+                                        <sharp>9</sharp>
+                                        <install>9</install>
                                     </aspects>
                                 </FXR3.0-R>
                                 <stock>
