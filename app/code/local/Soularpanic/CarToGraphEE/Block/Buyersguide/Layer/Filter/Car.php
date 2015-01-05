@@ -26,6 +26,8 @@ class Soularpanic_CarToGraphEE_Block_Buyersguide_Layer_Filter_Car
 
 
     public function getAvailableModels() {
-        return $this->_carHelper->getFilteredCarProperty('model');
+        $models = $this->_carHelper->getFilteredCarProperty('model');
+        Mage::log("available models:\n".print_r($models, true), null, 'trs_guide.log');
+        return $models;
     }
 }

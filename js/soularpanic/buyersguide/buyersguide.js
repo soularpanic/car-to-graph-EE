@@ -376,24 +376,53 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
     },
 
     _handleUpdateInputJson: function(updateJson) {
+        console.log("handling update input json");
         var selectorTemplate = new Template('[name="car[#{field}]"]'),
+            optgroupTemplate = new Template('buyersGuide-carSelect-#{field}-#{active}'),
             optionTemplate = new Template('<option value="#{value}">#{value}</option>');
-        $H(updateJson).each(function(pair) {
-            var optionsHtml = '<option value="">' + pair.key.capitalize() + '</option>';
+        $H(updateJson).each(function(topPair) {
+            console.log('handling a topPair:');
+            console.log(topPair);
+            var active = '<option value="">' + topPair.key.capitalize() + '</option>',
+                inactive = "";
 
-            if (pair.value.size() === 1) {
-                var val = pair.value[0];
-                optionsHtml += '<option selected="selected" value="' + val + '">' + val + '</option>';
-            }
-            else {
-                pair.value.each(function(val) {
-                    optionsHtml += optionTemplate.evaluate({value: val});
-                });
-            }
+//            if (Array.isArray(topPair.value)) {
+//                console.log()
+//            }
 
-            $$(selectorTemplate.evaluate({field: pair.key})).each(function(elt) {
-                elt.update(optionsHtml);
-            });
+            $A(topPair.value.items).each(function(item) {
+                console.log("handling item:");
+                console.log(item);
+
+                var optionHtml = optionTemplate.evaluate({value: item[topPair.key]});
+                if (item.active === 'active') {
+                    active += optionHtml;
+                }
+                else {
+                    inactive += optionHtml;
+                }
+                console.log("group end:");
+                console.log(active);
+                console.log(inactive);
+            }).bind(this);
+
+            $(optgroupTemplate.evaluate({field: topPair.key, active: 'active'})).update(active);
+            $(optgroupTemplate.evaluate({field: topPair.key, active: 'inactive'})).update(inactive);
+//            var optionsHtml = '<option value="">' + topPair.key.capitalize() + '</option>';
+//
+//            if (topPair.value.size() === 1) {
+//                var val = topPair.value[0];
+//                optionsHtml += '<option selected="selected" value="' + val + '">' + val + '</option>';
+//            }
+//            else {
+//                topPair.value.each(function(val) {
+//                    optionsHtml += optionTemplate.evaluate({value: val});
+//                });
+//            }
+//
+//            $$(selectorTemplate.evaluate({field: topPair.key})).each(function(elt) {
+//                elt.update(optionsHtml);
+//            });
         });
     },
 

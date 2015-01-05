@@ -99,17 +99,49 @@ class Soularpanic_CarToGraphEE_Helper_Car
         $cars = Mage::getModel('cartographee/car')
             ->getCollection();
 
+        $activeConditions = [];
         foreach ($properties as $_property => $_propertyValue) {
             if ($_propertyValue && $propertyName !== $_property) {
-                $cars->addFieldToFilter($_property, $_propertyValue);
+                $activeConditions[] = "$_property = '$_propertyValue'";
             }
         }
 
+        $activeSql = "if(" . ($activeConditions ? implode(' or ', $activeConditions) : 'true') . ", 'active', 'inactive')";
+        $tableName = $cars->getMainTable();
         $cars->getSelect()
-            ->group($propertyName)
-            ->order("{$propertyName} {$order}");
+//            ->from($tableName,
+//                ["{$tableName}.{$propertyName}",
+//                    'active' => $activeSql])
+            ->columns([$propertyName, 'active' => $activeSql])
+            ->group(['active', $propertyName])
+            ->order(['active',
+                "$propertyName $order"]);
+//        $cars->getSelect()
+//            ->from($tableName,
+//                ["{$tableName}.{$propertyName}",
+//                    'active' => $activeSql])
+//            ->group("{$tableName}.{$propertyName}")
+//            ->order(['active',
+//                "{$tableName}.{$propertyName} $order"]);
 
-        return $cars->getColumnValues($propertyName);
+        Mage::log("car select sql:\n".print_r($cars->getSelect()->__toString(), true), null, 'trs_guide.log');
+
+        return $cars->toArray([$propertyName, 'active']);
+
+//        $cars = Mage::getModel('cartographee/car')
+//            ->getCollection();
+//
+//        foreach ($properties as $_property => $_propertyValue) {
+//            if ($_propertyValue && $propertyName !== $_property) {
+//                $cars->addFieldToFilter($_property, $_propertyValue);
+//            }
+//        }
+//
+//        $cars->getSelect()
+//            ->group($propertyName)
+//            ->order("{$propertyName} {$order}");
+//
+//        return $cars->getColumnValues($propertyName);
     }
 
     protected function _resolveProduct($sku) {

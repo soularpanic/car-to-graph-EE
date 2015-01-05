@@ -2,34 +2,46 @@
 
 <div class="formFieldContainer year">
     <select name="car[year]" class="buyersGuide-carSelect">
-        <option value="">Year</option>
-        <?php foreach ($this->getAvailableYears() as $_year): ?>
-            <?php if ($_year): ?>
-                <option value="<?php echo $_year ?>"><?php echo $_year ?></option>
-            <?php endif; ?>
-        <?php endforeach; ?>
+        <optgroup id="buyersGuide-carSelect-year-active" label="Years">
+            <option value="">Year</option>
+            <?php $yearCollection = $this->getAvailableYears(); ?>
+            <?php foreach ($yearCollection['items'] as $_yearItem): ?>
+                <?php if ($_yearItem): ?>
+                    <option value="<?php echo $_yearItem['year'] ?>"><?php echo $_yearItem['year'] ?></option>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </optgroup>
+        <optgroup id="buyersGuide-carSelect-year-inactive" label="Other Years"></optgroup>
     </select>
 </div>
 
 <div class="formFieldContainer make">
     <select name="car[make]" class="buyersGuide-carSelect">
-        <option value="">Make</option>
-        <?php foreach ($this->getAvailableMakes() as $_make): ?>
-            <?php if ($_make): ?>
-                <option value="<?php echo $_make ?>"><?php echo $_make ?></option>
-            <?php endif; ?>
-        <?php endforeach; ?>
+        <optgroup id="buyersGuide-carSelect-make-active" label="Makes">
+            <option value="">Make</option>
+            <?php $makesCollection = $this->getAvailableMakes(); ?>
+            <?php foreach ($makesCollection['items'] as $_makeItem): ?>
+                <?php if ($_makeItem): ?>
+                    <option value="<?php echo $_makeItem['make'] ?>"><?php echo $_makeItem['make'] ?></option>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </optgroup>
+        <optgroup id="buyersGuide-carSelect-make-inactive" label="Other Makes"></optgroup>
     </select>
 </div>
 
 <div class="formFieldContainer model">
     <select name="car[model]" class="buyersGuide-carSelect">
-        <option value="">Model</option>
-        <?php foreach ($this->getAvailableModels() as $_model): ?>
-            <?php if ($_model): ?>
-                <option value="<?php echo $_model ?>"><?php echo $_model ?></option>
-            <?php endif; ?>
-        <?php endforeach; ?>
+        <optgroup id="buyersGuide-carSelect-model-active" label="Models">
+            <option value="">Model</option>
+            <?php $modelsCollection = $this->getAvailableModels(); ?>
+            <?php foreach ($modelsCollection['items'] as $_modelItem): ?>
+                <?php if ($_modelItem): ?>
+                    <option value="<?php echo $_modelItem['model'] ?>"><?php echo $_modelItem['model'] ?></option>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </optgroup>
+        <optgroup id="buyersGuide-carSelect-model-inactive" label="Other Models"></optgroup>
     </select>
 </div>
 
