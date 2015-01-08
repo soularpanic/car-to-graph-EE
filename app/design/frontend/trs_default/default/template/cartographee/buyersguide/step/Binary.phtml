@@ -5,8 +5,10 @@
     <span class="productDrop-headline"><?php echo $this->getQuestion() ?></span>
     <div class="buyersGuide-selectWrap">
         <div class="selectWrap full">
+            <?php $useLastClass = true; ?>
             <?php foreach ($this->getOptions() as $idx => $option): ?>
-                <div class="selectWrap-column tile">
+                <?php $useLastClass = !$useLastClass; ?>
+                <div class="selectWrap-column tile <?php if ($useLastClass) { echo "last"; } ?>">
                     <h3>
                         <?php echo $option->getTitle() ?>
                         <?php if ($option->getSubtitle()): ?>
@@ -22,11 +24,14 @@
                             </span>
                         <?php endif; ?>
                     </div>
-                    <div class="tile-image">
-                        <?php if ($option->getImage()) {
-                            echo ($option->getImage()->render());
-                        } ?>
-                    </div>
+                    <?php
+                    if ($option->getInfoTemplate()) {
+                        echo $this->getLayout()
+                            ->createBlock('core/template')
+                            ->setTemplate($option->getInfoTemplate())
+                            ->toHtml();
+                    }
+                    ?>
                 </div>
             <?php endforeach; ?>
         </div>

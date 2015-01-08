@@ -160,20 +160,14 @@
                                     <subtitle>(LHD)</subtitle>
                                     <desc>Oncoming traffic drives on the left side of you.</desc>
                                     <ps>United States</ps>
-                                    <image>
-                                        <url>images/productcategory/projectors-q3lefthand.svg</url>
-                                        <alt>HID Projectors Diagram</alt>
-                                    </image>
+                                    <info_template>cartographee/buyersguide/info/LHD.phtml</info_template>
                                 </lhd>
                                 <rhd>
                                     <title>Right Hand Drive</title>
                                     <subtitle>(RHD)</subtitle>
                                     <desc>Oncoming traffic drives on the right side of you.</desc>
                                     <ps>UK, Australia, India, Japan</ps>
-                                    <image>
-                                        <url>images/productcategory/projectors-q3righthand.svg</url>
-                                        <alt>HID Projectors Diagram</alt>
-                                    </image>
+                                    <info_template>cartographee/buyersguide/info/RHD.phtml</info_template>
                                 </rhd>
                             </binary>
                             <options>
@@ -311,9 +305,11 @@
                             <binary>
                                 <watt35>
                                     <title>35 Watt Ballast</title>
+                                    <info_template>cartographee/buyersguide/info/35WattBallast.phtml</info_template>
                                 </watt35>
                                 <watt55>
                                     <title>55 Watt Ballast</title>
+                                    <info_template>cartographee/buyersguide/info/55WattBallast.phtml</info_template>
                                 </watt55>
                             </binary>
                             <options>
@@ -575,9 +571,11 @@
                             <binary>
                                 <watt35>
                                     <title>35 Watt Ballast</title>
+                                    <info_template>cartographee/buyersguide/info/35WattBallast.phtml</info_template>
                                 </watt35>
                                 <watt55>
                                     <title>55 Watt Ballast</title>
+                                    <info_template>cartographee/buyersguide/info/55WattBallast.phtml</info_template>
                                 </watt55>
                             </binary>
                             <options>
@@ -936,9 +934,11 @@
                             <binary>
                                 <watt35>
                                     <title>35 Watt Ballast</title>
+                                    <info_template>cartographee/buyersguide/info/35WattBallast.phtml</info_template>
                                 </watt35>
                                 <watt55>
                                     <title>55 Watt Ballast</title>
+                                    <info_template>cartographee/buyersguide/info/55WattBallast.phtml</info_template>
                                 </watt55>
                             </binary>
                             <options>
@@ -967,8 +967,8 @@
                                         <url>images/productcategory/bulbs-D2S.svg</url>
                                     </image>
                                     <action>
-                                        <w35>sku:35D2S-R</w35>
-                                        <w55>sku:55D2S-R</w55>
+                                        <w35>sku:XB35-D2SB-R</w35>
+                                        <w55>sku:XB55-D2SB-R</w55>
                                     </action>
                                 </d2s>
                                 <d2r>
@@ -977,8 +977,8 @@
                                         <url>images/productcategory/bulbs-D2R.svg</url>
                                     </image>
                                     <action>
-                                        <w35>sku:35D2S-R</w35>
-                                        <w55>sku:55D2S-R</w55>
+                                        <w35>sku:XB35-D2SB-R</w35>
+                                        <w55>sku:XB55-D2SB-R</w55>
                                     </action>
                                 </d2r>
                                 <h1>
@@ -987,8 +987,8 @@
                                         <url>images/productcategory/bulbs-h1.svg</url>
                                     </image>
                                     <action>
-                                        <w35>sku:35AMP-R</w35>
-                                        <w55>sku:55AMP-R</w55>
+                                        <w35>sku:XB35-AMPB-R</w35>
+                                        <w55>sku:XB55-AMPB-R</w55>
                                     </action>
                                 </h1>
                                 <h3>
@@ -997,8 +997,8 @@
                                         <url>images/productcategory/bulbs-h3.svg</url>
                                     </image>
                                     <action>
-                                        <w35>sku:35AMP-R</w35>
-                                        <w55>sku:55AMP-R</w55>
+                                        <w35>sku:XB35-AMPB-R</w35>
+                                        <w55>sku:XB55-AMPB-R</w55>
                                     </action>
                                 </h3>
                                 <h4>
@@ -1007,8 +1007,8 @@
                                         <url>images/productcategory/bulbs-h4.svg</url>
                                     </image>
                                     <action>
-                                        <w35>sku:35AMP-R</w35>
-                                        <w55>sku:55AMP-R</w55>
+                                        <w35>sku:XB35-AMPB-R</w35>
+                                        <w55>sku:XB55-AMPB-R</w55>
                                     </action>
                                 </h4>
                                 <h7>
@@ -1017,8 +1017,8 @@
                                         <url>images/productcategory/bulbs-h7.svg</url>
                                     </image>
                                     <action>
-                                        <w35>sku:35AMP-R</w35>
-                                        <w55>sku:55AMP-R</w55>
+                                        <w35>sku:XB35-AMPB-R</w35>
+                                        <w55>sku:XB55-AMPB-R</w55>
                                     </action>
                                 </h7>
                                 <h8>
@@ -1027,8 +1027,8 @@
                                         <url>images/productcategory/bulbs-h8.svg</url>
                                     </image>
                                     <action>
-                                        <w35>sku:35AMP-R</w35>
-                                        <w55>sku:55AMP-R</w55>
+                                        <w35>sku:XB35-AMPB-R</w35>
+                                        <w55>sku:XB55-AMPB-R</w55>
                                     </action>
                                 </h8>
                                 <h9>
@@ -1037,8 +1037,8 @@
                                         <url>images/productcategory/bulbs-h9.svg</url>
                                     </image>
                                     <action>
-                                        <w35>sku:35AMP-R</w35>
-                                        <w55>sku:55AMP-R</w55>
+                                        <w35>sku:XB35-AMPB-R</w35>
+                                        <w55>sku:XB55-AMPB-R</w55>
                                     </action>
                                 </h9>
                                 <h10>
@@ -1047,8 +1047,8 @@
                                         <url>images/productcategory/bulbs-h10.svg</url>
                                     </image>
                                     <action>
-                                        <w35>sku:35AMP-R</w35>
-                                        <w55>sku:55AMP-R</w55>
+                                        <w35>sku:XB35-AMPB-R</w35>
+                                        <w55>sku:XB55-AMPB-R</w55>
                                     </action>
                                 </h10>
                                 <h11>
@@ -1057,8 +1057,8 @@
                                         <url>images/productcategory/bulbs-h11.svg</url>
                                     </image>
                                     <action>
-                                        <w35>sku:35AMP-R</w35>
-                                        <w55>sku:55AMP-R</w55>
+                                        <w35>sku:XB35-AMPB-R</w35>
+                                        <w55>sku:XB55-AMPB-R</w55>
                                     </action>
                                 </h11>
                                 <h13>
@@ -1067,8 +1067,8 @@
                                         <url>images/productcategory/bulbs-h13.svg</url>
                                     </image>
                                     <action>
-                                        <w35>sku:35AMP-R</w35>
-                                        <w55>sku:55AMP-R</w55>
+                                        <w35>sku:XB35-AMPB-R</w35>
+                                        <w55>sku:XB55-AMPB-R</w55>
                                     </action>
                                 </h13>
                                 <x880>
@@ -1077,8 +1077,8 @@
                                         <url>images/productcategory/bulbs-880.svg</url>
                                     </image>
                                     <action>
-                                        <w35>sku:35AMP-R</w35>
-                                        <w55>sku:55AMP-R</w55>
+                                        <w35>sku:XB35-AMPB-R</w35>
+                                        <w55>sku:XB55-AMPB-R</w55>
                                     </action>
                                 </x880>
                                 <x9005>
@@ -1087,8 +1087,8 @@
                                         <url>images/productcategory/bulbs-9005.svg</url>
                                     </image>
                                     <action>
-                                        <w35>sku:35AMP-R</w35>
-                                        <w55>sku:55AMP-R</w55>
+                                        <w35>sku:XB35-AMPB-R</w35>
+                                        <w55>sku:XB55-AMPB-R</w55>
                                     </action>
                                 </x9005>
                                 <x9006>
@@ -1097,8 +1097,8 @@
                                         <url>images/productcategory/bulbs-9006.svg</url>
                                     </image>
                                     <action>
-                                        <w35>sku:35AMP-R</w35>
-                                        <w55>sku:55AMP-R</w55>
+                                        <w35>sku:XB35-AMPB-R</w35>
+                                        <w55>sku:XB55-AMPB-R</w55>
                                     </action>
                                 </x9006>
                                 <x9007>
@@ -1107,8 +1107,8 @@
                                         <url>images/productcategory/bulbs-9007.svg</url>
                                     </image>
                                     <action>
-                                        <w35>sku:35AMP-R</w35>
-                                        <w55>sku:55AMP-R</w55>
+                                        <w35>sku:XB35-AMPB-R</w35>
+                                        <w55>sku:XB55-AMPB-R</w55>
                                     </action>
                                 </x9007>
                                 <x9012>
@@ -1117,8 +1117,8 @@
                                         <url>images/productcategory/bulbs-9012.svg</url>
                                     </image>
                                     <action>
-                                        <w35>sku:35AMP-R</w35>
-                                        <w55>sku:55AMP-R</w55>
+                                        <w35>sku:XB35-AMPB-R</w35>
+                                        <w55>sku:XB55-AMPB-R</w55>
                                     </action>
                                 </x9012>
                                 <d2h>
@@ -1127,8 +1127,8 @@
                                         <url>images/productcategory/bulbs-D2H.svg</url>
                                     </image>
                                     <action>
-                                        <w35>sku:35AMP-R</w35>
-                                        <w55>sku:55AMP-R</w55>
+                                        <w35>sku:XB35-AMPB-R</w35>
+                                        <w55>sku:XB55-AMPB-R</w55>
                                     </action>
                                 </d2h>
                                 <h16>
@@ -1137,8 +1137,8 @@
                                         <url>images/productcategory/bulbs-h16.svg</url>
                                     </image>
                                     <action>
-                                        <w35>sku:35AMP-R</w35>
-                                        <w55>sku:55AMP-R</w55>
+                                        <w35>sku:XB35-AMPB-R</w35>
+                                        <w55>sku:XB55-AMPB-R</w55>
                                     </action>
                                 </h16>
                             </options>
@@ -1348,8 +1348,7 @@
 
     <buyersguide_projectors>
         <reference name="buyers_guide">
-            <action method="addContainerClass"><value>projectors</value>
-            </action>
+            <action method="addContainerClass"><value>projectors</value></action>
             <block type="cartographee/buyersguide_layer_filter_car" name="buyersguide_car_filter" as="car_filter" template="cartographee/buyersguide/toolbar/Car.phtml"/>
             <block type="cartographee/buyersguide_layer_filter_step_generic" name="buyersguide_toolbar_supplemental" as="buyersguide_toolbar_supplemental" template="cartographee/buyersguide/toolbar/Supplemental.phtml">
                 <action method="setStepConfig">
@@ -1374,8 +1373,7 @@
             </block>
             <block type="cartographee/buyersguide_layer_filter_step_container" name="buyersguide_steps" as="buyersguide_steps" template="cartographee/buyersguide/step/Container.phtml">
                 <block type="cartographee/buyersguide_layer_filter_step_generic" name="step_1" as="step_1" template="cartographee/buyersguide/step/Diagram.phtml">
-                    <action method="setQ"><q>1</q>
-                    </action>
+                    <action method="setQ"><q>1</q></action>
                     <action method="setStepConfig">
                         <config>
                             <display_name>Projector Size</display_name>
@@ -1475,8 +1473,7 @@
                     </action>
                 </block>
                 <block type="cartographee/buyersguide_layer_filter_step_generic" name="step_3" as="step_3" template="cartographee/buyersguide/step/Binary.phtml">
-                    <action method="setQ"><q>3</q>
-                    </action>
+                    <action method="setQ"><q>3</q></action>
                     <action method="setStepConfig">
                         <config>
                             <display_name>Pattern</display_name>
@@ -1487,45 +1484,33 @@
                                     <subtitle>(LHD)</subtitle>
                                     <desc>Oncoming traffic drives on the left side of you.</desc>
                                     <ps>United States</ps>
-                                    <image>
-                                        <url>images/productcategory/projectors-q3lefthand.svg</url>
-                                        <alt>HID Projectors Diagram</alt>
-                                    </image>
+                                    <info_template>cartographee/buyersguide/info/LHD.phtml</info_template>
                                 </lhd>
                                 <rhd>
                                     <title>Right Hand Drive</title>
                                     <subtitle>(RHD)</subtitle>
                                     <desc>Oncoming traffic drives on the right side of you.</desc>
                                     <ps>UK, Australia, India, Japan</ps>
-                                    <image>
-                                        <url>images/productcategory/projectors-q3righthand.svg</url>
-                                        <alt>HID Projectors Diagram</alt>
-                                    </image>
+                                    <info_template>cartographee/buyersguide/info/RHD.phtml</info_template>
                                 </rhd>
                             </binary>
                             <options>
                                 <MH16.0-R>
                                     <binary>
-                                        <lhd><action>sku:MH16.0-R[MH16-LH]</action>
-                                        </lhd>
-                                        <rhd><action>sku:MH16.0-R[MH16-RH]</action>
-                                        </rhd>
+                                        <lhd><action>sku:MH16.0-R[MH16-LH]</action></lhd>
+                                        <rhd><action>sku:MH16.0-R[MH16-RH]</action></rhd>
                                     </binary>
                                 </MH16.0-R>
                                 <MD2S3.0-R>
                                     <binary>
-                                        <lhd><action>sku:MD2S3.0-R[MD2S-3LH]</action>
-                                        </lhd>
-                                        <rhd><action>sku:MD2S3.0-R[MD2S-3RH]</action>
-                                        </rhd>
+                                        <lhd><action>sku:MD2S3.0-R[MD2S-3LH]</action></lhd>
+                                        <rhd><action>sku:MD2S3.0-R[MD2S-3RH]</action></rhd>
                                     </binary>
                                 </MD2S3.0-R>
                                 <FXR3.0-R>
                                     <binary>
-                                        <lhd><action>sku:FXR3.0-R[FXR3-3LH]</action>
-                                        </lhd>
-                                        <rhd><action>sku:FXR3.0-R[FXR3-3RH]</action>
-                                        </rhd>
+                                        <lhd><action>sku:FXR3.0-R[FXR3-3LH]</action></lhd>
+                                        <rhd><action>sku:FXR3.0-R[FXR3-3RH]</action></rhd>
                                     </binary>
                                 </FXR3.0-R>
                             </options>

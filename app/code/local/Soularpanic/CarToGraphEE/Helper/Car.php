@@ -82,6 +82,7 @@ class Soularpanic_CarToGraphEE_Helper_Car
 
 
     public function getFilteredCarProperties($properties) {
+        $this->log("getFilteredCarProperties - start");
         $results = [];
         foreach ($properties as $_propertyName => $_propertyValue) {
             if ($_propertyValue) {
@@ -95,27 +96,28 @@ class Soularpanic_CarToGraphEE_Helper_Car
     }
 
 
-    public function getFilteredCarProperty($propertyName, $properties = [], $order = 'ASC') {
-        $cars = Mage::getModel('cartographee/car')
-            ->getCollection();
-
-        $activeConditions = [];
-        foreach ($properties as $_property => $_propertyValue) {
-            if ($_propertyValue && $propertyName !== $_property) {
-                $activeConditions[] = "$_property = '$_propertyValue'";
-            }
-        }
-
-        $activeSql = "if(" . ($activeConditions ? implode(' or ', $activeConditions) : 'true') . ", 'active', 'inactive')";
-        $tableName = $cars->getMainTable();
-        $cars->getSelect()
+//    public function getFilteredCarProperty($propertyName, $properties = [], $order = 'ASC') {
+//
+//        $cars = Mage::getModel('cartographee/car')
+//            ->getCollection();
+//
+//        $activeConditions = [];
+//        foreach ($properties as $_property => $_propertyValue) {
+//            if ($_propertyValue && $propertyName !== $_property) {
+//                $activeConditions[] = "$_property = '$_propertyValue'";
+//            }
+//        }
+//
+//        $activeSql = "if(" . ($activeConditions ? implode(' or ', $activeConditions) : 'true') . ", 'active', 'inactive')";
+//        $tableName = $cars->getMainTable();
+//        $cars->getSelect()
 //            ->from($tableName,
 //                ["{$tableName}.{$propertyName}",
 //                    'active' => $activeSql])
-            ->columns([$propertyName, 'active' => $activeSql])
-            ->group(['active', $propertyName])
-            ->order(['active',
-                "$propertyName $order"]);
+//            ->columns([$propertyName, 'active' => $activeSql])
+//            ->group(['active', $propertyName])
+//            ->order(['active',
+//                "$propertyName $order"]);
 //        $cars->getSelect()
 //            ->from($tableName,
 //                ["{$tableName}.{$propertyName}",
@@ -123,25 +125,27 @@ class Soularpanic_CarToGraphEE_Helper_Car
 //            ->group("{$tableName}.{$propertyName}")
 //            ->order(['active',
 //                "{$tableName}.{$propertyName} $order"]);
-
-        Mage::log("car select sql:\n".print_r($cars->getSelect()->__toString(), true), null, 'trs_guide.log');
-
-        return $cars->toArray([$propertyName, 'active']);
-
-//        $cars = Mage::getModel('cartographee/car')
-//            ->getCollection();
 //
-//        foreach ($properties as $_property => $_propertyValue) {
-//            if ($_propertyValue && $propertyName !== $_property) {
-//                $cars->addFieldToFilter($_property, $_propertyValue);
-//            }
-//        }
+//        Mage::log("car select sql:\n".print_r($cars->getSelect()->__toString(), true), null, 'trs_guide.log');
 //
-//        $cars->getSelect()
-//            ->group($propertyName)
-//            ->order("{$propertyName} {$order}");
-//
-//        return $cars->getColumnValues($propertyName);
+//        return $cars->toArray([$propertyName, 'active']);
+//    }
+
+    public function getFilteredCarProperty($propertyName, $properties = [], $order = 'ASC') {
+        $cars = Mage::getModel('cartographee/car')
+            ->getCollection();
+
+        foreach ($properties as $_property => $_propertyValue) {
+            if ($_propertyValue && $propertyName !== $_property) {
+                $cars->addFieldToFilter($_property, $_propertyValue);
+            }
+        }
+
+        $cars->getSelect()
+            ->group($propertyName)
+            ->order("{$propertyName} {$order}");
+
+        return $cars->getColumnValues($propertyName);
     }
 
     protected function _resolveProduct($sku) {

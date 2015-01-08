@@ -33,9 +33,10 @@ class Soularpanic_CarToGraphEE_Helper_Buyersguide_Config
                     $this->log("binid: {$binId}; binValues: ".print_r($binValues, true));
                     $combined = array_merge($binary[$binId], $binValues);
                     $combined['value'] = "{$id}_{$binId}";
-                    if (array_key_exists('image', $combined)) {
-                        $combined['image'] = $this->_buildImage($combined['image']);
-                    }
+
+//                    if (array_key_exists('image', $combined)) {
+//                        $combined['image'] = $this->_buildImage($combined['image']);
+//                    }
                     //$this->log("combined: ".print_r($combined, true));
                     $options[] = $this->_buildOption($id, $combined);
                 }
