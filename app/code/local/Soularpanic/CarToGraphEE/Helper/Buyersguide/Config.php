@@ -49,7 +49,7 @@ class Soularpanic_CarToGraphEE_Helper_Buyersguide_Config
             }
         }
         $data['options'] = $options;
-        //$this->log("parsed options:".print_r($options, true));
+        $this->log("parsed options:".print_r($options, true));
         return $data;
     }
 

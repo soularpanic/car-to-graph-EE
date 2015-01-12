@@ -71,38 +71,6 @@ class Soularpanic_CarToGraphEE_Model_Resource_Buyersguide_Layer_Filter_Car
                     ->orWhere("$f.sku is not null")
                     ->having("$preselectAlias is not null");
 
-
-//                $directFitSelect
-//                    ->join([$f => $this->getTable('catalog/product_flat').'_'.Mage::app()->getStore()->getStoreId()],
-//                        "$f.entity_id = package_options.product_id",
-//                        [])
-//                    ->join([$attributeSetAlias => 'eav_attribute_set'],
-//                        "$attributeSetAlias.attribute_set_id = $f.attribute_set_id and $attributeSetAlias.attribute_set_name = '$_dfBundleTarget'",
-//                        [])
-//                    ->join([$linkAlias => $linkTable],
-//                        "{$linkAlias}.product_id = $f.entity_id and {$attributeSetAlias}.attribute_set_name = '{$_dfBundleTarget}'",
-//                        ["preselect_$dfBundleTarget" => "$f.sku"])
-//                    ->join([$carAlias => $this->getMainTable()],
-//                        "$carAlias.entity_id = $linkAlias.car_id and $carAlias.alt_id = '$value'",
-//                        []);
-                //$directFitSelect
-
-//                                                              ->join([$optionProductAlias => $this->getTable('catalog/product_flat').'_'.Mage::app()->getStore()->getStoreId()],
-//                        "$optionProductAlias.entity_id = package_options.product_id",
-//                        ["preselect_$dfBundleTarget" => "GROUP_CONCAT(DISTINCT $optionProductAlias.sku SEPARATOR ',')"])
-//
-//                    ->joinLeft([$fitOptionAlias => $this->getTable('bundle/selection')],
-//                        "$fitOptionAlias.product_id = package_options.product_id",
-//                        [])
-//                    ->joinLeft([$attributeSetAlias => 'eav_attribute_set'],
-//                        "$attributeSetAlias.attribute_set_id = $optionProductAlias.attribute_set_id and $attributeSetAlias.attribute_set_name = '$_dfBundleTarget'",
-//                        [])
-//                    ->joinLeft([$linkAlias => $linkTable],
-//                        "$linkAlias.product_id = $fitOptionAlias.parent_product_id",
-//                        [])
-//                    ->joinLeft([$carAlias => $this->getMainTable()],
-//                        "$carAlias.entity_id = $linkAlias.car_id and $carAlias.alt_id = '$value'",
-//                        []);
             }
         }
         else {
@@ -113,6 +81,9 @@ class Soularpanic_CarToGraphEE_Model_Resource_Buyersguide_Layer_Filter_Car
                 ->join([$carAlias => $this->getMainTable()],
                     "{$carAlias}.alt_id = '{$value}' and {$carAlias}.entity_id = {$linkAlias}.car_id",
                     [])
+                ->joinLeft(['g' => $this->getTable('catalog/product')],
+                    "g.entity_id = {$linkAlias}.preselect_ids",
+                    ['preselect' => "g.sku"])
                 ->group('e.entity_id');
         }
         Mage::log("DF SQL:\n{$directFitSelect->__toString()}", null, 'trs_guide.log');

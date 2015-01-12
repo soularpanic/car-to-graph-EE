@@ -26,13 +26,31 @@ class Soularpanic_CarToGraphEE_Model_Buyersguide_Layer_Filter_Chain_Link_Configu
         Mage::log("(filterblock) chainState: [".print_r($chainState, true).']', null, 'trs_guide.log');
         Mage::log("(this) chainState: [".print_r($this->getChainState(), true).']', null, 'trs_guide.log');
 
+        $prevGroup = null;
+        if ($this->getChainState()) {
+            $action = $this->getChainState()['action'];
+            $parts = explode('/', $action);
+            if (count($parts) > 1) {
+                $prevGroup = $parts[1];
+            }
+        }
+        Mage::log("previous group was <$prevGroup>", null, 'trs_guide.log');
 
 
         if ($value) {
             foreach ($this->getOptions() as $option) {
+                Mage::log("checking this option:\n".print_r($option, true), null, 'trs_guide.log');
                 if ($option->getValue() === $value) {
-                    $selectedOption = $option;
-                    break;
+                    if ($prevGroup) {
+                        if ($prevGroup === $option->getGroupId()) {
+                            $selectedOption = $option;
+                            break;
+                        }
+                    }
+                    else {
+                        $selectedOption = $option;
+                        break;
+                    }
                     //$selectedAction = str_replace('~', $option->getId(), $selectedAction);
                 }
             }

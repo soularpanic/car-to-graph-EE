@@ -80,19 +80,31 @@ class Soularpanic_CarToGraphEE_Helper_Car
         return $relationsData;
     }
 
-
+    public $FILTERED_CAR_PROPERTY_ORDER = ['year', 'make', 'model'];
     public function getFilteredCarProperties($properties) {
         $this->log("getFilteredCarProperties - start");
         $results = [];
-        foreach ($properties as $_propertyName => $_propertyValue) {
-            if ($_propertyValue) {
-                $results[$_propertyName] = [$_propertyValue];
+        $matchedProperties = [];
+        foreach ($this->FILTERED_CAR_PROPERTY_ORDER as $_propertyName) {
+            $_propertyValue = $properties[$_propertyName];
+            $results[$_propertyName] = $this->getFilteredCarProperty($_propertyName, $matchedProperties, $_propertyName === 'year' ? 'DESC' : 'ASC');
+            if (!$_propertyValue) {
+                break;
             }
-            else {
-                $results[$_propertyName] = $this->getFilteredCarProperty($_propertyName, $properties, $_propertyName === 'year' ? 'DESC' : 'ASC');
-            }
+            $matchedProperties[$_propertyName] = $_propertyValue;
         }
+
         return $results;
+//
+//        foreach ($properties as $_propertyName => $_propertyValue) {
+//            if ($_propertyValue) {
+//                $results[$_propertyName] = [$_propertyValue];
+//            }
+//            else {
+//                $results[$_propertyName] = $this->getFilteredCarProperty($_propertyName, $properties, $_propertyName === 'year' ? 'DESC' : 'ASC');
+//            }
+//        }
+//        return $results;
     }
 
 

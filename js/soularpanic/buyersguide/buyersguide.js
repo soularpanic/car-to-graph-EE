@@ -244,7 +244,8 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
             reel = $$(reelSelector)[0],
             containerWidth = reelContainer.getWidth(),
             multiplier = parseInt(stepId),
-            step = false;
+            step = false,
+            q = false;
 
         this._cleanUpPreviousStep();
         this._prepareNextStep(stepId, optionsToShowObj);
@@ -270,7 +271,7 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
         }
 
         // move strip s.t. correct step is in frame
-        slideStrip.setStyle({'marginLeft': (-1 * multiplier * containerWidth).toString() + 'px'});
+        // slideStrip.setStyle({'marginLeft': (-1 * multiplier * containerWidth).toString() + 'px'});
 
         this._previousStep = stepId;
     },
@@ -293,33 +294,11 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
 
     _prepareNextStep: function(stepId, optionsToShowObj) {
         var maskObj = optionsToShowObj,
-            step = this._getStepEltById(stepId),
-            stepOptionSelector = this.stepOptionSelector,
-            optionButtonSelector = this.stepSelectButtonSelector,
-            optionIdAttr = this._OPTION_ID_ATTR_NAME;
+            step = this._getStepEltById(stepId);
         // hide elements as necessary
         $H(maskObj).each(function(mask) {
             this._maskOptions(step, this['_OPTION_' + mask.key.toUpperCase() + '_ATTR_NAME'], mask.value);
         }.bind(this));
-
-        /*
-         if (maskObj && maskObj.length) {
-         maskObj.push('stock');
-         var options = step.select(stepOptionSelector);
-         options.each(function (option) {
-         var optionButtons = option.select(optionButtonSelector);
-         optionButtons.each(function (optionButton) {
-         var optionId = optionButton.readAttribute(optionIdAttr);
-         if ($A(optionsToShowObj).some(function (showableId) { return showableId === optionId; })) {
-         option.removeClassName('invisible');
-         }
-         else {
-         option.addClassName('invisible');
-         }
-         });
-         });
-         }
-         */
     },
 
 
@@ -378,7 +357,6 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
 
     _cleanUpPreviousStep: function() {
         var previousStep = this._previousStep,
-            previousElt = false,
             reelSelector = this.reelSelector,
             reel = $$(reelSelector)[0],
             q = false;
@@ -390,7 +368,6 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
         if (this._ERROR_STEP_ID === previousStep) {
             this._showErrorStepElt(false);
         }
-
         q = this._getQByStepId(previousStep);
         if (q) {
             reel.removeClassName("toggle-" + q);
@@ -406,7 +383,7 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
             qArr = [],
             q = false;
         targetElt = this._getStepEltById(stepId);
-        qArr = targetElt.classNames().grep(/^q\d$/);
+        qArr = targetElt.classNames().grep(/^q(\d|loading|directfit|done|nofit|error)$/);
         if (qArr.length > 0) {
             q = qArr[0];
             return q;
@@ -423,32 +400,34 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
             var optgroupId = optgroupIdTemplate.evaluate({field: pair.key}),
                 optgroup = $(optgroupId),
                 fieldSelectSelector = selectorTemplate.evaluate({field: pair.key}),
+                selectElt = $$(fieldSelectSelector)[0],
                 currentSelectedOption = $$(fieldSelectSelector + " :selected"),
                 currentVal = currentSelectedOption ? currentSelectedOption[0].value : '';
             console.log("currentVal:" + currentVal);
 
             var recommendedHtml = '';
 
-            if (!optgroup) {
-                var selectElt = $$(fieldSelectSelector)[0],
-                    firstOption = selectElt.childElements()[0],
-                    optgroupHtml = optgroupEltTemplate.evaluate({field: pair.key, id: optgroupId});
-                firstOption.insert({after: optgroupHtml});
-                optgroup = $(optgroupId);
-            }
+//            if (!optgroup) {
+//                var selectElt = $$(fieldSelectSelector)[0],
+//                    firstOption = selectElt.childElements()[0],
+//                    optgroupHtml = optgroupEltTemplate.evaluate({field: pair.key, id: optgroupId});
+//                firstOption.insert({after: optgroupHtml});
+//                optgroup = $(optgroupId);
+//            }
 
-
+            recommendedHtml += '<option value="">' + pair.key.capitalize() + '</option>';
             pair.value.each(function(val) {
                 recommendedHtml += optionTemplate.evaluate({value: val});
             });
 
 
-            optgroup.update(recommendedHtml);
+//            optgroup.update(recommendedHtml);
+            selectElt.update(recommendedHtml);
 
             var optionToSelect = $$(fieldSelectSelector + ' option[value="' + currentVal + '"]:first');
-            var blankOption = $$(fieldSelectSelector + ' option[value=""]:first');
+//            var blankOption = $$(fieldSelectSelector + ' option[value=""]:first');
             optionToSelect[0].writeAttribute('selected', 'selected');
-            blankOption[0].update(currentVal === '' ? pair.key.capitalize() : 'Refresh Suggestions')
+//            blankOption[0].update(currentVal === '' ? pair.key.capitalize() : 'Refresh Suggestions')
         });
     },
 
@@ -473,6 +452,12 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
             template = new Template("<h2>#{stepName}: <a class='buyersGuide-previousSelectionLink' data-stepId='#{stepId}'>#{stepValue}</a></h2>\n"),
             html = '',
             previousId = this._previousStep;
+        if (selections.size() > 0) {
+            var backId = selections[selections.length - 1]['stepId'];
+            var prefix = isNaN(parseInt(backId)) ? "" : "step_";
+            html+= "<h2><a class='buyersGuide-previousSelectionLink' data-stepId='" + prefix + backId + "'>Back</a></h2>";
+        }
+
         $A(selections).each(function(selection) {
             var stepId = selection['stepId'];
             html+= template.evaluate({
@@ -517,13 +502,6 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
                 delimiterIndex = commandStr.indexOf(delimiter),
                 command = '',
                 remainder = '';
-//            if (delimiterIndex < 1) {
-//                console.log("ERROR: Could not find delimiter (#{delimiter}) in command string '#{commandStr}'.".interpolate({
-//                    delimiter: delimiter,
-//                    commandStr: actionStr
-//                }));
-//                return false;
-//            }
 
             command = commandStr.slice(0, delimiterIndex);
             remainder = commandStr.slice(delimiterIndex + 1);
