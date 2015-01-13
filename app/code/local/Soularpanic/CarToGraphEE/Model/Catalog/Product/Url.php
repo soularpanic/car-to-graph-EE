@@ -18,6 +18,7 @@ class Soularpanic_CarToGraphEE_Model_Catalog_Product_Url
 
         if ($preselect) {
             $params['_query']['preselect'] = $preselect;
+            $params['_query']['carDisplay'] = $product->getData('buyers_guide_car_display');
         }
 
         return parent::getUrl($product, $params);

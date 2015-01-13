@@ -79,7 +79,7 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
         });
         $(goId).observe('click', context.startBuyersGuide.bind(context));
         $(stopId).observe('click', context.stopBuyersGuide.bind(context));
-        $(resetId).observe('click', context.resetBuyersGuide.bind(context));
+//        $(resetId).observe('click', context.resetBuyersGuide.bind(context)); // reset may not be a useful function; perhaps remove?
         $(document).observe(newDataEvent, context.handleNewCatalogData.bind(context));
         this._registerObserver = document.observe(this.INITIALIZED_EVENT, function() {
             context.register();

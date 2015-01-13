@@ -20,6 +20,14 @@ class Soularpanic_CarToGraphEE_Model_Resource_Buyersguide_Layer_Filter_Car
         $dfBundleTargets = $this->getDirectFitBundleTargets();
         Mage::log('resource direct fit bundle targets: '.print_r($dfBundleTargets, true), null, 'trs_guide.log');
 
+        if ($value) {
+            $collection->getSelect()
+                ->join(['car_display' => $this->getTable('cartographee/car')],
+                "car_display.alt_id = '$value'",
+                ['buyers_guide_car_display' => "concat_ws(' ', car_display.year, car_display.make, car_display.model)"]);
+                //->columns(['buyers_guide_car_alt_id' => "('$value')"]);
+        }
+
         $directFitSelect = $collection->getSelect();
         $originalSelect = clone $directFitSelect;
 
@@ -27,6 +35,10 @@ class Soularpanic_CarToGraphEE_Model_Resource_Buyersguide_Layer_Filter_Car
         $linkAlias = Mage::helper('cartographee/buyersguide_action')->getCarLinkTableAlias();
         $linkTable = $this->getTable('cartographee/linkcarproduct');
         $attributeSetAlias = 'eas';
+
+
+
+
         if ($dfBundleTargets) {
             $bundleHelper = Mage::helper('cartographee/buyersguide_bundle');
             $directFitSelect
