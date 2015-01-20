@@ -22,26 +22,33 @@ class Soularpanic_CarToGraphEE_Helper_Buyersguide_Action
             $value = trim($value);
             $this->log("action: [{$action}]; value: [{$value}]");
             if ($action == 'sku') {
-                $this->_applySkuToCollection($filter, $value);
+                return $this->_applySkuToCollection($filter, $value);
             }
             elseif ($action == 'step') {
-                $this->_applyStepToCollection($filter, $value);
+                return $this->_applyStepToCollection($filter, $value);
             }
             elseif ($action == 'sql') {
-                $this->_applySqlToCollection($filter, $value, false);
+//                return $this->_applySqlToCollection($filter, $value, false);
+                return $this->_applySqlToCollection($filter, $value, "step:next");
             }
             elseif ($action == 'fit_sql') {
-                $this->_applySqlToCollection($filter, $value, true);
+//                return $this->_applySqlToCollection($filter, $value, true);
+                return $this->_applySqlToCollection($filter, $value, "step:directfit");
             }
             elseif (strpos($action, '(') === 0) {
-                $this->_applyComplex($filter, $action);
+                return $this->_applyComplex($filter, $action);
             }
             else {
                 $this->log("Unhandled action: [{$action}]/[{$value}]", null, 'trs_guide.log');
+                return false;
             }
         }
     }
 
+
+    public function toDirectFitTableAlias($targetName) {
+        return "f_".strtolower(str_replace(' ', '_', $targetName));
+    }
 
     protected function _applyComplex($filter, $complex) {
         $matches = [];
@@ -120,6 +127,7 @@ class Soularpanic_CarToGraphEE_Helper_Buyersguide_Action
             ->where($skuInStmt);
 
         $this->log("sku SQL:\n".$select->__toString());
+        return false;
     }
 
 
@@ -135,23 +143,26 @@ class Soularpanic_CarToGraphEE_Helper_Buyersguide_Action
             $collection->getSelect()->where("e.sku IN ('{$skus}')");
             $this->log("collection sql: ".$collection->getSelect()->__toString());
         }
+        return true;
     }
 
 
-    protected function _applySqlToCollection($filter, $field, $shouldWriteAction = false) {
+    protected function _applySqlToCollection($filter, $field, $directFitAction /* $shouldWriteAction = false */) {
         $this->log("field: [{$field}]");
         $collection = $filter->getLayer()->getProductCollection();
         $select = $collection->getSelect();
         $tables = $select->getPart(Zend_Db_Select::FROM);
 
-        if (!array_key_exists($this->getCarLinkTableAlias(), $tables)) {
+        $targetName = $filter->getDirectFitBundleTarget() ? $this->toDirectFitTableAlias($filter->getDirectFitBundleTarget()) : $this->getCarLinkTableAlias();
+
+        if (!array_key_exists($targetName, $tables)) {
             return;
         }
 
         $matches = [];
         $matched = preg_match('/^([^=]+)=(.+)$/', $field, $matches);
         if ($matched) {
-            $tableAlias = $this->getCarLinkTableAlias();
+            $tableAlias = $targetName;
             $column = $matches[1];
             $value = $matches[2];
             $select->where("{$tableAlias}.{$column} = '{$value}'");
@@ -161,12 +172,15 @@ class Soularpanic_CarToGraphEE_Helper_Buyersguide_Action
             $state = $filter->getChainState();
             $state['has_direct_fit'] = $fits;
 
-            if ($shouldWriteAction) {
-                $state['action'] = $fits ? 'step:directfit' : 'step:nofit';
-            }
+
+            $state['action'] = $fits ? $directFitAction : 'step:nofit';
+//            if ($shouldWriteAction) {
+//                $state['action'] = $fits ? 'step:directfit' : 'step:nofit';
+//            }
 
             $filter->setChainState($state);
             $this->log("After supplemental application, chain state: ".print_r($state, true));
         }
+        return true;
     }
 }

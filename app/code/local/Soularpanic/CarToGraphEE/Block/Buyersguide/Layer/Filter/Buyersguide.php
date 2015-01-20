@@ -11,13 +11,22 @@ class Soularpanic_CarToGraphEE_Block_Buyersguide_Layer_Filter_Buyersguide
 
 
     protected function _prepareFilter() {
-        $filterChildren = ['buyersguide_car_filter', 'buyersguide_toolbar_supplemental', 'buyersguide_steps'];
-        //$filterChildren = ['buyersguide_car_filter'];
+        $filterChildren = [
+            'buyersguide_toolbar_supplemental_precar',
+            'buyersguide_car_filter',
+            'buyersguide_toolbar_supplemental_postcar',
+            'buyersguide_steps'
+        ];
+//        foreach ($this->getSortedChildBlocks() as $_name => $_block) {
+//            Mage::log("checking '$_name'...", null, 'trs_guide.log');
+//            if (in_array($_name, $filterChildren)) {
+//                Mage::log("adding '$_name'!", null, 'trs_guide.log');
+//                $this->_filter->addLink($_block);
+//            }
+//        }
         foreach ($filterChildren as $filterChild) {
             $block = $this->getLayout()->getBlock($filterChild);
-            //$block = $this->getChild($filterChild);
             if ($block) {
-                //$this->_filter->addDelegate($block);
                 $this->_filter->addLink($block);
             }
         }

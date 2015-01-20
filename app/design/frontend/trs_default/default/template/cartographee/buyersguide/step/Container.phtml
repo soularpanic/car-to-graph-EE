@@ -4,7 +4,7 @@
         <!-- error slide -->
         <div class="buyersGuide-questions qerror invisible" data-stepId="step_error">
             <div class="buyersGuide-selections">
-                <h2>This is the selections container.</h2>
+                <h2>&nbsp;</h2>
             </div>
             <div class="buyersGuide-select">
                 <h2>Oh no, there was an error!</h2>
@@ -14,7 +14,7 @@
         <!-- slide 0 aka the loading slide -->
         <div class="buyersGuide-questions qloading" data-stepId="step_loading">
             <div class="buyersGuide-selections">
-                <h2>This is the selections container.</h2>
+                <h2>&nbsp;</h2>
             </div>
             <div class="buyersGuide-select" style="text-align: center;">
                 <img src="<?php echo $this->getSkinUrl('images/carousel/ajax-loader.gif') ?>" style="background: white; padding: 1px; border-radius: 15px;"/>
@@ -23,10 +23,10 @@
 
         <div class="buyersGuide-questions qdone" data-stepId="step_done">
             <div class="buyersGuide-selections">
-                <h2>This is the selections container.</h2>
+                <h2>&nbsp;</h2>
             </div>
             <div class="buyersGuide-select">
-                <span class="productDrop-headline">Finished! Check out our product recommendation below.</span>
+                <span class="productDrop-headline">That&apos;s it!  Check out the compatible products below.</span>
                 <h2>
                     <span class="note">NOTE: This is a retrofit product - modifications may need to be required for installation.</span>
                 </h2>
@@ -35,13 +35,22 @@
 
         <div class="buyersGuide-questions qdirectfit" data-stepId="step_directfit">
             <div class="buyersGuide-select">
-                <span class="productDrop-headline">That&apos;s it!  Check out the direct-fit product solutions below.</span>
+                <span class="productDrop-headline">That&apos;s it!  Check out the compatible products below.</span>
             </div>
         </div>
 
         <div class="buyersGuide-questions qnofit" data-stepId="step_nofit">
             <div class="buyersGuide-select">
                 <span class="productDrop-headline">Unfortunately we do not carry a product solution for this vehicle.</span>
+            </div>
+        </div>
+
+        <div class="buyersGuide-questions qcontactus" data-stepId="step_contactus">
+            <div class="buyersGuide-selections">
+                <h2>&nbsp;</h2>
+            </div>
+            <div class="buyersGuide-select">
+                <span class="productDrop-headline">This is a tricky one!  Please <a href="<?php echo Mage::getUrl('contacts') ?>">contact us</a> for more ideas.</span>
             </div>
         </div>
 

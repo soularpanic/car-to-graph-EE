@@ -39,7 +39,7 @@ class Soularpanic_CarToGraphEE_Model_Buyersguide_Layer_Filter_Chain_Link_Configu
 
         if ($value) {
             foreach ($this->getOptions() as $option) {
-                Mage::log("checking this option:\n".print_r($option, true), null, 'trs_guide.log');
+//                Mage::log("checking this option:\n".print_r($option, true), null, 'trs_guide.log');
                 if ($option->getValue() === $value) {
                     if ($prevGroup) {
                         if ($prevGroup === $option->getGroupId()) {
@@ -65,16 +65,16 @@ class Soularpanic_CarToGraphEE_Model_Buyersguide_Layer_Filter_Chain_Link_Configu
 
         Mage::log("selected option: ".($selectedOption ? "{$selectedOption->getId()}/{$selectedOption->getAction()}" : "NOTHING"), null, 'trs_guide.log');
 
-        if ($selectedOption && $selectedOption->getAction()) {
-            $chainState['action'] = $selectedOption->getAction();
+        if ($selectedOption) {
+            if ($selectedOption->getAction()) {
+                $chainState['action'] = $selectedOption->getAction();
+            }
             $this->setChainState($chainState);
             Mage::log("chain state at action check: [".print_r($this->getChainState(), true).']', null, 'trs_guide.log');
             // do something to the collection
-            Mage::log("resource model: -{$selectedOption->getResourceModel()}-", null, 'trs_guide.log');
-            $this->_getResource($selectedOption->getResourceModel())->applyFilterToCollection($this, $selectedOption);
-
-            $actionHelper = Mage::helper('cartographee/buyersguide_action');
-            return !$actionHelper->isTerminal($selectedOption);
+            Mage::log("resource model: -{$filterBlock->getModel()}-", null, 'trs_guide.log');
+            $filterResponse = $this->_getResource($filterBlock->getModel())->applyFilterToCollection($this, $selectedOption);
+            return is_bool($filterResponse) ? $filterResponse : !(Mage::helper('cartographee/buyersguide_action')->isTerminal($selectedOption));
         }
 
         return false;

@@ -18,41 +18,6 @@ class Soularpanic_CarToGraphEE_Model_Resource_Buyersguide_Layer_Filter_Chain_Lin
             return $this;
         }
 
-        //            $collection = $filter->getLayer()->getProductCollection();
-//            $suffix = 'wattage';
-//            $carAlias = "car_$suffix";
-//            $linkAlias = "carlink_$suffix";
-//            $attrSetAlias = "attribute_set_$suffix";
-//            $fitOptionAlias = "fit_option_$suffix";
-//            $optionProductAlias = "option_product_$suffix";
-//            $packageOptionAlias = "package_option_$suffix";
-//
-//            $targetAttrSet = "HID Ballasts";
-//
-//
-//
-//
-//            $directFitSelect = $collection->getSelect();
-//            $directFitSelect
-//                ->join([$packageOptionAlias => $this->getTable('bundle/selection')],
-//                    "$packageOptionAlias.parent_product_id = e.entity_id",
-//                    [])
-//                ->join([$optionProductAlias => $this->getTable('catalog/product_flat').'_'.Mage::app()->getStore()->getStoreId()],
-//                    "$optionProductAlias.entity_id = $packageOptionAlias.product_id",
-//                    ["preselect_$suffix" => "GROUP_CONCAT(DISTINCT $optionProductAlias.sku SEPARATOR ',')"])
-//                ->join([$fitOptionAlias => $this->getTable('bundle/selection')],
-//                    "$fitOptionAlias.product_id = $packageOptionAlias.product_id and $fitOptionAlias.parent_product_id != $packageOptionAlias.parent_product_id",
-//                    [])
-//                ->joinLeft([$attrSetAlias => 'eav_attribute_set'],
-//                    "$attrSetAlias.attribute_set_id = $optionProductAlias.attribute_set_id and $attrSetAlias.attribute_set_name = '$targetAttrSet'",
-//                    [])
-//                ->join([$linkAlias => $this->getTable('cartographee/linkcarproduct')],
-//                    "$linkAlias.product_id = $fitOptionAlias.parent_product_id",
-//                    [])
-//                ->join([$carAlias => $this->getTable('cartographee/car')],
-//                    "$carAlias.entity_id = $linkAlias.car_id and $carAlias.alt_id = '$value'",
-//                    []);
-        //$targetsStmt = "('".implode("', '", $dfBundleTargets)."')";
         $_dfBundleTarget = 'HID Ballats';
         $dfBundleTarget = strtolower(str_replace(' ', '_', $_dfBundleTarget));
         $carAlias = "car_$dfBundleTarget";
@@ -92,29 +57,37 @@ class Soularpanic_CarToGraphEE_Model_Resource_Buyersguide_Layer_Filter_Chain_Lin
 
 
         $step2Value = Mage::app()->getRequest()->getParam('step_2');
-        $fallback = 'null';
-        if ($step2Value) {
-            $fallback = "'$wattage" . (in_array($step2Value, ['d2s', 'd2r']) ? "D2S" : "AMP") . "-DSP'";
-        }
+//        $fallback = 'null';
+//        if ($step2Value) {
+//            $fallback = "'$wattage" . (in_array($step2Value, ['d2s', 'd2r']) ? "D2S" : "AMP") . "-DSP'";
+//        }
+        $fallback = "'XB-BALLAST-$wattage'";
 
         $directFitSelect
-            ->joinLeft([$f => new Zend_Db_Expr($sqlString)],
-                "$f.entity_id = package_options.product_id",
-                ["preselect_$dfBundleTarget" => "GROUP_CONCAT(DISTINCT IFNULL($f.sku, IF($bulbAlias.sku is not null, IF($bulbAlias.sku REGEXP 'D2[SR]', '{$wattage}D2S-DSP', '{$wattage}AMP-DSP') , $fallback)) SEPARATOR ',')"])
-            ->orWhere("$f.sku is not null");
+            ->joinLeft([$f => new Zend_Db_Expr("(select $fallback as ballast)")],
+            "true",
+            ["preselect_$dfBundleTarget" => "$f.ballast"]);
+        Mage::log("wattage sql: ".$directFitSelect->__toString(), null, 'trs_guide.log');
+//        $directFitSelect
+//            ->joinLeft([$f => new Zend_Db_Expr($sqlString)],
+//                "$f.entity_id = package_options.product_id",
+//                ["preselect_$dfBundleTarget" => "$f.sku"])
+//                ["preselect_$dfBundleTarget" => "GROUP_CONCAT(DISTINCT IFNULL($f.sku, IF($bulbAlias.sku is not null, IF($bulbAlias.sku REGEXP 'D2[SR]', '{$wattage}D2S-DSP', '{$wattage}AMP-DSP') , $fallback)) SEPARATOR ',')"])
+//            ->orWhere("$f.sku is not null");
 
-        $refineFurther = false;
-        if (!$step2Value) {
-            foreach ($collection as $matchedProducts) {
-                if (!$matchedProducts->getPreselectHidBulbs()) {
-                    $refineFurther = true;
-                    break;
-                }
-            }
-            $collection->setSelect($originalSelect);
-        }
+//        $refineFurther = false;
+//        if (!$step2Value) {
+//            foreach ($collection as $matchedProducts) {
+//                if (!$matchedProducts->getPreselectHidBulbs()) {
+//                    $refineFurther = true;
+//                    break;
+//                }
+//            }
+//            $collection->setSelect($originalSelect);
+//        }
 
-        $state['action'] = $refineFurther ? $option->getAction() : 'step:done';
+//        $state['action'] = $option->getAction();
+        $state['action'] = 'step:done';
         $filter->setChainState($state);
 
         Mage::log("Wattage SQL:\n{$directFitSelect->__toString()}", null, 'trs_guide.log');

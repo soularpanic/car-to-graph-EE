@@ -12,8 +12,10 @@ class Soularpanic_CarToGraphEE_Model_Buyersguide_Layer_Filter_Chain
     }
 
     public function addLink($linkBlock) {
+        Mage::log("adding block ({$linkBlock->getNameInLayout()}) to chain", null, 'trs_guide.log');
         //$this->_links[] = $linkBlock->getChainLink();
         $this->_links[] = $linkBlock;
+        Mage::log("chain length is now ".count($this->_links), null, 'trs_guide.log');
     }
 
 
@@ -25,7 +27,7 @@ class Soularpanic_CarToGraphEE_Model_Buyersguide_Layer_Filter_Chain
 
 
     protected function _chainApply(Zend_Controller_Request_Abstract $request, $filterBlock) {
-
+        Mage::log("_chainApply called on Chain block", null, 'trs_guide.log');
         if (!$this->getChainState()) {
             $blockChainState = $filterBlock->getChainState();
             $this->setChainState($blockChainState ?: []);

@@ -28,9 +28,9 @@ class Soularpanic_CarToGraphEE_Helper_Buyersguide_Config
 
             if (array_key_exists('binary', $values)) {
                 $binary = $stepConfigArr['binary'];
-                $this->log("binary: ".print_r($binary, true));
+//                $this->log("binary: ".print_r($binary, true));
                 foreach ($values['binary'] as $binId => $binValues) {
-                    $this->log("binid: {$binId}; binValues: ".print_r($binValues, true));
+//                    $this->log("binid: {$binId}; binValues: ".print_r($binValues, true));
                     $combined = array_merge($binary[$binId], $binValues);
                     $combined['value'] = "{$id}_{$binId}";
 
@@ -49,7 +49,7 @@ class Soularpanic_CarToGraphEE_Helper_Buyersguide_Config
             }
         }
         $data['options'] = $options;
-        $this->log("parsed options:".print_r($options, true));
+//        $this->log("parsed options:".print_r($options, true));
         return $data;
     }
 

@@ -19,13 +19,12 @@ class Soularpanic_CarToGraphEE_Model_Resource_Buyersguide_Layer_Filter_Car
         $collection = $filter->getLayer()->getProductCollection();
         $dfBundleTargets = $this->getDirectFitBundleTargets();
         Mage::log('resource direct fit bundle targets: '.print_r($dfBundleTargets, true), null, 'trs_guide.log');
-
+        $helper = Mage::helper('cartographee/buyersguide_action');
         if ($value) {
             $collection->getSelect()
                 ->join(['car_display' => $this->getTable('cartographee/car')],
-                "car_display.alt_id = '$value'",
-                ['buyers_guide_car_display' => "concat_ws(' ', car_display.year, car_display.make, car_display.model)"]);
-                //->columns(['buyers_guide_car_alt_id' => "('$value')"]);
+                    "car_display.alt_id = '$value'",
+                    ['buyers_guide_car_display' => "concat_ws(' ', car_display.year, car_display.make, car_display.model)"]);
         }
 
         $directFitSelect = $collection->getSelect();
@@ -34,33 +33,17 @@ class Soularpanic_CarToGraphEE_Model_Resource_Buyersguide_Layer_Filter_Car
         $carAlias = 'car';
         $linkAlias = Mage::helper('cartographee/buyersguide_action')->getCarLinkTableAlias();
         $linkTable = $this->getTable('cartographee/linkcarproduct');
-        $attributeSetAlias = 'eas';
-
-
-
 
         if ($dfBundleTargets) {
-            $bundleHelper = Mage::helper('cartographee/buyersguide_bundle');
             $directFitSelect
                 ->join(['package_options' => $this->getTable('bundle/selection')],
                     "package_options.parent_product_id = e.entity_id",
                     [])
-//                ->join(['f' => $this->getTable('catalog/product_flat').'_'.Mage::app()->getStore()->getStoreId()],
-//                    "f.entity_id = package_options.product_id",
-//                    [])
-//                ->join([$attributeSetAlias => 'eav_attribute_set'],
-//                    "$attributeSetAlias.attribute_set_id = f.attribute_set_id",
-//                    [])
                 ->group('e.entity_id');
             foreach ($dfBundleTargets as $_dfBundleTarget) {
-                //$targetsStmt = "('".implode("', '", $dfBundleTargets)."')";
-                $dfBundleTarget = strtolower(str_replace(' ', '_', $_dfBundleTarget));
-                $carAlias = "car_$dfBundleTarget";
-                $linkAlias = "carlink_$dfBundleTarget";
-                $optionProductAlias = "option_product_$dfBundleTarget";
-                $fitOptionAlias = "fit_option_$dfBundleTarget";
-                $attributeSetAlias = "attribute_set_$dfBundleTarget";
-                $f = "f_$dfBundleTarget";
+                $f = $helper->toDirectFitTableAlias($_dfBundleTarget);
+//                $dfBundleTarget = strtolower(str_replace(' ', '_', $_dfBundleTarget));
+//                $f = "f_$dfBundleTarget";
 
                 $sqlString = "(select
                     f.entity_id
@@ -75,7 +58,7 @@ class Soularpanic_CarToGraphEE_Model_Resource_Buyersguide_Layer_Filter_Car
                         on links.product_id = f.entity_id and eas.attribute_set_name = '$_dfBundleTarget'
                     inner join cartographee_cars as cars
                         on cars.entity_id = links.car_id and cars.alt_id = '$value')";
-                $preselectAlias = "preselect_$dfBundleTarget";
+                $preselectAlias = "preselect_$f";
                 $directFitSelect
                     ->joinLeft([$f => new Zend_Db_Expr($sqlString)],
                         "$f.entity_id = package_options.product_id",

@@ -1,14 +1,16 @@
 <div id="buyersGuideContainerWrapper">
     <div class="<?php echo $this->getContainerClassString() ?>" id="buyersGuideContainer">
         <div class="buyersGuide-filter">
-            <?php echo $this->getChildHtml('buyersguide_toolbar_supplemental') ?>
+            <?php echo $this->getChildHtml('buyersguide_toolbar_supplemental_precar') ?>
+            <?php echo $this->getChildHtml('buyersguide_toolbar_supplemental_postcar') ?>
             <?php echo $this->getChildHtml('car_filter') ?>
 
             <div class="buyersGuide-filterInner last">
                 <div class="buyersGuideCTA">
                     <input type="button" class="go" id="buyersGuideStartButton" value="Go!"/>
                 </div>
-                <span class="fakeA" id="buyersGuideStopButton"><h2>Close</h2></span>
+                <span class="fakeA" id="buyersGuideResetButton"><h2>Reset</h2></span>
+<!--                <span class="fakeA" id="buyersGuideStopButton"><h2>Close</h2></span>-->
             </div>
 
             <input type="hidden" id="buyersGuideStartUrl" value="<?php echo $this->getUrl('*/*/*') ?>"/>

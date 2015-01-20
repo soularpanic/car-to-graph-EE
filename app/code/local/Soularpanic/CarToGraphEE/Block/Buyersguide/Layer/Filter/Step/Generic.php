@@ -22,7 +22,7 @@ class Soularpanic_CarToGraphEE_Block_Buyersguide_Layer_Filter_Step_Generic
 
 
     public function setStepConfig($config) {
-        Mage::log("step config: ".print_r($config, true), null, 'trs_guide.log');
+//        Mage::log("step config: ".print_r($config, true), null, 'trs_guide.log');
         $this->_stepConfig = $config;
 
         $processed = Mage::helper('cartographee/buyersguide_config')->processStepConfigArray($config);

@@ -5,6 +5,9 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
     _DIRECT_FITS_STEP_ID: 'directfit',
     _NO_FITS_STEP_ID: 'nofit',
     _ERROR_STEP_ID: 'error',
+    _CONTACT_US_STEP_ID: 'contactus',
+
+    _NEXT_KEYWORD: 'next',
 
     _DEFAULT_BG_CONTAINER_SELECTOR: '.buyersGuide',
     _DEFAULT_REEL_CONTAINER_SELECTOR: '.buyersGuide-questionMask',
@@ -78,8 +81,13 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
             Event.on(elt, 'click', historyStepSelectButtonSelector, context.handleHistorySelection.bind(context));
         });
         $(goId).observe('click', context.startBuyersGuide.bind(context));
-        $(stopId).observe('click', context.stopBuyersGuide.bind(context));
+//        $(stopId).observe('click', context.stopBuyersGuide.bind(context));
 //        $(resetId).observe('click', context.resetBuyersGuide.bind(context)); // reset may not be a useful function; perhaps remove?
+        $(resetId).observe('click', function(evt) {
+            context.resetBuyersGuide(evt);
+            context.stopBuyersGuide(evt);
+            Event.fire(evt.target, context.FILTER_CHANGE_EVENT, evt.memo);
+        }.bind(context));
         $(document).observe(newDataEvent, context.handleNewCatalogData.bind(context));
         this._registerObserver = document.observe(this.INITIALIZED_EVENT, function() {
             context.register();
@@ -198,7 +206,7 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
             elt.removeClassName('active');
         });
         Event.fire(evt.target, this.SET_ACTIVE_REGISTRANTS_EVENT, [], true);
-        Event.fire(evt.target, this.FILTER_CHANGE_EVENT, evt.memo);
+//        Event.fire(evt.target, this.FILTER_CHANGE_EVENT, evt.memo);
     },
 
 
@@ -210,7 +218,7 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
 
         if (this._isRunning) {
             this.stepSelections = [];
-            Event.fire(evt.target, this.FILTER_CHANGE_EVENT, evt.memo);
+//            Event.fire(evt.target, this.FILTER_CHANGE_EVENT, evt.memo);
         }
     },
 
@@ -243,15 +251,16 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
             reelSelector = this.reelSelector,
             reel = $$(reelSelector)[0],
             containerWidth = reelContainer.getWidth(),
-            multiplier = parseInt(stepId),
+            _stepId = this._resolveStepId(stepId),
+            multiplier = parseInt(_stepId),
             step = false,
             q = false;
 
         this._cleanUpPreviousStep();
-        this._prepareNextStep(stepId, optionsToShowObj);
+        this._prepareNextStep(_stepId, optionsToShowObj);
 
         if (isNaN(multiplier)) {
-            var isStepId = function(step) { return step === stepId; }
+            var isStepId = function(step) { return step === _stepId; }
             if (isStepId(this._LOADING_STEP_ID)) {
                 multiplier = 0;
             }
@@ -259,13 +268,13 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
                 this._showErrorStepElt(true);
                 multiplier = 0;
             }
-            if ($A([this._ROUGH_FITS_STEP_ID, this._DIRECT_FITS_STEP_ID, this._NO_FITS_STEP_ID]).some(isStepId)) {
-                multiplier = this._getStepEltIndex(stepId);
+            if ($A([this._ROUGH_FITS_STEP_ID, this._DIRECT_FITS_STEP_ID, this._NO_FITS_STEP_ID, this._CONTACT_US_STEP_ID]).some(isStepId)) {
+                multiplier = this._getStepEltIndex(_stepId);
             }
         }
 
         // adjust vertical height of guide
-        q = this._getQByStepId(stepId);
+        q = this._getQByStepId(_stepId);
         if (q) {
             reel.addClassName('toggle-' + q);
         }
@@ -273,7 +282,7 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
         // move strip s.t. correct step is in frame
         // slideStrip.setStyle({'marginLeft': (-1 * multiplier * containerWidth).toString() + 'px'});
 
-        this._previousStep = stepId;
+        this._previousStep = _stepId;
     },
 
 
@@ -281,6 +290,29 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
         console.log('we recommend:');
         console.log(recommendedSkus);
         this.moveToStep(this._ROUGH_FITS_STEP_ID);
+    },
+
+
+    _resolveStepId: function(stepId) {
+        var specialIds = [
+                this._LOADING_STEP_ID,
+                this._ROUGH_FITS_STEP_ID,
+                this._DIRECT_FITS_STEP_ID,
+                this._NO_FITS_STEP_ID,
+                this._ERROR_STEP_ID,
+                this._CONTACT_US_STEP_ID
+            ],
+            previousStep = this._previousStep;
+        if (isNaN(parseInt(stepId))) {
+            if (specialIds.indexOf(stepId) > -1) {
+                return stepId;
+            }
+            if (stepId === this._NEXT_KEYWORD) {
+                var previousStepInt = parseInt(previousStep);
+                return isNaN(previousStepInt) ? 1 : previousStepInt + 1;
+            }
+        }
+        return stepId;
     },
 
 
@@ -383,7 +415,7 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
             qArr = [],
             q = false;
         targetElt = this._getStepEltById(stepId);
-        qArr = targetElt.classNames().grep(/^q(\d|loading|directfit|done|nofit|error)$/);
+        qArr = targetElt.classNames().grep(/^q(\d|loading|directfit|contactus|done|nofit|error)$/);
         if (qArr.length > 0) {
             q = qArr[0];
             return q;
@@ -470,7 +502,7 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
             if (previousId === this._ROUGH_FITS_STEP_ID || previousId === this._DIRECT_FITS_STEP_ID) {
                 html = defaultDoneContent;
             }
-            else if (previousId === this._NO_FITS_STEP_ID) {
+            else if (previousId === this._NO_FITS_STEP_ID || previousId === this._CONTACT_US_STEP_ID) {
                 html = defaultNoFitContent;
             }
             else {
@@ -529,12 +561,14 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
 
     _parseStep: function(remainder) {
         console.log("Parsing step -" + remainder + "-");
-        var reTemplate = new Template("^(\\d+|#{loadId}|#{doneRoughId}|#{doneDirectId}|#{doneNadaId}|#{errorId})(/\\w+)?(\\[[^\\]]+\\])?(.*)$"),
+        var reTemplate = new Template("^(\\d+|#{nextKeyword}|#{loadId}|#{doneRoughId}|#{doneDirectId}|#{doneNadaId}|#{doneContactUsId}|#{errorId})(/\\w+)?(\\[[^\\]]+\\])?(.*)$"),
             reStr = reTemplate.evaluate({
+                nextKeyword: this._NEXT_KEYWORD,
                 loadId: this._LOADING_STEP_ID,
                 doneRoughId: this._ROUGH_FITS_STEP_ID,
                 doneDirectId: this._DIRECT_FITS_STEP_ID,
                 doneNadaId: this._NO_FITS_STEP_ID,
+                doneContactUsId: this._CONTACT_US_STEP_ID,
                 errorId: this._ERROR_STEP_ID
             }),
             re = new RegExp(reStr);

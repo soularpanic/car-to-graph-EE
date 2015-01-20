@@ -12,34 +12,53 @@
 
     <buyersguide_completekits>
         <reference name="buyers_guide">
-            <action method="addContainerClass"><value>completekits ballasts</value></action>
+            <action method="addContainerClass"><value>completekits</value></action>
             <block type="cartographee/buyersguide_layer_filter_car" name="buyersguide_car_filter" as="car_filter" template="cartographee/buyersguide/toolbar/Car.phtml">
                 <action method="setDirectFitBundleTargets"><targets>Harnesses</targets></action>
                 <action method="setDirectFitAction"><value>step:1</value></action>
                 <!--<action method="setNoFitAction"><value>step:1</value></action>-->
 
             </block>
-            <block type="cartographee/buyersguide_layer_filter_step_generic" name="buyersguide_toolbar_supplemental" as="buyersguide_toolbar_supplemental" template="cartographee/buyersguide/toolbar/Supplemental.phtml">
+            <block type="cartographee/buyersguide_layer_filter_step_generic" name="buyersguide_toolbar_supplemental_postcar" as="buyersguide_toolbar_supplemental_postcar" template="cartographee/buyersguide/toolbar/Supplemental.phtml">
+                <action method="setModel"><model>cartographee/buyersguide_layer_filter_chain_link_completekits_foo</model></action>
+                <action method="setDirectFitBundleTarget"><target>Harnesses</target></action>
                 <action method="setStepConfig">
                     <config>
-                        <id>hidbulb_function</id>
+                        <!--<id>hidbulb_function</id>-->
+                        <id>harnesses</id>
                         <apply_to_direct_fit>true</apply_to_direct_fit>
+                        <resource_model>cartographee/buyersguide_layer_filter_chain_link_completekits_foo</resource_model>
                         <options>
+                            <!--<all>-->
+                            <!--<title>All Function Types</title>-->
+                            <!--<action>step:1</action>-->
+                            <!--</all>-->
+                            <!--<high>-->
+                            <!--<title>High Beams</title>-->
+                            <!--<action>sql:type=high</action>-->
+                            <!--</high>-->
+                            <!--<low>-->
+                            <!--<title>Low Beams</title>-->
+                            <!--<action>sql:type=low</action>-->
+                            <!--</low>-->
+                            <!--<fog>-->
+                            <!--<title>Fog Lights</title>-->
+                            <!--<action>sql:type=fog</action>-->
+                            <!--</fog>-->
                             <all>
                                 <title>All Function Types</title>
-                                <action>step:1</action>
                             </all>
                             <high>
                                 <title>High Beams</title>
-                                <action>sql:type=high</action>
+                                <action>sql:type=high_beam_harness</action>
                             </high>
                             <low>
                                 <title>Low Beams</title>
-                                <action>sql:type=low</action>
+                                <action>sql:type=low_beam_harness</action>
                             </low>
                             <fog>
                                 <title>Fog Lights</title>
-                                <action>sql:type=fog</action>
+                                <action>sql:type=fog_light_harness</action>
                             </fog>
                         </options>
                     </config>
@@ -200,6 +219,7 @@
                     </action>
                 </block>
                 <block type="cartographee/buyersguide_layer_filter_step_completekits_shroud" name="step_4" as="step_4" template="cartographee/buyersguide/step/Ribbon.phtml">
+                    <action method="setQ"><q>4</q></action>
                     <action method="setStepConfig">
                         <config>
                             <display_name>Reflector Shape</display_name>
@@ -296,7 +316,7 @@
                     </action>
                 </block>
                 <block type="cartographee/buyersguide_layer_filter_step_completekits_ballast" name="step_5" as="step_5" template="cartographee/buyersguide/step/Binary.phtml">
-                    <action method="setQ"><q>1</q></action>
+                    <action method="setQ"><q>5</q></action>
                     <action method="setStepConfig">
                         <config>
                             <apply_to_direct_fit>true</apply_to_direct_fit>
@@ -308,7 +328,7 @@
                                     <info_template>cartographee/buyersguide/info/35WattBallast.phtml</info_template>
                                 </watt35>
                                 <watt55>
-                                    <title>55 Watt Ballast</title>
+                                    <title>50 Watt Ballast</title>
                                     <info_template>cartographee/buyersguide/info/55WattBallast.phtml</info_template>
                                 </watt55>
                             </binary>
@@ -323,199 +343,6 @@
                         </config>
                     </action>
                 </block>
-                <!--<block type="cartographee/buyersguide_layer_filter_step_noop" name="step_6" as="step_6" template="cartographee/buyersguide/step/Ribbon.phtml">-->
-                <!--<action method="setQ"><q>1</q></action>-->
-                <!--<action method="setStepConfig">-->
-                <!--<config>-->
-                <!--<apply_to_direct_fit>true</apply_to_direct_fit>-->
-                <!--<display_name>Bulb</display_name>-->
-                <!--<step_question>What HID bulbs will you be running with the ballasts?</step_question>-->
-                <!--<step_desc>This will determine whether you need them for "AMP" or "D2" Fitment</step_desc>-->
-                <!--<options>-->
-                <!--<d2s>-->
-                <!--<title>D2S</title>-->
-                <!--<image>-->
-                <!--<url>images/productcategory/bulbs-D2S.svg</url>-->
-                <!--</image>-->
-                <!--<action>-->
-                <!--<w35>bundle:35D2S-DSP</w35>-->
-                <!--<w55>bundle:55D2S-DSP</w55>-->
-                <!--</action>-->
-                <!--</d2s>-->
-                <!--<d2r>-->
-                <!--<title>D2R</title>-->
-                <!--<image>-->
-                <!--<url>images/productcategory/bulbs-D2R.svg</url>-->
-                <!--</image>-->
-                <!--<action>-->
-                <!--<w35>bundle:35D2S-DSP</w35>-->
-                <!--<w55>bundle:55D2S-DSP</w55>-->
-                <!--</action>-->
-                <!--</d2r>-->
-                <!--<h1>-->
-                <!--<title>H1</title>-->
-                <!--<image>-->
-                <!--<url>images/productcategory/bulbs-h1.svg</url>-->
-                <!--</image>-->
-                <!--<action>-->
-                <!--<w35>bundle:35AMP-DSP</w35>-->
-                <!--<w55>bundle:55AMP-DSP</w55>-->
-                <!--</action>-->
-                <!--</h1>-->
-                <!--<h3>-->
-                <!--<title>H3</title>-->
-                <!--<image>-->
-                <!--<url>images/productcategory/bulbs-h3.svg</url>-->
-                <!--</image>-->
-                <!--<action>-->
-                <!--<w35>bundle:35AMP-DSP</w35>-->
-                <!--<w55>bundle:55AMP-DSP</w55>-->
-                <!--</action>-->
-                <!--</h3>-->
-                <!--<h4>-->
-                <!--<title>H4</title>-->
-                <!--<image>-->
-                <!--<url>images/productcategory/bulbs-h4.svg</url>-->
-                <!--</image>-->
-                <!--<action>-->
-                <!--<w35>bundle:35AMP-DSP</w35>-->
-                <!--<w55>bundle:55AMP-DSP</w55>-->
-                <!--</action>-->
-                <!--</h4>-->
-                <!--<h7>-->
-                <!--<title>H7</title>-->
-                <!--<image>-->
-                <!--<url>images/productcategory/bulbs-h7.svg</url>-->
-                <!--</image>-->
-                <!--<action>-->
-                <!--<w35>bundle:35AMP-DSP</w35>-->
-                <!--<w55>bundle:55AMP-DSP</w55>-->
-                <!--</action>-->
-                <!--</h7>-->
-                <!--<h8>-->
-                <!--<title>H8</title>-->
-                <!--<image>-->
-                <!--<url>images/productcategory/bulbs-h8.svg</url>-->
-                <!--</image>-->
-                <!--<action>-->
-                <!--<w35>bundle:35AMP-DSP</w35>-->
-                <!--<w55>bundle:55AMP-DSP</w55>-->
-                <!--</action>-->
-                <!--</h8>-->
-                <!--<h9>-->
-                <!--<title>H9</title>-->
-                <!--<image>-->
-                <!--<url>images/productcategory/bulbs-h9.svg</url>-->
-                <!--</image>-->
-                <!--<action>-->
-                <!--<w35>bundle:35AMP-DSP</w35>-->
-                <!--<w55>bundle:55AMP-DSP</w55>-->
-                <!--</action>-->
-                <!--</h9>-->
-                <!--<h10>-->
-                <!--<title>H10</title>-->
-                <!--<image>-->
-                <!--<url>images/productcategory/bulbs-h10.svg</url>-->
-                <!--</image>-->
-                <!--<action>-->
-                <!--<w35>bundle:35AMP-DSP</w35>-->
-                <!--<w55>bundle:55AMP-DSP</w55>-->
-                <!--</action>-->
-                <!--</h10>-->
-                <!--<h11>-->
-                <!--<title>H11</title>-->
-                <!--<image>-->
-                <!--<url>images/productcategory/bulbs-h11.svg</url>-->
-                <!--</image>-->
-                <!--<action>-->
-                <!--<w35>bundle:35AMP-DSP</w35>-->
-                <!--<w55>bundle:55AMP-DSP</w55>-->
-                <!--</action>-->
-                <!--</h11>-->
-                <!--<h13>-->
-                <!--<title>H13</title>-->
-                <!--<image>-->
-                <!--<url>images/productcategory/bulbs-h13.svg</url>-->
-                <!--</image>-->
-                <!--<action>-->
-                <!--<w35>bundle:35AMP-DSP</w35>-->
-                <!--<w55>bundle:55AMP-DSP</w55>-->
-                <!--</action>-->
-                <!--</h13>-->
-                <!--<x880>-->
-                <!--<title>880</title>-->
-                <!--<image>-->
-                <!--<url>images/productcategory/bulbs-880.svg</url>-->
-                <!--</image>-->
-                <!--<action>-->
-                <!--<w35>bundle:35AMP-DSP</w35>-->
-                <!--<w55>bundle:55AMP-DSP</w55>-->
-                <!--</action>-->
-                <!--</x880>-->
-                <!--<x9005>-->
-                <!--<title>9005</title>-->
-                <!--<image>-->
-                <!--<url>images/productcategory/bulbs-9005.svg</url>-->
-                <!--</image>-->
-                <!--<action>-->
-                <!--<w35>bundle:35AMP-DSP</w35>-->
-                <!--<w55>bundle:55AMP-DSP</w55>-->
-                <!--</action>-->
-                <!--</x9005>-->
-                <!--<x9006>-->
-                <!--<title>9006</title>-->
-                <!--<image>-->
-                <!--<url>images/productcategory/bulbs-9006.svg</url>-->
-                <!--</image>-->
-                <!--<action>-->
-                <!--<w35>bundle:35AMP-DSP</w35>-->
-                <!--<w55>bundle:55AMP-DSP</w55>-->
-                <!--</action>-->
-                <!--</x9006>-->
-                <!--<x9007>-->
-                <!--<title>9007</title>-->
-                <!--<image>-->
-                <!--<url>images/productcategory/bulbs-9007.svg</url>-->
-                <!--</image>-->
-                <!--<action>-->
-                <!--<w35>bundle:35AMP-DSP</w35>-->
-                <!--<w55>bundle:55AMP-DSP</w55>-->
-                <!--</action>-->
-                <!--</x9007>-->
-                <!--<x9012>-->
-                <!--<title>9012</title>-->
-                <!--<image>-->
-                <!--<url>images/productcategory/bulbs-9012.svg</url>-->
-                <!--</image>-->
-                <!--<action>-->
-                <!--<w35>bundle:35AMP-DSP</w35>-->
-                <!--<w55>bundle:55AMP-DSP</w55>-->
-                <!--</action>-->
-                <!--</x9012>-->
-                <!--<d2h>-->
-                <!--<title>D2H</title>-->
-                <!--<image>-->
-                <!--<url>images/productcategory/bulbs-D2H.svg</url>-->
-                <!--</image>-->
-                <!--<action>-->
-                <!--<w35>bundle:35AMP-DSP</w35>-->
-                <!--<w55>bundle:55AMP-DSP</w55>-->
-                <!--</action>-->
-                <!--</d2h>-->
-                <!--<h16>-->
-                <!--<title>H16</title>-->
-                <!--<image>-->
-                <!--<url>images/productcategory/bulbs-h16.svg</url>-->
-                <!--</image>-->
-                <!--<action>-->
-                <!--<w35>bundle:35AMP-DSP</w35>-->
-                <!--<w55>bundle:55AMP-DSP</w55>-->
-                <!--</action>-->
-                <!--</h16>-->
-                <!--</options>-->
-                <!--</config>-->
-                <!--</action>-->
-                <!--</block>-->
             </block>
         </reference>
     </buyersguide_completekits>
@@ -527,14 +354,11 @@
 
     <buyersguide_hidsystems>
         <reference name="buyers_guide">
-            <action method="addContainerClass"><value>hidsystems ballasts</value></action>
+            <action method="addContainerClass"><value>hidsystems</value></action>
             <block type="cartographee/buyersguide_layer_filter_car" name="buyersguide_car_filter" as="car_filter" template="cartographee/buyersguide/toolbar/Car.phtml">
-                <action method="setDirectFitBundleTargets"><targets>HID Bulbs, Harnesses</targets></action>
                 <action method="setDirectFitAction"><value>step:1</value></action>
-                <!--<action method="setNoFitAction"><value>step:1</value></action>-->
-
             </block>
-            <block type="cartographee/buyersguide_layer_filter_step_generic" name="buyersguide_toolbar_supplemental" as="buyersguide_toolbar_supplemental" template="cartographee/buyersguide/toolbar/Supplemental.phtml">
+            <block type="cartographee/buyersguide_layer_filter_step_generic" name="buyersguide_toolbar_supplemental_postcar" as="buyersguide_toolbar_supplemental_postcar" template="cartographee/buyersguide/toolbar/Supplemental.phtml">
                 <action method="setStepConfig">
                     <config>
                         <id>hidbulb_function</id>
@@ -546,15 +370,15 @@
                             </all>
                             <high>
                                 <title>High Beams</title>
-                                <action>sql:type=high</action>
+                                <action>sql:type=hid_system_high_beam</action>
                             </high>
                             <low>
                                 <title>Low Beams</title>
-                                <action>sql:type=low</action>
+                                <action>sql:type=hid_system_low_beam</action>
                             </low>
                             <fog>
                                 <title>Fog Lights</title>
-                                <action>sql:type=fog</action>
+                                <action>sql:type=hid_system_fog_lights</action>
                             </fog>
                         </options>
                     </config>
@@ -574,214 +398,142 @@
                                     <info_template>cartographee/buyersguide/info/35WattBallast.phtml</info_template>
                                 </watt35>
                                 <watt55>
-                                    <title>55 Watt Ballast</title>
+                                    <title>50 Watt Ballast</title>
                                     <info_template>cartographee/buyersguide/info/55WattBallast.phtml</info_template>
                                 </watt55>
                             </binary>
                             <options>
                                 <wattage>
                                     <binary>
-                                        <watt35><action>step:2/w35</action></watt35>
-                                        <watt55><action>step:2/w55</action></watt55>
+                                        <watt35><action>step:2</action></watt35>
+                                        <watt55><action>step:2</action></watt55>
                                     </binary>
                                 </wattage>
                             </options>
                         </config>
                     </action>
                 </block>
-                <block type="cartographee/buyersguide_layer_filter_step_noop" name="step_2" as="step_2" template="cartographee/buyersguide/step/Ribbon.phtml">
-                    <action method="setQ"><q>1</q></action>
-                    <action method="setStepConfig">
-                        <config>
-                            <apply_to_direct_fit>true</apply_to_direct_fit>
-                            <display_name>Bulb</display_name>
-                            <step_question>What HID bulbs will you be running with the ballasts?</step_question>
-                            <step_desc>This will determine whether you need them for "AMP" or "D2" Fitment</step_desc>
-                            <options>
-                                <d2s>
-                                    <title>D2S</title>
-                                    <image>
-                                        <url>images/productcategory/bulbs-D2S.svg</url>
-                                    </image>
-                                    <action>
-                                        <w35>bundle:35D2S-DSP</w35>
-                                        <w55>bundle:55D2S-DSP</w55>
-                                    </action>
-                                </d2s>
-                                <d2r>
-                                    <title>D2R</title>
-                                    <image>
-                                        <url>images/productcategory/bulbs-D2R.svg</url>
-                                    </image>
-                                    <action>
-                                        <w35>bundle:35D2S-DSP</w35>
-                                        <w55>bundle:55D2S-DSP</w55>
-                                    </action>
-                                </d2r>
-                                <h1>
-                                    <title>H1</title>
-                                    <image>
-                                        <url>images/productcategory/bulbs-h1.svg</url>
-                                    </image>
-                                    <action>
-                                        <w35>bundle:35AMP-DSP</w35>
-                                        <w55>bundle:55AMP-DSP</w55>
-                                    </action>
-                                </h1>
-                                <h3>
-                                    <title>H3</title>
-                                    <image>
-                                        <url>images/productcategory/bulbs-h3.svg</url>
-                                    </image>
-                                    <action>
-                                        <w35>bundle:35AMP-DSP</w35>
-                                        <w55>bundle:55AMP-DSP</w55>
-                                    </action>
-                                </h3>
-                                <h4>
-                                    <title>H4</title>
-                                    <image>
-                                        <url>images/productcategory/bulbs-h4.svg</url>
-                                    </image>
-                                    <action>
-                                        <w35>bundle:35AMP-DSP</w35>
-                                        <w55>bundle:55AMP-DSP</w55>
-                                    </action>
-                                </h4>
-                                <h7>
-                                    <title>H7</title>
-                                    <image>
-                                        <url>images/productcategory/bulbs-h7.svg</url>
-                                    </image>
-                                    <action>
-                                        <w35>bundle:35AMP-DSP</w35>
-                                        <w55>bundle:55AMP-DSP</w55>
-                                    </action>
-                                </h7>
-                                <h8>
-                                    <title>H8</title>
-                                    <image>
-                                        <url>images/productcategory/bulbs-h8.svg</url>
-                                    </image>
-                                    <action>
-                                        <w35>bundle:35AMP-DSP</w35>
-                                        <w55>bundle:55AMP-DSP</w55>
-                                    </action>
-                                </h8>
-                                <h9>
-                                    <title>H9</title>
-                                    <image>
-                                        <url>images/productcategory/bulbs-h9.svg</url>
-                                    </image>
-                                    <action>
-                                        <w35>bundle:35AMP-DSP</w35>
-                                        <w55>bundle:55AMP-DSP</w55>
-                                    </action>
-                                </h9>
-                                <h10>
-                                    <title>H10</title>
-                                    <image>
-                                        <url>images/productcategory/bulbs-h10.svg</url>
-                                    </image>
-                                    <action>
-                                        <w35>bundle:35AMP-DSP</w35>
-                                        <w55>bundle:55AMP-DSP</w55>
-                                    </action>
-                                </h10>
-                                <h11>
-                                    <title>H11</title>
-                                    <image>
-                                        <url>images/productcategory/bulbs-h11.svg</url>
-                                    </image>
-                                    <action>
-                                        <w35>bundle:35AMP-DSP</w35>
-                                        <w55>bundle:55AMP-DSP</w55>
-                                    </action>
-                                </h11>
-                                <h13>
-                                    <title>H13</title>
-                                    <image>
-                                        <url>images/productcategory/bulbs-h13.svg</url>
-                                    </image>
-                                    <action>
-                                        <w35>bundle:35AMP-DSP</w35>
-                                        <w55>bundle:55AMP-DSP</w55>
-                                    </action>
-                                </h13>
-                                <x880>
-                                    <title>880</title>
-                                    <image>
-                                        <url>images/productcategory/bulbs-880.svg</url>
-                                    </image>
-                                    <action>
-                                        <w35>bundle:35AMP-DSP</w35>
-                                        <w55>bundle:55AMP-DSP</w55>
-                                    </action>
-                                </x880>
-                                <x9005>
-                                    <title>9005</title>
-                                    <image>
-                                        <url>images/productcategory/bulbs-9005.svg</url>
-                                    </image>
-                                    <action>
-                                        <w35>bundle:35AMP-DSP</w35>
-                                        <w55>bundle:55AMP-DSP</w55>
-                                    </action>
-                                </x9005>
-                                <x9006>
-                                    <title>9006</title>
-                                    <image>
-                                        <url>images/productcategory/bulbs-9006.svg</url>
-                                    </image>
-                                    <action>
-                                        <w35>bundle:35AMP-DSP</w35>
-                                        <w55>bundle:55AMP-DSP</w55>
-                                    </action>
-                                </x9006>
-                                <x9007>
-                                    <title>9007</title>
-                                    <image>
-                                        <url>images/productcategory/bulbs-9007.svg</url>
-                                    </image>
-                                    <action>
-                                        <w35>bundle:35AMP-DSP</w35>
-                                        <w55>bundle:55AMP-DSP</w55>
-                                    </action>
-                                </x9007>
-                                <x9012>
-                                    <title>9012</title>
-                                    <image>
-                                        <url>images/productcategory/bulbs-9012.svg</url>
-                                    </image>
-                                    <action>
-                                        <w35>bundle:35AMP-DSP</w35>
-                                        <w55>bundle:55AMP-DSP</w55>
-                                    </action>
-                                </x9012>
-                                <d2h>
-                                    <title>D2H</title>
-                                    <image>
-                                        <url>images/productcategory/bulbs-D2H.svg</url>
-                                    </image>
-                                    <action>
-                                        <w35>bundle:35AMP-DSP</w35>
-                                        <w55>bundle:55AMP-DSP</w55>
-                                    </action>
-                                </d2h>
-                                <h16>
-                                    <title>H16</title>
-                                    <image>
-                                        <url>images/productcategory/bulbs-h16.svg</url>
-                                    </image>
-                                    <action>
-                                        <w35>bundle:35AMP-DSP</w35>
-                                        <w55>bundle:55AMP-DSP</w55>
-                                    </action>
-                                </h16>
-                            </options>
-                        </config>
-                    </action>
-                </block>
+                <!--<block type="cartographee/buyersguide_layer_filter_step_hidsystems_bulb" name="step_2" as="step_2" template="cartographee/buyersguide/step/Ribbon.phtml">-->
+                <!--<action method="setQ"><q>2</q></action>-->
+                <!--<action method="setStepConfig">-->
+                <!--<config>-->
+                <!--<apply_to_direct_fit>true</apply_to_direct_fit>-->
+                <!--<display_name>Bulb</display_name>-->
+                <!--<step_question>What HID bulbs will you be running with the ballasts?</step_question>-->
+                <!--<step_desc>This will determine whether you need them for "AMP" or "D2" Fitment</step_desc>-->
+                <!--<options>-->
+                <!--<d2s>-->
+                <!--<title>D2S</title>-->
+                <!--<image>-->
+                <!--<url>images/productcategory/bulbs-D2S.svg</url>-->
+                <!--</image>-->
+                <!--</d2s>-->
+                <!--<d2r>-->
+                <!--<title>D2R</title>-->
+                <!--<image>-->
+                <!--<url>images/productcategory/bulbs-D2R.svg</url>-->
+                <!--</image>-->
+                <!--</d2r>-->
+                <!--<h1>-->
+                <!--<title>H1</title>-->
+                <!--<image>-->
+                <!--<url>images/productcategory/bulbs-h1.svg</url>-->
+                <!--</image>-->
+                <!--</h1>-->
+                <!--<h3>-->
+                <!--<title>H3</title>-->
+                <!--<image>-->
+                <!--<url>images/productcategory/bulbs-h3.svg</url>-->
+                <!--</image>-->
+                <!--</h3>-->
+                <!--<h4>-->
+                <!--<title>H4</title>-->
+                <!--<image>-->
+                <!--<url>images/productcategory/bulbs-h4.svg</url>-->
+                <!--</image>-->
+                <!--</h4>-->
+                <!--<h7>-->
+                <!--<title>H7</title>-->
+                <!--<image>-->
+                <!--<url>images/productcategory/bulbs-h7.svg</url>-->
+                <!--</image>-->
+                <!--</h7>-->
+                <!--<h8>-->
+                <!--<title>H8</title>-->
+                <!--<image>-->
+                <!--<url>images/productcategory/bulbs-h8.svg</url>-->
+                <!--</image>-->
+                <!--</h8>-->
+                <!--<h9>-->
+                <!--<title>H9</title>-->
+                <!--<image>-->
+                <!--<url>images/productcategory/bulbs-h9.svg</url>-->
+                <!--</image>-->
+                <!--</h9>-->
+                <!--<h10>-->
+                <!--<title>H10</title>-->
+                <!--<image>-->
+                <!--<url>images/productcategory/bulbs-h10.svg</url>-->
+                <!--</image>-->
+                <!--</h10>-->
+                <!--<h11>-->
+                <!--<title>H11</title>-->
+                <!--<image>-->
+                <!--<url>images/productcategory/bulbs-h11.svg</url>-->
+                <!--</image>-->
+                <!--</h11>-->
+                <!--<h13>-->
+                <!--<title>H13</title>-->
+                <!--<image>-->
+                <!--<url>images/productcategory/bulbs-h13.svg</url>-->
+                <!--</image>-->
+                <!--</h13>-->
+                <!--<x880>-->
+                <!--<title>880</title>-->
+                <!--<image>-->
+                <!--<url>images/productcategory/bulbs-880.svg</url>-->
+                <!--</image>-->
+                <!--</x880>-->
+                <!--<x9005>-->
+                <!--<title>9005</title>-->
+                <!--<image>-->
+                <!--<url>images/productcategory/bulbs-9005.svg</url>-->
+                <!--</image>-->
+                <!--</x9005>-->
+                <!--<x9006>-->
+                <!--<title>9006</title>-->
+                <!--<image>-->
+                <!--<url>images/productcategory/bulbs-9006.svg</url>-->
+                <!--</image>-->
+                <!--</x9006>-->
+                <!--<x9007>-->
+                <!--<title>9007</title>-->
+                <!--<image>-->
+                <!--<url>images/productcategory/bulbs-9007.svg</url>-->
+                <!--</image>-->
+                <!--</x9007>-->
+                <!--<x9012>-->
+                <!--<title>9012</title>-->
+                <!--<image>-->
+                <!--<url>images/productcategory/bulbs-9012.svg</url>-->
+                <!--</image>-->
+                <!--</x9012>-->
+                <!--<d2h>-->
+                <!--<title>D2H</title>-->
+                <!--<image>-->
+                <!--<url>images/productcategory/bulbs-D2H.svg</url>-->
+                <!--</image>-->
+                <!--</d2h>-->
+                <!--<h16>-->
+                <!--<title>H16</title>-->
+                <!--<image>-->
+                <!--<url>images/productcategory/bulbs-h16.svg</url>-->
+                <!--</image>-->
+                <!--</h16>-->
+                <!--</options>-->
+                <!--</config>-->
+                <!--</action>-->
+                <!--</block>-->
             </block>
         </reference>
     </buyersguide_hidsystems>
@@ -902,7 +654,7 @@
                                         <minid2so>sku:E46-R, E46EXT-R, IRIS-R, BULLET-R</minid2so>
                                         <minid2sx>sku:Gatling2.0Square-R, PanaSquare-R</minid2sx>
                                         <fxr30>sku:E46-R, E46EXT-R, IRIS-R, BULLET-R</fxr30>
-                                        <other>sku:Gatling2.0Square-R, PanaSquare-R</other>
+                                        <other>step:contactus</other>
                                     </action>
                                 </odd>
                             </options>
@@ -937,7 +689,7 @@
                                     <info_template>cartographee/buyersguide/info/35WattBallast.phtml</info_template>
                                 </watt35>
                                 <watt55>
-                                    <title>55 Watt Ballast</title>
+                                    <title>50 Watt Ballast</title>
                                     <info_template>cartographee/buyersguide/info/55WattBallast.phtml</info_template>
                                 </watt55>
                             </binary>
@@ -1161,7 +913,7 @@
             <block type="cartographee/buyersguide_layer_filter_car" name="buyersguide_car_filter" as="car_filter" template="cartographee/buyersguide/toolbar/Car.phtml">
                 <action method="setNoFitAction"><value>step:nofit</value></action>
             </block>
-            <block type="cartographee/buyersguide_layer_filter_step_generic" name="buyersguide_toolbar_supplemental" as="buyersguide_toolbar_supplemental" template="cartographee/buyersguide/toolbar/Supplemental.phtml">
+            <block type="cartographee/buyersguide_layer_filter_step_generic" name="buyersguide_toolbar_supplemental_postcar" as="buyersguide_toolbar_supplemental_postcar" template="cartographee/buyersguide/toolbar/Supplemental.phtml">
                 <action method="setStepConfig">
                     <config>
                         <id>housing_function</id>
@@ -1197,7 +949,7 @@
             <action method="addContainerClass"><value>bulbs</value>
             </action>
             <block type="cartographee/buyersguide_layer_filter_car" name="buyersguide_car_filter" as="car_filter" template="cartographee/buyersguide/toolbar/Car.phtml"/>
-            <block type="cartographee/buyersguide_layer_filter_step_generic" name="buyersguide_toolbar_supplemental" as="buyersguide_toolbar_supplemental" template="cartographee/buyersguide/toolbar/Supplemental.phtml">
+            <block type="cartographee/buyersguide_layer_filter_step_generic" name="buyersguide_toolbar_supplemental_postcar" as="buyersguide_toolbar_supplemental_postcar" template="cartographee/buyersguide/toolbar/Supplemental.phtml">
                 <action method="setStepConfig">
                     <config>
                         <id>bulb_function</id>
@@ -1254,8 +1006,7 @@
 
     <buyersguide_lenses>
         <reference name="buyers_guide">
-            <action method="addContainerClass"><value>lenses</value>
-            </action>
+            <action method="addContainerClass"><value>lenses</value></action>
             <block type="cartographee/buyersguide_layer_filter_car" name="buyersguide_car_filter" as="car_filter" template="cartographee/buyersguide/toolbar/Car.phtml"/>
             <block type="cartographee/buyersguide_layer_filter_step_container" name="buyersguide_steps" as="buyersguide_steps" template="cartographee/buyersguide/step/Container.phtml"/>
         </reference>
@@ -1272,7 +1023,7 @@
             <action method="addContainerClass"><value>bulbs</value>
             </action>
             <block type="cartographee/buyersguide_layer_filter_car" name="buyersguide_car_filter" as="car_filter" template="cartographee/buyersguide/toolbar/Car.phtml"/>
-            <block type="cartographee/buyersguide_layer_filter_step_generic" name="buyersguide_toolbar_supplemental" as="buyersguide_toolbar_supplemental" template="cartographee/buyersguide/toolbar/Supplemental.phtml">
+            <block type="cartographee/buyersguide_layer_filter_step_generic" name="buyersguide_toolbar_supplemental_postcar" as="buyersguide_toolbar_supplemental_postcar" template="cartographee/buyersguide/toolbar/Supplemental.phtml">
                 <action method="setStepConfig">
                     <config>
                         <id>harnesses</id>
@@ -1283,15 +1034,15 @@
                             </all>
                             <high>
                                 <title>High Beams</title>
-                                <action>fit_sql:type=high</action>
+                                <action>fit_sql:type=high_beam_harness</action>
                             </high>
                             <low>
                                 <title>Low Beams</title>
-                                <action>fit_sql:type=low</action>
+                                <action>fit_sql:type=low_beam_harness</action>
                             </low>
                             <fog>
                                 <title>Fog Lights</title>
-                                <action>fit_sql:type=fog</action>
+                                <action>fit_sql:type=fog_light_harness</action>
                             </fog>
                         </options>
                     </config>
@@ -1310,7 +1061,7 @@
             <action method="addContainerClass"><value>bulbs</value>
             </action>
             <block type="cartographee/buyersguide_layer_filter_car" name="buyersguide_car_filter" as="car_filter" template="cartographee/buyersguide/toolbar/Car.phtml"/>
-            <block type="cartographee/buyersguide_layer_filter_step_generic" name="buyersguide_toolbar_supplemental" as="buyersguide_toolbar_supplemental" template="cartographee/buyersguide/toolbar/Supplemental.phtml">
+            <block type="cartographee/buyersguide_layer_filter_step_generic" name="buyersguide_toolbar_supplemental_postcar" as="buyersguide_toolbar_supplemental_postcar" template="cartographee/buyersguide/toolbar/Supplemental.phtml">
                 <action method="setStepConfig">
                     <config>
                         <id>hidbulb_function</id>
@@ -1321,15 +1072,15 @@
                             </all>
                             <high>
                                 <title>High Beams</title>
-                                <action>fit_sql:type=high</action>
+                                <action>fit_sql:type=high_beam_bulb</action>
                             </high>
                             <low>
                                 <title>Low Beams</title>
-                                <action>fit_sql:type=low</action>
+                                <action>fit_sql:type=low_beam_bulb</action>
                             </low>
                             <fog>
                                 <title>Fog Lights</title>
-                                <action>fit_sql:type=fog</action>
+                                <action>fit_sql:type=fog_light_bulb</action>
                             </fog>
                         </options>
                     </config>
@@ -1348,19 +1099,21 @@
     <buyersguide_projectors>
         <reference name="buyers_guide">
             <action method="addContainerClass"><value>projectors</value></action>
-            <block type="cartographee/buyersguide_layer_filter_car" name="buyersguide_car_filter" as="car_filter" template="cartographee/buyersguide/toolbar/Car.phtml"/>
-            <block type="cartographee/buyersguide_layer_filter_step_generic" name="buyersguide_toolbar_supplemental" as="buyersguide_toolbar_supplemental" template="cartographee/buyersguide/toolbar/Supplemental.phtml">
+            <!--<block type="cartographee/buyersguide_layer_filter_step_wrapper" name="buyersguide_car_filter_wrapper" as="car_filter" template="cartographee/buyersguide/toolbar/FunctionWrapper.phtml">-->
+            <!--<block type="cartographee/buyersguide_layer_filter_car" name="buyersguide_car_filter" as="wrapped" template="cartographee/buyersguide/toolbar/Car.phtml"/>-->
+            <block type="cartographee/buyersguide_layer_filter_step_generic" name="buyersguide_toolbar_supplemental_precar" as="buyersguide_toolbar_supplemental_precar" template="cartographee/buyersguide/toolbar/Supplemental.phtml">
                 <action method="setStepConfig">
                     <config>
                         <id>projector_function</id>
+                        <!--<apply_to_direct_fit>true</apply_to_direct_fit>-->
                         <options>
                             <all>
                                 <title>All Function Types</title>
-                                <action>step:1</action>
+                                <!--<action>step:1</action>-->
                             </all>
                             <headlights>
                                 <title>Headlights</title>
-                                <action>step:1</action>
+                                <!--<action>step:1</action>-->
                             </headlights>
                             <foglights>
                                 <title>Fog Lights</title>
@@ -1370,6 +1123,31 @@
                     </config>
                 </action>
             </block>
+            <block type="cartographee/buyersguide_layer_filter_car" name="buyersguide_car_filter" as="car_filter" template="cartographee/buyersguide/toolbar/Car.phtml">
+                <action method="setNoFitAction"><nfa>step:1</nfa></action>
+            </block>
+            <!--<block type="cartographee/buyersguide_layer_filter_step_generic" name="buyersguide_toolbar_supplemental_postcar" as="buyersguide_toolbar_supplemental_postcar" template="cartographee/buyersguide/toolbar/Supplemental.phtml">-->
+            <!--<action method="setStepConfig">-->
+            <!--<config>-->
+            <!--<id>projector_function</id>-->
+            <!--<apply_to_direct_fit>true</apply_to_direct_fit>-->
+            <!--<options>-->
+            <!--<all>-->
+            <!--<title>All Function Types</title>-->
+            <!--<action>step:1</action>-->
+            <!--</all>-->
+            <!--<headlights>-->
+            <!--<title>Headlights</title>-->
+            <!--<action>step:1</action>-->
+            <!--</headlights>-->
+            <!--<foglights>-->
+            <!--<title>Fog Lights</title>-->
+            <!--<action>sku:MATCHBOX-R</action>-->
+            <!--</foglights>-->
+            <!--</options>-->
+            <!--</config>-->
+            <!--</action>-->
+            <!--</block>-->
             <block type="cartographee/buyersguide_layer_filter_step_container" name="buyersguide_steps" as="buyersguide_steps" template="cartographee/buyersguide/step/Container.phtml">
                 <block type="cartographee/buyersguide_layer_filter_step_generic" name="step_1" as="step_1" template="cartographee/buyersguide/step/Diagram.phtml">
                     <action method="setQ"><q>1</q></action>

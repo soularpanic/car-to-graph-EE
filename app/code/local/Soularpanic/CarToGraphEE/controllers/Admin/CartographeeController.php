@@ -110,7 +110,7 @@ class Soularpanic_CarToGraphEE_Admin_CartographeeController
             Mage::log("writing to disk...", null, 'trs_guide.log');
             try {
                 $uploader->save($path, $filename);
-                return $path.$filename;
+                return $path.$uploader->getCorrectFileName($filename);
             }
             catch (Exception $e) {
                 Mage::log("FAILED!~ {$e->getMessage()}", null, 'trs_guide');
