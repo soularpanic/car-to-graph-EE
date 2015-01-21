@@ -20,7 +20,7 @@
 
             </block>
             <block type="cartographee/buyersguide_layer_filter_step_generic" name="buyersguide_toolbar_supplemental_postcar" as="buyersguide_toolbar_supplemental_postcar" template="cartographee/buyersguide/toolbar/Supplemental.phtml">
-                <action method="setModel"><model>cartographee/buyersguide_layer_filter_chain_link_completekits_foo</model></action>
+                <action method="setModel"><model>cartographee/buyersguide_layer_filter_chain_link_completekits_harness</model></action>
                 <action method="setDirectFitBundleTarget"><target>Harnesses</target></action>
                 <action method="setStepConfig">
                     <config>

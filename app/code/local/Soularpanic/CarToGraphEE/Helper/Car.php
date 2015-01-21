@@ -47,33 +47,24 @@ class Soularpanic_CarToGraphEE_Helper_Car
                         'type' => $type
                     ];
 
-                    $bundleProduct = Mage::getModel('catalog/product')
-                        ->load($productId);
-                    if ($bundleProduct->getTypeId() === 'bundle') {
-                        $kids = $bundleProduct->getTypeInstance(true)
-                            ->getSelectionsCollection(
-                                $bundleProduct->getTypeInstance(true)
-                                    ->getOptionsIds($bundleProduct), $bundleProduct);
-
-//                $bundleProduct
-//                    ->getTypeInstance(true)
-//                    ->getChildrenIds($bundleProduct->getId(), false);
-                        //$kids = $bundleProduct->getSelectionsCollection();
-                        //$this->log("printing kids...");
-                        foreach ($kids as $kid) {
-                            //$this->log("I am a kid! ({$kid->getId()})");
-//                            $sublink = Mage::getModel('cartographee/linkcarproduct');
-//                            $sublink->setData($relation);
-//                            $sublink->save();
-                            $relationsData[] = [
-                                'car_id' => $car->getId(),
-                                'product_id' => $kid->getProductId(),
-//                                'preselect_ids' => $preselectIds,
-                                'option' => 'bundled_product'//$option,
-//                                'type' => $type
-                            ];
-                        }
-                    }
+//                    $bundleProduct = Mage::getModel('catalog/product')
+//                        ->load($productId);
+//                    if ($bundleProduct->getTypeId() === 'bundle') {
+//                        $kids = $bundleProduct->getTypeInstance(true)
+//                            ->getSelectionsCollection(
+//                                $bundleProduct->getTypeInstance(true)
+//                                    ->getOptionsIds($bundleProduct), $bundleProduct);
+//
+//                        foreach ($kids as $kid) {
+//                            $relationsData[] = [
+//                                'car_id' => $car->getId(),
+//                                'product_id' => $kid->getProductId(),
+////                                'preselect_ids' => $preselectIds,
+//                                'option' => 'bundled_product'//$option,
+////                                'type' => $type
+//                            ];
+//                        }
+//                    }
                 }
             }
         }
