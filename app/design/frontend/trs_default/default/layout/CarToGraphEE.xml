@@ -11,6 +11,12 @@
 
 
     <buyersguide_completekits>
+        <reference name="head">
+            <action method="addJs"><script>soularpanic/buyersguide/bg-wattageinfoinit.js</script></action>
+            <action method="addJs"><script>belvg/productviewgallery/jquery.fancybox.pack.js</script></action>
+            <action method="addCss"><stylesheet>css/belvg/productviewgallery.css</stylesheet></action>
+            <block type="core/template" name="before_js" as="before_js" template="page/html/jQuery-migrate.phtml"/>
+        </reference>
         <reference name="buyers_guide">
             <action method="addContainerClass"><value>completekits</value></action>
             <block type="cartographee/buyersguide_layer_filter_car" name="buyersguide_car_filter" as="car_filter" template="cartographee/buyersguide/toolbar/Car.phtml">
@@ -413,127 +419,6 @@
                         </config>
                     </action>
                 </block>
-                <!--<block type="cartographee/buyersguide_layer_filter_step_hidsystems_bulb" name="step_2" as="step_2" template="cartographee/buyersguide/step/Ribbon.phtml">-->
-                <!--<action method="setQ"><q>2</q></action>-->
-                <!--<action method="setStepConfig">-->
-                <!--<config>-->
-                <!--<apply_to_direct_fit>true</apply_to_direct_fit>-->
-                <!--<display_name>Bulb</display_name>-->
-                <!--<step_question>What HID bulbs will you be running with the ballasts?</step_question>-->
-                <!--<step_desc>This will determine whether you need them for "AMP" or "D2" Fitment</step_desc>-->
-                <!--<options>-->
-                <!--<d2s>-->
-                <!--<title>D2S</title>-->
-                <!--<image>-->
-                <!--<url>images/productcategory/bulbs-D2S.svg</url>-->
-                <!--</image>-->
-                <!--</d2s>-->
-                <!--<d2r>-->
-                <!--<title>D2R</title>-->
-                <!--<image>-->
-                <!--<url>images/productcategory/bulbs-D2R.svg</url>-->
-                <!--</image>-->
-                <!--</d2r>-->
-                <!--<h1>-->
-                <!--<title>H1</title>-->
-                <!--<image>-->
-                <!--<url>images/productcategory/bulbs-h1.svg</url>-->
-                <!--</image>-->
-                <!--</h1>-->
-                <!--<h3>-->
-                <!--<title>H3</title>-->
-                <!--<image>-->
-                <!--<url>images/productcategory/bulbs-h3.svg</url>-->
-                <!--</image>-->
-                <!--</h3>-->
-                <!--<h4>-->
-                <!--<title>H4</title>-->
-                <!--<image>-->
-                <!--<url>images/productcategory/bulbs-h4.svg</url>-->
-                <!--</image>-->
-                <!--</h4>-->
-                <!--<h7>-->
-                <!--<title>H7</title>-->
-                <!--<image>-->
-                <!--<url>images/productcategory/bulbs-h7.svg</url>-->
-                <!--</image>-->
-                <!--</h7>-->
-                <!--<h8>-->
-                <!--<title>H8</title>-->
-                <!--<image>-->
-                <!--<url>images/productcategory/bulbs-h8.svg</url>-->
-                <!--</image>-->
-                <!--</h8>-->
-                <!--<h9>-->
-                <!--<title>H9</title>-->
-                <!--<image>-->
-                <!--<url>images/productcategory/bulbs-h9.svg</url>-->
-                <!--</image>-->
-                <!--</h9>-->
-                <!--<h10>-->
-                <!--<title>H10</title>-->
-                <!--<image>-->
-                <!--<url>images/productcategory/bulbs-h10.svg</url>-->
-                <!--</image>-->
-                <!--</h10>-->
-                <!--<h11>-->
-                <!--<title>H11</title>-->
-                <!--<image>-->
-                <!--<url>images/productcategory/bulbs-h11.svg</url>-->
-                <!--</image>-->
-                <!--</h11>-->
-                <!--<h13>-->
-                <!--<title>H13</title>-->
-                <!--<image>-->
-                <!--<url>images/productcategory/bulbs-h13.svg</url>-->
-                <!--</image>-->
-                <!--</h13>-->
-                <!--<x880>-->
-                <!--<title>880</title>-->
-                <!--<image>-->
-                <!--<url>images/productcategory/bulbs-880.svg</url>-->
-                <!--</image>-->
-                <!--</x880>-->
-                <!--<x9005>-->
-                <!--<title>9005</title>-->
-                <!--<image>-->
-                <!--<url>images/productcategory/bulbs-9005.svg</url>-->
-                <!--</image>-->
-                <!--</x9005>-->
-                <!--<x9006>-->
-                <!--<title>9006</title>-->
-                <!--<image>-->
-                <!--<url>images/productcategory/bulbs-9006.svg</url>-->
-                <!--</image>-->
-                <!--</x9006>-->
-                <!--<x9007>-->
-                <!--<title>9007</title>-->
-                <!--<image>-->
-                <!--<url>images/productcategory/bulbs-9007.svg</url>-->
-                <!--</image>-->
-                <!--</x9007>-->
-                <!--<x9012>-->
-                <!--<title>9012</title>-->
-                <!--<image>-->
-                <!--<url>images/productcategory/bulbs-9012.svg</url>-->
-                <!--</image>-->
-                <!--</x9012>-->
-                <!--<d2h>-->
-                <!--<title>D2H</title>-->
-                <!--<image>-->
-                <!--<url>images/productcategory/bulbs-D2H.svg</url>-->
-                <!--</image>-->
-                <!--</d2h>-->
-                <!--<h16>-->
-                <!--<title>H16</title>-->
-                <!--<image>-->
-                <!--<url>images/productcategory/bulbs-h16.svg</url>-->
-                <!--</image>-->
-                <!--</h16>-->
-                <!--</options>-->
-                <!--</config>-->
-                <!--</action>-->
-                <!--</block>-->
             </block>
         </reference>
     </buyersguide_hidsystems>
@@ -671,6 +556,12 @@
 
 
     <buyersguide_ballasts>
+        <reference name="head">
+            <action method="addJs"><script>soularpanic/buyersguide/bg-wattageinfoinit.js</script></action>
+            <action method="addJs"><script>belvg/productviewgallery/jquery.fancybox.pack.js</script></action>
+            <action method="addCss"><stylesheet>css/belvg/productviewgallery.css</stylesheet></action>
+            <block type="core/template" name="before_js" as="before_js" template="page/html/jQuery-migrate.phtml"/>
+        </reference>
         <reference name="buyers_guide">
             <action method="addContainerClass"><value>ballasts</value></action>
             <block type="cartographee/buyersguide_layer_filter_car" name="buyersguide_car_filter" as="car_filter" template="cartographee/buyersguide/toolbar/Car.phtml">
@@ -1126,28 +1017,6 @@
             <block type="cartographee/buyersguide_layer_filter_car" name="buyersguide_car_filter" as="car_filter" template="cartographee/buyersguide/toolbar/Car.phtml">
                 <action method="setNoFitAction"><nfa>step:1</nfa></action>
             </block>
-            <!--<block type="cartographee/buyersguide_layer_filter_step_generic" name="buyersguide_toolbar_supplemental_postcar" as="buyersguide_toolbar_supplemental_postcar" template="cartographee/buyersguide/toolbar/Supplemental.phtml">-->
-            <!--<action method="setStepConfig">-->
-            <!--<config>-->
-            <!--<id>projector_function</id>-->
-            <!--<apply_to_direct_fit>true</apply_to_direct_fit>-->
-            <!--<options>-->
-            <!--<all>-->
-            <!--<title>All Function Types</title>-->
-            <!--<action>step:1</action>-->
-            <!--</all>-->
-            <!--<headlights>-->
-            <!--<title>Headlights</title>-->
-            <!--<action>step:1</action>-->
-            <!--</headlights>-->
-            <!--<foglights>-->
-            <!--<title>Fog Lights</title>-->
-            <!--<action>sku:MATCHBOX-R</action>-->
-            <!--</foglights>-->
-            <!--</options>-->
-            <!--</config>-->
-            <!--</action>-->
-            <!--</block>-->
             <block type="cartographee/buyersguide_layer_filter_step_container" name="buyersguide_steps" as="buyersguide_steps" template="cartographee/buyersguide/step/Container.phtml">
                 <block type="cartographee/buyersguide_layer_filter_step_generic" name="step_1" as="step_1" template="cartographee/buyersguide/step/Diagram.phtml">
                     <action method="setQ"><q>1</q></action>

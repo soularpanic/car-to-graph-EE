@@ -4,7 +4,7 @@
 </div>
 <div class="tile80">
     <div class="tile-info">
-        <a href="javascript:lightbox(null, '../buyersGuide/buyersGuide-ballasts_lightbox-info.html');">
+        <a href="#wattageInfo" class="wattageInfoButton">
             <span class="product-spec-icon">
                 <img src="<?php echo $this->getSkinUrl('images/icon_info.svg') ?>" alt="What is this?" border="0" />
             </span>
@@ -31,17 +31,11 @@
 </div>
 
 
-
-<div class="lightboxContainer">
-    <div class="lightboxContent">
-        <div class="lightboxHeadline"><h3>Terminology:</h3></div>
-        <div class="navBtn-close">
-            <a href="javascript:closeLightbox();">
-                <img src="<?php echo $this->getSkinUrl('images/icon_menux2x.png') ?>" alt="Close" border="0"/>
-            </a>
-        </div>
-
-        <div class="section">
+<div class="invisible">
+    <div id="wattageInfo" class="lightboxContainer">
+        <div class="lightboxContent">
+            <div class="lightboxHeadline"><h3>Terminology:</h3></div>
+            <div class="section">
 	    	<span class="product-spec">
                 <span class="weightBold-styleNormal white">Lumens:</span> <span class="weightRegular-styleItalic">This figure is given an an estimate for both headlights, and will depend on the bulbs used.</span>
             </span>
@@ -54,6 +48,7 @@
             <span class="product-spec">
                 <span class="weightBold-styleNormal white">Color Shift:</span> <span class="weightRegular-styleItalic">35W ballasts will drive the bulbs at their rated color/Kelvin rating. 50W ballasts will make the bulbs run brighter, but will decrease their Kelvin by approximately 1000K. (i.e. a 6000K bulb will look like a 5000K when powered by a 50W ballast, but will still be brighter)</span>
             </span>
+            </div>
         </div>
     </div>
 </div>
