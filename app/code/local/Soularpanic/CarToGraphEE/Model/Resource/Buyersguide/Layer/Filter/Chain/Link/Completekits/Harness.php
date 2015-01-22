@@ -9,6 +9,14 @@ class Soularpanic_CarToGraphEE_Model_Resource_Buyersguide_Layer_Filter_Chain_Lin
             return true;
         }
 
+        $whitelistStr = $filter->getSkuRestraint();
+        if ($whitelistStr) {
+            $whitelistSql = "'".implode("', '", array_map('trim', explode(',', $whitelistStr)))."'";
+            $collection = $filter->getLayer()->getProductCollection();
+            $collection->getSelect()
+                ->where("e.sku IN ($whitelistSql)");
+        }
+
         Mage::helper('cartographee/buyersguide_action')->applyActionToCollection($filter, $action);
 
         $chainState = $filter->getChainState();

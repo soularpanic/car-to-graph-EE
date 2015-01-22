@@ -28,12 +28,14 @@
             <block type="cartographee/buyersguide_layer_filter_step_generic" name="buyersguide_toolbar_supplemental_postcar" as="buyersguide_toolbar_supplemental_postcar" template="cartographee/buyersguide/toolbar/Supplemental.phtml">
                 <action method="setModel"><model>cartographee/buyersguide_layer_filter_chain_link_completekits_harness</model></action>
                 <action method="setDirectFitBundleTarget"><target>Harnesses</target></action>
+<action method="setSkuRestraint"><restraint>MINIH1-STG3-R, MINID2S-STG3-R, FXR-STG3-R, MATCHBOX-STG3-R</restraint></action>
                 <action method="setStepConfig">
                     <config>
                         <!--<id>hidbulb_function</id>-->
                         <id>harnesses</id>
                         <apply_to_direct_fit>true</apply_to_direct_fit>
-                        <resource_model>cartographee/buyersguide_layer_filter_chain_link_completekits_foo</resource_model>
+                        <resource_model>cartographee/buyersguide_layer_filter_chain_link_completekits_harness</resource_model>
+                        <restrict>MINIH1-STG3-R, MINID2S-STG3-R, FXR-STG3-R, MATCHBOX-STG3-R</restrict>
                         <options>
                             <!--<all>-->
                             <!--<title>All Function Types</title>-->

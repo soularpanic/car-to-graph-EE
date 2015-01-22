@@ -81,8 +81,6 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
             Event.on(elt, 'click', historyStepSelectButtonSelector, context.handleHistorySelection.bind(context));
         });
         $(goId).observe('click', context.startBuyersGuide.bind(context));
-//        $(stopId).observe('click', context.stopBuyersGuide.bind(context));
-//        $(resetId).observe('click', context.resetBuyersGuide.bind(context)); // reset may not be a useful function; perhaps remove?
         $(resetId).observe('click', function(evt) {
             context.resetBuyersGuide(evt);
             context.stopBuyersGuide(evt);
@@ -227,17 +225,23 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
         var selector = this.carInputSelector,
             url = this.updateCarInputsUrl,
             params = {},
+            createHandler = this._handleUpdateInputAjaxCreate.bind(this),
+            completeHandler = this._handleUpdateInputAjaxComplete.bind(this),
             successHandler = this._handleUpdateInputJson.bind(this);
         $$(selector).each(function(elt) {
             params[elt.name] = elt.value;
         });
         new Ajax.Request(url, {
             parameters: params,
+            onCreate: function() {
+                createHandler();
+            },
             onSuccess: function(resp) {
                 successHandler(resp.responseJSON);
             },
             onComplete: function(resp) {
                 console.log(resp);
+                completeHandler();
             }
         });
     },
@@ -422,6 +426,24 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
         }
         return false;
     },
+
+
+    toggleCarInputs: function(state) {
+        var inputs = $$('.buyersGuide-carSelect');
+        state ? inputs.each(Form.Element.enable) : inputs.each(Form.Element.disable);
+    },
+
+
+    _handleUpdateInputAjaxCreate: function() {
+        this.toggleCarInputs(false);
+    },
+
+
+    _handleUpdateInputAjaxComplete: function() {
+        this.toggleCarInputs(true);
+    },
+
+
 
     _handleUpdateInputJson: function(updateJson) {
         var selectorTemplate = new Template('[name="car[#{field}]"]'),
