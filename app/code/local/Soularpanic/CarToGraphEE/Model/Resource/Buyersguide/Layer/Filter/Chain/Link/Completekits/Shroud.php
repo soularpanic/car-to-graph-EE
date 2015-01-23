@@ -10,35 +10,35 @@ class Soularpanic_CarToGraphEE_Model_Resource_Buyersguide_Layer_Filter_Chain_Lin
         Mage::log("completekits shroud resource starting...", null, 'trs_guide.log');
         $skuMap = [
             'round' => [
-                'M16.0-R' => ['MINIGAT', 'GRAPH', 'APOLLO-P', 'APOLLO-FLAT-P', 'APOLLO2-CIR-P', 'APOLLO3-P', 'ORBIT-P', 'MCR-P', 'PANA-P', 'GTI-P', 'BULLET-P', 'GG2-P', 'GAT-P', 'G37C-P', 'G37-P'],
+                'MH16.0-R' => ['MINIGAT', 'GRAPH', 'APOLLO-P', 'APOLLO-FLAT-P', 'APOLLO2-CIR-P', 'APOLLO3-P', 'ORBIT-P', 'MCR-P', 'PANA-P', 'GTI-P', 'BULLET-P', 'GG2-P', 'GAT-P', 'G37C-P', 'G37-P'],
                 'MD2S3.0-R' => ['APOLLO-P', 'APOLLO-FLAT-P', 'APOLLO2-CIR-P', 'APOLLO3-P', 'ORBIT-P', 'MCR-P', 'PANA-P', 'GTI-P', 'BULLET-P', 'G37C-P', 'G37-P'],
                 'minid2sx' => ['GG2-SQ-P'],
                 'FXR3.0-R' => ['APOLLO-P', 'APOLLO-FLAT-P', 'APOLLO2-CIR-P', 'APOLLO3-P', 'ORBIT-P', 'MCR-P', 'PANA-P', 'BULLET-P', 'G37C-P', 'G37-P'],
                 'other' => ['APOLLO-P', 'APOLLO-FLAT-P', 'APOLLO2-CIR-P', 'APOLLO3-P', 'ORBIT-P', 'MCR-P', 'PANA-P', 'BULLET-P', 'G37C-P', 'G37-P']
             ],
             'oval' => [
-                'M16.0-R' => ['E55-P', 'OCULAR-P'],
+                'MH16.0-R' => ['E55-P', 'OCULAR-P'],
                 'MD2S3.0-R' => ['E55-P', 'OCULAR-P'],
                 'minid2sx' => ['APOLLO2-SQ-P', 'OCULAR-SQ-P'],
                 'FXR3.0-R' => ['E55-P', 'OCULAR-P'],
                 'other' => ['E55-P', 'OCULAR-P']
             ],
             'flatsided' => [
-                'M16.0-R' => ['E46-P', 'E46-EXT-P', 'IRIS-P'],
+                'MH16.0-R' => ['E46-P', 'E46-EXT-P', 'IRIS-P'],
                 'MD2S3.0-R' => ['E46-P', 'E46-EXT-P', 'IRIS-P'],
                 'minid2sx' => ['APOLLO2-SQ-P', 'OCULAR-SQ-P'],
                 'FXR3.0-R' => ['E46-P', 'E46-EXT-P', 'IRIS-P'],
                 'other' => ['E46-P', 'E46-EXT-P', 'IRIS-P']
             ],
             'big' => [
-                'M16.0-R' => ['APOLLO-P', 'APOLLO-FLAT-P', 'APOLLO2-CIR-P', 'APOLLO3-P', 'ORBIT-P', 'MCR-P', 'PANA-P', 'BULLET-P', 'GG2-P', 'GAT-P', 'G37C-P', 'G37-P'],
+                'MH16.0-R' => ['APOLLO-P', 'APOLLO-FLAT-P', 'APOLLO2-CIR-P', 'APOLLO3-P', 'ORBIT-P', 'MCR-P', 'PANA-P', 'BULLET-P', 'GG2-P', 'GAT-P', 'G37C-P', 'G37-P'],
                 'MD2S3.0-R' => ['APOLLO-P', 'APOLLO-FLAT-P', 'APOLLO2-CIR-P', 'APOLLO3-P', 'ORBIT-P', 'MCR-P', 'BULLET-P', 'G37C-P', 'G37-P', 'PANA-P'],
                 'minid2sx' => ['PANA-SQ-P', 'APOLLO-SQ-P', 'GG2-SQ-P', 'APOLLO2-SQ-P'],
                 'FXR3.0-R' => ['APOLLO-P', 'APOLLO-FLAT-P', 'APOLLO2-CIR-P', 'APOLLO3-P', 'ORBIT-P', 'MCR-P', 'BULLET-P', 'G37C-P', 'G37-P', 'PANA-P'],
                 'other' => ['APOLLO-P', 'APOLLO-FLAT-P', 'APOLLO2-CIR-P', 'APOLLO3-P', 'ORBIT-P', 'MCR-P', 'BULLET-P', 'G37C-P', 'G37-P', 'PANA-P']
             ],
             'odd' => [
-                'M16.0-R' => ['MINIGAT', 'GRAPH'],
+                'MH16.0-R' => ['MINIGAT', 'GRAPH'],
                 'MD2S3.0-R' => ['HARDWARE:E46', 'E46-EXT-P', 'IRIS-P', 'BULLET-P'],
                 'minid2sx' => ['GG2-SQ-P', 'PANA-SQ-P'],
                 'FXR3.0-R' => ['HARDWARE:E46', 'E46-EXT-P', 'IRIS-P', 'BULLET-P'],

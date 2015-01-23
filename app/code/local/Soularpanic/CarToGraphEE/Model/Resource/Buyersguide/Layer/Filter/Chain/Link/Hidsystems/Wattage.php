@@ -19,74 +19,21 @@ class Soularpanic_CarToGraphEE_Model_Resource_Buyersguide_Layer_Filter_Chain_Lin
         }
 
         $_dfBundleTarget = 'HID Ballats';
-        $dfBundleTarget = strtolower(str_replace(' ', '_', $_dfBundleTarget));
-        $carAlias = "car_$dfBundleTarget";
-        $linkAlias = "carlink_$dfBundleTarget";
-        $optionProductAlias = "option_product_$dfBundleTarget";
-        $fitOptionAlias = "fit_option_$dfBundleTarget";
-        $attributeSetAlias = "attribute_set_$dfBundleTarget";
-        $f = "f_$dfBundleTarget";
+        $f = Mage::helper('cartographee/buyersguide_action')->toDirectFitTableAlias($_dfBundleTarget);
 
 
-
-        //$chain = $filter->getChain();
         $state = $filter->getChainState();
-        $carId = $state['car_id'];
-
-        $bulbAlias = 'f_hid_bulbs';
 
         $collection = $filter->getLayer()->getProductCollection();
         $directFitSelect = $collection->getSelect();
-
-        $originalSelect = clone $directFitSelect;
-
-        $productTable = $this->getTable('catalog/product_flat').'_'.Mage::app()->getStore()->getStoreId();
-        $sqlString = "(select
-                    f.entity_id
-                    ,f.sku
-                    ,links.option, links.type
-                    ,cars.alt_id
-                from
-                    $productTable as f
-                    inner join eav_attribute_set as eas
-                        on eas.attribute_set_id = f.attribute_set_id
-                    inner join cartographee_car_product_links as links
-                        on links.product_id = f.entity_id and eas.attribute_set_name = '$_dfBundleTarget'
-                    inner join cartographee_cars as cars
-                        on cars.entity_id = links.car_id and cars.alt_id = '$carId')";
-
-
-        $step2Value = Mage::app()->getRequest()->getParam('step_2');
-//        $fallback = 'null';
-//        if ($step2Value) {
-//            $fallback = "'$wattage" . (in_array($step2Value, ['d2s', 'd2r']) ? "D2S" : "AMP") . "-DSP'";
-//        }
         $fallback = "'XB-BALLAST-$wattage'";
 
         $directFitSelect
             ->joinLeft([$f => new Zend_Db_Expr("(select $fallback as ballast)")],
-            "true",
-            ["preselect_$dfBundleTarget" => "$f.ballast"]);
+                "true",
+                ["preselect_$f" => "$f.ballast"]);
         Mage::log("wattage sql: ".$directFitSelect->__toString(), null, 'trs_guide.log');
-//        $directFitSelect
-//            ->joinLeft([$f => new Zend_Db_Expr($sqlString)],
-//                "$f.entity_id = package_options.product_id",
-//                ["preselect_$dfBundleTarget" => "$f.sku"])
-//                ["preselect_$dfBundleTarget" => "GROUP_CONCAT(DISTINCT IFNULL($f.sku, IF($bulbAlias.sku is not null, IF($bulbAlias.sku REGEXP 'D2[SR]', '{$wattage}D2S-DSP', '{$wattage}AMP-DSP') , $fallback)) SEPARATOR ',')"])
-//            ->orWhere("$f.sku is not null");
 
-//        $refineFurther = false;
-//        if (!$step2Value) {
-//            foreach ($collection as $matchedProducts) {
-//                if (!$matchedProducts->getPreselectHidBulbs()) {
-//                    $refineFurther = true;
-//                    break;
-//                }
-//            }
-//            $collection->setSelect($originalSelect);
-//        }
-
-//        $state['action'] = $option->getAction();
         $state['action'] = 'step:done';
         $filter->setChainState($state);
 

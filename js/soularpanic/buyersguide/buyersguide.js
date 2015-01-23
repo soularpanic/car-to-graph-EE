@@ -32,6 +32,9 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
     _DEFAULT_SELECTIONS_FIT_CONTENT: "<h2>Well, that was easy...</h2>",
     _DEFAULT_SELECTIONS_NOFIT_CONTENT: "<h2>Hmm, that's interesting...</h2>",
 
+    _SPINNER_CLASS: 'buyersGuide-spinner',
+    _SPINNER_HTML: '<div class="buyersGuide-spinner">&nbsp;</div>',
+
     initialize: function($super, args) {
         var _args = args || {};
         this._moduleName = 'buyers_guide';
@@ -97,11 +100,13 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
     handleStepSelection: function(evt) {
         console.log("handling step selection");
         var selectedButton = evt.target,
+            buttonSelector = this.stepSelectButtonSelector,
             stepContainer = selectedButton.up(this.stepSelector),
             selectedValue = selectedButton.readAttribute(this._OPTION_VALUE_ATTR_NAME),
             displayValue = selectedButton.readAttribute(this._STEP_DISPLAY_VALUE_ATTR_NAME),
             selectedStep = stepContainer.readAttribute(this._STEP_ID_ATTR_NAME),
-            stepDisplayName = stepContainer.readAttribute(this._STEP_DISPLAY_NAME_ATTR_NAME);
+            stepDisplayName = stepContainer.readAttribute(this._STEP_DISPLAY_NAME_ATTR_NAME),
+            spinner = this._SPINNER_HTML;
 
         this.stepSelections.push({
             stepId: selectedStep,
@@ -109,6 +114,10 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
             displayName: stepDisplayName,
             displayValue: displayValue
         });
+
+        selectedButton.insert({before: spinner});
+        stepContainer.select(buttonSelector).each(function(elt) { elt.addClassName('invisible'); });
+
         Event.fire(evt.target, this.FILTER_CHANGE_EVENT, evt.memo);
     },
 
@@ -204,7 +213,6 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
             elt.removeClassName('active');
         });
         Event.fire(evt.target, this.SET_ACTIVE_REGISTRANTS_EVENT, [], true);
-//        Event.fire(evt.target, this.FILTER_CHANGE_EVENT, evt.memo);
     },
 
 
@@ -216,7 +224,6 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
 
         if (this._isRunning) {
             this.stepSelections = [];
-//            Event.fire(evt.target, this.FILTER_CHANGE_EVENT, evt.memo);
         }
     },
 
@@ -249,42 +256,20 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
 
     moveToStep: function(stepId, optionsToShowObj) {
         console.log('moving to step [' + stepId + ']');
-        var slideStrip = $$('.buyersGuide-questionWrap')[0],
-            reelContainerSelector = this.reelContainerSelector,
-            reelContainer = $$(reelContainerSelector)[0],
-            reelSelector = this.reelSelector,
+        var reelSelector = this.reelSelector,
             reel = $$(reelSelector)[0],
-            containerWidth = reelContainer.getWidth(),
             _stepId = this._resolveStepId(stepId),
-            multiplier = parseInt(_stepId),
             step = false,
             q = false;
 
         this._cleanUpPreviousStep();
         this._prepareNextStep(_stepId, optionsToShowObj);
 
-        if (isNaN(multiplier)) {
-            var isStepId = function(step) { return step === _stepId; }
-            if (isStepId(this._LOADING_STEP_ID)) {
-                multiplier = 0;
-            }
-            if (isStepId(this._ERROR_STEP_ID)) {
-                this._showErrorStepElt(true);
-                multiplier = 0;
-            }
-            if ($A([this._ROUGH_FITS_STEP_ID, this._DIRECT_FITS_STEP_ID, this._NO_FITS_STEP_ID, this._CONTACT_US_STEP_ID]).some(isStepId)) {
-                multiplier = this._getStepEltIndex(_stepId);
-            }
-        }
-
         // adjust vertical height of guide
         q = this._getQByStepId(_stepId);
         if (q) {
             reel.addClassName('toggle-' + q);
         }
-
-        // move strip s.t. correct step is in frame
-        // slideStrip.setStyle({'marginLeft': (-1 * multiplier * containerWidth).toString() + 'px'});
 
         this._previousStep = _stepId;
     },
@@ -306,14 +291,24 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
                 this._ERROR_STEP_ID,
                 this._CONTACT_US_STEP_ID
             ],
-            previousStep = this._previousStep;
+            stepSelections = this.stepSelections,
+            lastSelection = stepSelections.length > 0 ? stepSelections[stepSelections.length - 1] : null;
         if (isNaN(parseInt(stepId))) {
             if (specialIds.indexOf(stepId) > -1) {
                 return stepId;
             }
             if (stepId === this._NEXT_KEYWORD) {
-                var previousStepInt = parseInt(previousStep);
-                return isNaN(previousStepInt) ? 1 : previousStepInt + 1;
+                if (lastSelection === null) {
+                    return 1;
+                }
+                else {
+                    var lastStepId = lastSelection.stepId,
+                        indexRe = /^step_(\d)$/,
+                        results = indexRe.exec(lastStepId),
+                        lastStepIndex = results.length > 0 ? results[1] : 0,
+                        lastStepIndexInt = parseInt(lastStepIndex);
+                    return lastStepIndexInt + 1;
+                }
             }
         }
         return stepId;
@@ -394,12 +389,21 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
     _cleanUpPreviousStep: function() {
         var previousStep = this._previousStep,
             reelSelector = this.reelSelector,
+            stepSelectButtonSelector = this.stepSelectButtonSelector,
+            hiddenStepSelectButtonSelector = stepSelectButtonSelector + '.invisible',
+            spinnerSelector = '.' + this._SPINNER_CLASS,
             reel = $$(reelSelector)[0],
             q = false;
 
         if (false === previousStep) {
             return;
         }
+
+        reel.select(spinnerSelector).each(function(elt) { elt.remove(); });
+
+        reel.select(hiddenStepSelectButtonSelector).each(function(elt) {
+            elt.removeClassName('invisible');
+        });
 
         if (this._ERROR_STEP_ID === previousStep) {
             this._showErrorStepElt(false);

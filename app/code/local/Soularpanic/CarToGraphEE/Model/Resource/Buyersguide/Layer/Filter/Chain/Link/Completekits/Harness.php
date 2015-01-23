@@ -5,16 +5,16 @@ class Soularpanic_CarToGraphEE_Model_Resource_Buyersguide_Layer_Filter_Chain_Lin
     public function applyFilterToCollection($filter, $option) {
         $action = $option->getAction();
 
-        if (!$action) {
-            return true;
-        }
-
         $whitelistStr = $filter->getSkuRestraint();
         if ($whitelistStr) {
             $whitelistSql = "'".implode("', '", array_map('trim', explode(',', $whitelistStr)))."'";
             $collection = $filter->getLayer()->getProductCollection();
             $collection->getSelect()
                 ->where("e.sku IN ($whitelistSql)");
+        }
+
+        if (!$action) {
+            return true;
         }
 
         Mage::helper('cartographee/buyersguide_action')->applyActionToCollection($filter, $action);

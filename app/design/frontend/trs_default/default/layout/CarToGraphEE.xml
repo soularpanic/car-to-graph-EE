@@ -2,13 +2,6 @@
 
 <layout version="0.1.0">
 
-    <!--Complete Kits: Interactive on projectors, ballasts + shrouds + accessories + easy on bulbs + wire harnesses-->
-    <!---	Projectors: Interactive (per below)-->
-    <!---	Shrouds: Mixed (Already have our answer to Step 1 (so skips it) then Answer Step 2 to arrive at selection)-->
-    <!---	Ballasts: Mixed (answer to Step 3 based on Projectors above (skip it) only answer Step 2 to arrive at selection)-->
-    <!--Bulbs: Direct-fit (Answer completely based on recommended projector above)-->
-    <!---	Harnesses: Direct-Fit (Answer based on Function-type and vehicle year/make/model)-->
-
 
     <buyersguide_completekits>
         <reference name="head">
@@ -22,37 +15,18 @@
             <block type="cartographee/buyersguide_layer_filter_car" name="buyersguide_car_filter" as="car_filter" template="cartographee/buyersguide/toolbar/Car.phtml">
                 <action method="setDirectFitBundleTargets"><targets>Harnesses</targets></action>
                 <action method="setDirectFitAction"><value>step:1</value></action>
-                <!--<action method="setNoFitAction"><value>step:1</value></action>-->
-
             </block>
             <block type="cartographee/buyersguide_layer_filter_step_generic" name="buyersguide_toolbar_supplemental_postcar" as="buyersguide_toolbar_supplemental_postcar" template="cartographee/buyersguide/toolbar/Supplemental.phtml">
                 <action method="setModel"><model>cartographee/buyersguide_layer_filter_chain_link_completekits_harness</model></action>
                 <action method="setDirectFitBundleTarget"><target>Harnesses</target></action>
-<action method="setSkuRestraint"><restraint>MINIH1-STG3-R, MINID2S-STG3-R, FXR-STG3-R, MATCHBOX-STG3-R</restraint></action>
+                <action method="setSkuRestraint"><restraint>MINIH1-STG3-R, MINID2S-STG3-R, FXR-STG3-R, MATCHBOX-STG3-R</restraint></action>
                 <action method="setStepConfig">
                     <config>
-                        <!--<id>hidbulb_function</id>-->
                         <id>harnesses</id>
                         <apply_to_direct_fit>true</apply_to_direct_fit>
                         <resource_model>cartographee/buyersguide_layer_filter_chain_link_completekits_harness</resource_model>
                         <restrict>MINIH1-STG3-R, MINID2S-STG3-R, FXR-STG3-R, MATCHBOX-STG3-R</restrict>
                         <options>
-                            <!--<all>-->
-                            <!--<title>All Function Types</title>-->
-                            <!--<action>step:1</action>-->
-                            <!--</all>-->
-                            <!--<high>-->
-                            <!--<title>High Beams</title>-->
-                            <!--<action>sql:type=high</action>-->
-                            <!--</high>-->
-                            <!--<low>-->
-                            <!--<title>Low Beams</title>-->
-                            <!--<action>sql:type=low</action>-->
-                            <!--</low>-->
-                            <!--<fog>-->
-                            <!--<title>Fog Lights</title>-->
-                            <!--<action>sql:type=fog</action>-->
-                            <!--</fog>-->
                             <all>
                                 <title>All Function Types</title>
                             </all>
@@ -128,7 +102,7 @@
                             <options>
                                 <MATCHBOX-R>
                                     <title>Matchbox</title>
-                                    <action>step:5</action>
+                                    <action>step:5</action> <!-- Need to set up group in step 4, as this is a _SKIP -->
                                     <aspects>
                                         <output>4</output>
                                         <sharp>6</sharp>
@@ -200,24 +174,18 @@
                             <options>
                                 <MH16.0-R>
                                     <binary>
-                                        <!--<lhd><action>sku:MH16.0-R[MH16-LH]</action></lhd>-->
-                                        <!--<rhd><action>sku:MH16.0-R[MH16-RH]</action></rhd>-->
                                         <lhd><action>step:4/minih1</action></lhd>
                                         <rhd><action>step:4/minih1</action></rhd>
                                     </binary>
                                 </MH16.0-R>
                                 <MD2S3.0-R>
                                     <binary>
-                                        <!--<lhd><action>sku:MD2S3.0-R[MD2S-3LH]</action></lhd>-->
-                                        <!--<rhd><action>sku:MD2S3.0-R[MD2S-3RH]</action></rhd>-->
                                         <lhd><action>step:4/minid2so</action></lhd>
                                         <rhd><action>step:4/minid2so</action></rhd>
                                     </binary>
                                 </MD2S3.0-R>
                                 <FXR3.0-R>
                                     <binary>
-                                        <!--<lhd><action>sku:FXR3.0-R[FXR3-3LH]</action></lhd>-->
-                                        <!--<rhd><action>sku:FXR3.0-R[FXR3-3RH]</action></rhd>-->
                                         <lhd><action>step:4/fxr30</action></lhd>
                                         <rhd><action>step:4/fxr30</action></rhd>
                                     </binary>
@@ -243,11 +211,6 @@
                                     <title>Round</title>
                                     <image><url>images/productcategory/shrouds-round.svg</url></image>
                                     <action>
-                                        <!--<minih1>sku:MiniGat-R, GRAPH-R, APOLLO-R, APOLLO2-R, APOLLO3-R, ORBIT-R, MCR-R, Panamera-R, GTIR-R, BULLET-R, GAT2.0-R, GATLING-R, G37C-R, G37-R</minih1>-->
-                                        <!--<minid2so>sku:APOLLO-R, APOLLO2-R, APOLLO3-R, ORBIT-R, MCR-R, Panamera-R, GTIR-R, BULLET-R, G37C-R, G37-R</minid2so>-->
-                                        <!--<minid2sx>sku:Gatling2.0Square-R</minid2sx>-->
-                                        <!--<fxr30>sku:APOLLO-R, APOLLO2-R, APOLLO3-R, ORBIT-R, MCR-R, Panamera-R, BULLET-R, G37C-R, G37-R</fxr30>-->
-                                        <!--<other>sku:APOLLO-R, APOLLO2-R, APOLLO3-R, ORBIT-R, MCR-R, Panamera-R, BULLET-R, G37C-R, G37-R</other>-->
                                         <minih1>step:5</minih1>
                                         <minid2so>step:5</minid2so>
                                         <minid2sx>step:5</minid2sx>
@@ -259,11 +222,6 @@
                                     <title>Oval</title>
                                     <image><url>images/productcategory/shrouds-oval.svg</url></image>
                                     <action>
-                                        <!--<minih1>sku:E55R-R, OCULAR-R</minih1>-->
-                                        <!--<minid2so>sku:E55R-R, OCULAR-R</minid2so>-->
-                                        <!--<minid2sx>sku:Apollo2SQ-R, OcularSquare-R</minid2sx>-->
-                                        <!--<fxr30>sku:E55R-R, OCULAR-R</fxr30>-->
-                                        <!--<other>sku:E55R-R, OCULAR-R</other>-->
                                         <minih1>step:5</minih1>
                                         <minid2so>step:5</minid2so>
                                         <minid2sx>step:5</minid2sx>
@@ -275,11 +233,6 @@
                                     <title>Flat-sided</title>
                                     <image><url>images/productcategory/shrouds-flatsided.svg</url></image>
                                     <action>
-                                        <!--<minih1>sku:E46R-R, E46EXT-R, IRIS-R</minih1>-->
-                                        <!--<minid2so>sku:E46R-R, E46EXT-R, IRIS-R</minid2so>-->
-                                        <!--<minid2sx>sku:Apollo2SQ-R, OcularSquare-R</minid2sx>-->
-                                        <!--<fxr30>sku:E46R-R, E46EXT-R, IRIS-R</fxr30>-->
-                                        <!--<other>sku:E46R-R, E46EXT-R, IRIS-R</other>-->
                                         <minih1>step:5</minih1>
                                         <minid2so>step:5</minid2so>
                                         <minid2sx>step:5</minid2sx>
@@ -291,11 +244,6 @@
                                     <title>Big</title>
                                     <image><url>images/productcategory/shrouds-large.svg</url></image>
                                     <action>
-                                        <!--<minih1>sku:APOLLO-R, APOLLO2-R, APOLLO3-R, ORBIT-R, MCR-R, Panamera-R, BULLET-R, GAT2.0-R, GATLING-R, G37C-R, G37-R</minih1>-->
-                                        <!--<minid2so>sku:APOLLO-R, APOLLO2-R, APOLLO3-R, ORBIT-R, MCR-R, BULLET-R, G37C-R, G37-R, Panamera-R</minid2so>-->
-                                        <!--<minid2sx>sku:PanaSquare-R, Apollo1Square-R, Gatling2.0Square-R, Apollo2SQ-R</minid2sx>-->
-                                        <!--<fxr30>sku:APOLLO-R, APOLLO2-R, APOLLO3-R, ORBIT-R, MCR-R, BULLET-R, G37C-R, G37-R, Panamera-R</fxr30>-->
-                                        <!--<other>sku:APOLLO-R, APOLLO2-R, APOLLO3-R, ORBIT-R, MCR-R, BULLET-R, G37C-R, G37-R, Panamera-R</other>-->
                                         <minih1>step:5</minih1>
                                         <minid2so>step:5</minid2so>
                                         <minid2sx>step:5</minid2sx>
@@ -307,12 +255,7 @@
                                     <title>Compact/Odd</title>
                                     <image><url>images/productcategory/shrouds-small.svg</url></image>
                                     <action>
-                                        <!--<minih1>sku:MiniGat-R, GRAPH-R</minih1>-->
-                                        <!--<minid2so>sku:E46-R, E46EXT-R, IRIS-R, BULLET-R</minid2so>-->
-                                        <!--<minid2sx>sku:Gatling2.0Square-R, PanaSquare-R</minid2sx>-->
-                                        <!--<fxr30>sku:E46-R, E46EXT-R, IRIS-R, BULLET-R</fxr30>-->
-                                        <!--<other>sku:Gatling2.0Square-R, PanaSquare-R</other>-->
-                                        <minih1>step:5</minih1>
+                                        <minih1>step:5[watt35]</minih1>
                                         <minid2so>step:5</minid2so>
                                         <minid2sx>step:5</minid2sx>
                                         <fxr30>step:5</fxr30>
@@ -386,7 +329,7 @@
                             </low>
                             <fog>
                                 <title>Fog Lights</title>
-                                <action>sql:type=hid_system_fog_lights</action>
+                                <action>sql:type=hid_system_fog_light</action>
                             </fog>
                         </options>
                     </config>
