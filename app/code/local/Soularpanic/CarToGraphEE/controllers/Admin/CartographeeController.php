@@ -46,7 +46,6 @@ class Soularpanic_CarToGraphEE_Admin_CartographeeController
             $car = $carHelper->fetchCar($relationRow);
 
             $relations = $carHelper->getCarProductRelations($car, $relationRow);
-//            $excelHelper->log(print_r($relations, true));
             Mage::log("beginning loop", null, 'trs_guide.log');
             foreach ($relations as $relation) {
 
@@ -54,50 +53,7 @@ class Soularpanic_CarToGraphEE_Admin_CartographeeController
 
                 $link = Mage::getModel('cartographee/linkcarproduct');
                 $link->setData($relation);
-//                if ($link->getOption() === 'bundled_product') {
-//                    $linkCollection = Mage::getModel('cartographee/linkcarproduct')
-//                        ->getCollection()
-//                        ->addFieldToFilter('car_id', ['eq' => $link->getCarId()])
-//                        ->addFieldToFilter('product_id', ['eq' => $link->getProductId()])
-//                        ->addFieldToFilter('`option`', ['eq' => 'bundled_product']);
-////                    $carHelper->log("sql: ".$linkCollection->getSelect()->__toString());
-//                    if ($linkCollection->getSize() <= 0) {
-//                        $carHelper->log("{$link->getCarId()}/{$link->getProductId()} does not exist; linking");
-//                        $link->save();
-//                    }
-//                    else {
-//                        $carHelper->log("{$link->getCarId()}/{$link->getProductId()} already exists; skipping");
-//                    }
-//                }
-//                else {
-
-
-                    $link->save();
-
-
-//                }
-
-//                $bundleProduct = Mage::getModel('catalog/product')
-//                    ->load($link->getProductId());
-//                if ($bundleProduct->getTypeId() === 'bundle') {
-//                    $kids = $bundleProduct->getTypeInstance(true)
-//                        ->getSelectionsCollection(
-//                            $bundleProduct->getTypeInstance(true)
-//                                ->getOptionsIds($bundleProduct), $bundleProduct);
-//
-////                $bundleProduct
-////                    ->getTypeInstance(true)
-////                    ->getChildrenIds($bundleProduct->getId(), false);
-//                    //$kids = $bundleProduct->getSelectionsCollection();
-//                    $excelHelper->log("printing kids...");
-//                    foreach ($kids as $kid) {
-//                        $excelHelper->log("I am a kid! ({$kid->getId()})");
-//                        $sublink = Mage::getModel('cartographee/linkcarproduct');
-//                        $sublink->setData($relation);
-//                        $sublink->save();
-//                    }
-                //Mage::log("kids:".print_r($bundleProduct, true), null, 'trs_guide.log');
-//                }
+                $link->save();
             }
         }
         return $this;

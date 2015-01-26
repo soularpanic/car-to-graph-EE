@@ -2,11 +2,12 @@
 class Soularpanic_CarToGraphEE_Helper_Car
     extends Soularpanic_CarToGraphEE_Helper_Data {
 
+    public $FILTERED_CAR_PROPERTY_ORDER = ['year', 'make', 'model'];
+
     private $_resolutionFailures = [];
 
 
     public function fetchCar($carArr = []) {
-        //$option = strtolower(str_replace(' ', '_', trim($carArr['option'])));
         $_model = $carArr['option'] ? "{$carArr['model']} {$carArr['option']}" : $carArr['model'];
         $carArr['model'] = $_model;
         $altId = $this->getCarAltId($carArr['make'], $_model, $carArr['year']);
@@ -46,44 +47,16 @@ class Soularpanic_CarToGraphEE_Helper_Car
                         'car_id' => $car->getId(),
                         'product_id' => $productId,
                         'preselect_ids' => $preselectIds,
-//                        'option' => $option,
                         'type' => $type
                     ];
-
-//                    $bundleProduct = Mage::getModel('catalog/product')
-//                        ->load($productId);
-//                    if ($bundleProduct->getTypeId() === 'bundle') {
-//                        $kids = $bundleProduct->getTypeInstance(true)
-//                            ->getSelectionsCollection(
-//                                $bundleProduct->getTypeInstance(true)
-//                                    ->getOptionsIds($bundleProduct), $bundleProduct);
-//
-////                $bundleProduct
-////                    ->getTypeInstance(true)
-////                    ->getChildrenIds($bundleProduct->getId(), false);
-//                        //$kids = $bundleProduct->getSelectionsCollection();
-//                        //$this->log("printing kids...");
-//                        foreach ($kids as $kid) {
-//                            //$this->log("I am a kid! ({$kid->getId()})");
-////                            $sublink = Mage::getModel('cartographee/linkcarproduct');
-////                            $sublink->setData($relation);
-////                            $sublink->save();
-//                            $relationsData[] = [
-//                                'car_id' => $car->getId(),
-//                                'product_id' => $kid->getProductId(),
-////                                'preselect_ids' => $preselectIds,
-//                                'option' => 'bundled_product'//$option,
-////                                'type' => $type
-//                            ];
-//                        }
-//                    }
                 }
             }
         }
         return $relationsData;
     }
 
-    public $FILTERED_CAR_PROPERTY_ORDER = ['year', 'make', 'model'];
+
+
     public function getFilteredCarProperties($properties) {
         $this->log("getFilteredCarProperties - start");
         $results = [];
@@ -98,53 +71,8 @@ class Soularpanic_CarToGraphEE_Helper_Car
         }
 
         return $results;
-//
-//        foreach ($properties as $_propertyName => $_propertyValue) {
-//            if ($_propertyValue) {
-//                $results[$_propertyName] = [$_propertyValue];
-//            }
-//            else {
-//                $results[$_propertyName] = $this->getFilteredCarProperty($_propertyName, $properties, $_propertyName === 'year' ? 'DESC' : 'ASC');
-//            }
-//        }
-//        return $results;
     }
 
-
-//    public function getFilteredCarProperty($propertyName, $properties = [], $order = 'ASC') {
-//
-//        $cars = Mage::getModel('cartographee/car')
-//            ->getCollection();
-//
-//        $activeConditions = [];
-//        foreach ($properties as $_property => $_propertyValue) {
-//            if ($_propertyValue && $propertyName !== $_property) {
-//                $activeConditions[] = "$_property = '$_propertyValue'";
-//            }
-//        }
-//
-//        $activeSql = "if(" . ($activeConditions ? implode(' or ', $activeConditions) : 'true') . ", 'active', 'inactive')";
-//        $tableName = $cars->getMainTable();
-//        $cars->getSelect()
-//            ->from($tableName,
-//                ["{$tableName}.{$propertyName}",
-//                    'active' => $activeSql])
-//            ->columns([$propertyName, 'active' => $activeSql])
-//            ->group(['active', $propertyName])
-//            ->order(['active',
-//                "$propertyName $order"]);
-//        $cars->getSelect()
-//            ->from($tableName,
-//                ["{$tableName}.{$propertyName}",
-//                    'active' => $activeSql])
-//            ->group("{$tableName}.{$propertyName}")
-//            ->order(['active',
-//                "{$tableName}.{$propertyName} $order"]);
-//
-//        Mage::log("car select sql:\n".print_r($cars->getSelect()->__toString(), true), null, 'trs_guide.log');
-//
-//        return $cars->toArray([$propertyName, 'active']);
-//    }
 
     public function getFilteredCarProperty($propertyName, $properties = [], $order = 'ASC') {
         $cars = Mage::getModel('cartographee/car')
@@ -162,6 +90,7 @@ class Soularpanic_CarToGraphEE_Helper_Car
 
         return $cars->getColumnValues($propertyName);
     }
+
 
     protected function _resolveProduct($sku) {
         $_sku = trim($sku);

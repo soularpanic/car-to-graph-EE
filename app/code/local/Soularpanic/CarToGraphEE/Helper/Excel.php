@@ -16,9 +16,11 @@ class Soularpanic_CarToGraphEE_Helper_Excel
         return $this;
     }
 
+
     public function getUploadElementName() {
         return self::UPLOAD_ELEMENT_NAME;
     }
+
 
     public function parseExcel($path) {
         $this->log('Beginning helper method...');
