@@ -6,7 +6,10 @@ class Soularpanic_CarToGraphEE_Helper_Car
 
 
     public function fetchCar($carArr = []) {
-        $altId = $this->getCarAltId($carArr['make'], $carArr['model'], $carArr['year']);
+        //$option = strtolower(str_replace(' ', '_', trim($carArr['option'])));
+        $_model = $carArr['option'] ? "{$carArr['model']} {$carArr['option']}" : $carArr['model'];
+        $carArr['model'] = $_model;
+        $altId = $this->getCarAltId($carArr['make'], $_model, $carArr['year']);
 
         $car = Mage::getModel('cartographee/car')->load($altId);
         if (!$car->getId()) {
@@ -25,7 +28,7 @@ class Soularpanic_CarToGraphEE_Helper_Car
 
     public function getCarProductRelations($car, $relationsRowArr) {
         $relationsData = [];
-        $option = strtolower(str_replace(' ', '_', trim($relationsRowArr['option'])));
+
         foreach ($relationsRowArr as $relKey => $relValue) {
             if (in_array($relKey, ['make', 'model', 'year', 'option'])) {
                 continue;
@@ -43,7 +46,7 @@ class Soularpanic_CarToGraphEE_Helper_Car
                         'car_id' => $car->getId(),
                         'product_id' => $productId,
                         'preselect_ids' => $preselectIds,
-                        'option' => $option,
+//                        'option' => $option,
                         'type' => $type
                     ];
 
@@ -55,7 +58,16 @@ class Soularpanic_CarToGraphEE_Helper_Car
 //                                $bundleProduct->getTypeInstance(true)
 //                                    ->getOptionsIds($bundleProduct), $bundleProduct);
 //
+////                $bundleProduct
+////                    ->getTypeInstance(true)
+////                    ->getChildrenIds($bundleProduct->getId(), false);
+//                        //$kids = $bundleProduct->getSelectionsCollection();
+//                        //$this->log("printing kids...");
 //                        foreach ($kids as $kid) {
+//                            //$this->log("I am a kid! ({$kid->getId()})");
+////                            $sublink = Mage::getModel('cartographee/linkcarproduct');
+////                            $sublink->setData($relation);
+////                            $sublink->save();
 //                            $relationsData[] = [
 //                                'car_id' => $car->getId(),
 //                                'product_id' => $kid->getProductId(),
@@ -153,7 +165,8 @@ class Soularpanic_CarToGraphEE_Helper_Car
 
     protected function _resolveProduct($sku) {
         $_sku = trim($sku);
-        if (!$_sku) {
+        Mage::log("attempting to resolve [$_sku]", null, 'trs_guide.log');
+        if (!$_sku || $_sku === '-') {
             return false;
         }
         $product = Mage::getModel('catalog/product');

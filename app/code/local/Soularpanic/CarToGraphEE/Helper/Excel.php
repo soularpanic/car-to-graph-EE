@@ -28,21 +28,24 @@ class Soularpanic_CarToGraphEE_Helper_Excel
         foreach ($excelObj->getAllSheets() as $worksheet) {
             $this->log("Processing worksheet [{$worksheet->getTitle()}]");
             $lastRow = $worksheet->getHighestDataRow();
-            $this->log("got last row");
+            $this->log("got last row ($lastRow)");
             $lastCol = $worksheet->getHighestDataColumn();
-            $this->log("got last col");
+            $this->log("got last col ($lastCol)");
             $keyRow = [];
             $this->log("beginning to iterate through sheet...");
             for ($row = 1; $row <= $lastRow; $row++) {
                 $relation = [];
-                for ($col = 'A'; $col <= $lastCol; $col++) {
-                    $cell = $worksheet->getCell($col.$row);
-                    if ($row === 1) {
-                        $keyRow[$col] = str_replace(':', '', strtolower($cell->getValue()));
-                    }
-                    else {
-                        $key = $keyRow[$col];
-                        $relation[$key] = $cell->getValue();
+                $this->log("key row: ".print_r($keyRow,true));
+                for ($col = 'A'; $col != $lastCol; $col++) {
+                    if ($worksheet->cellExists($col.$row)) {
+                        $cell = $worksheet->getCell($col.$row);
+                        if ($row === 1) {
+                            $keyRow[$col] = str_replace(':', '', strtolower($cell->getValue()));
+                        }
+                        else {
+                            $key = $keyRow[$col];
+                            $relation[$key] = $cell->getValue();
+                        }
                     }
                 }
                 if ($relation) {

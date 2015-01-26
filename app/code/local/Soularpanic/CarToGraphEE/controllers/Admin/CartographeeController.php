@@ -46,29 +46,36 @@ class Soularpanic_CarToGraphEE_Admin_CartographeeController
             $car = $carHelper->fetchCar($relationRow);
 
             $relations = $carHelper->getCarProductRelations($car, $relationRow);
-            //$excelHelper->log(print_r($relations, true));
+//            $excelHelper->log(print_r($relations, true));
             Mage::log("beginning loop", null, 'trs_guide.log');
             foreach ($relations as $relation) {
+
+                Mage::log("relation: (".print_r($relation, true).")", null, 'trs_guide.log');
+
                 $link = Mage::getModel('cartographee/linkcarproduct');
                 $link->setData($relation);
-                if ($link->getOption() === 'bundled_product') {
-                    $linkCollection = Mage::getModel('cartographee/linkcarproduct')
-                        ->getCollection()
-                        ->addFieldToFilter('car_id', ['eq' => $link->getCarId()])
-                        ->addFieldToFilter('product_id', ['eq' => $link->getProductId()])
-                        ->addFieldToFilter('`option`', ['eq' => 'bundled_product']);
-//                    $carHelper->log("sql: ".$linkCollection->getSelect()->__toString());
-                    if ($linkCollection->getSize() <= 0) {
-                        $carHelper->log("{$link->getCarId()}/{$link->getProductId()} does not exist; linking");
-                        $link->save();
-                    }
-                    else {
-                        $carHelper->log("{$link->getCarId()}/{$link->getProductId()} already exists; skipping");
-                    }
-                }
-                else {
+//                if ($link->getOption() === 'bundled_product') {
+//                    $linkCollection = Mage::getModel('cartographee/linkcarproduct')
+//                        ->getCollection()
+//                        ->addFieldToFilter('car_id', ['eq' => $link->getCarId()])
+//                        ->addFieldToFilter('product_id', ['eq' => $link->getProductId()])
+//                        ->addFieldToFilter('`option`', ['eq' => 'bundled_product']);
+////                    $carHelper->log("sql: ".$linkCollection->getSelect()->__toString());
+//                    if ($linkCollection->getSize() <= 0) {
+//                        $carHelper->log("{$link->getCarId()}/{$link->getProductId()} does not exist; linking");
+//                        $link->save();
+//                    }
+//                    else {
+//                        $carHelper->log("{$link->getCarId()}/{$link->getProductId()} already exists; skipping");
+//                    }
+//                }
+//                else {
+
+
                     $link->save();
-                }
+
+
+//                }
 
 //                $bundleProduct = Mage::getModel('catalog/product')
 //                    ->load($link->getProductId());
@@ -100,7 +107,8 @@ class Soularpanic_CarToGraphEE_Admin_CartographeeController
     protected function _saveExcelFile() {
         Mage::log("saving excel file...", null, 'trs_guide.log');
         $requestKey = Mage::helper('cartographee/excel')->getUploadElementName();
-        $filename = $_FILES[$requestKey]['name'];
+        $filename = Varien_File_Uploader::getCorrectFileName($_FILES[$requestKey]['name']);
+        Mage::log("filename: $filename", null, 'trs_guide.log');
         if ($filename) {
             $uploader = new Varien_File_Uploader($requestKey);
             $uploader->setAllowedExtensions(['xls'])
@@ -110,10 +118,10 @@ class Soularpanic_CarToGraphEE_Admin_CartographeeController
             Mage::log("writing to disk...", null, 'trs_guide.log');
             try {
                 $uploader->save($path, $filename);
-                return $path.$uploader->getCorrectFileName($filename);
+                return $path.$filename;
             }
             catch (Exception $e) {
-                Mage::log("FAILED!~ {$e->getMessage()}", null, 'trs_guide');
+                Mage::log("FAILED!~ {$e->getMessage()}", null, 'trs_guide.log');
                 Mage::getSingleton('adminhtml/session')->addError("Error saving {$filename}: {$e->getMessage()}");
                 return false;
             }
