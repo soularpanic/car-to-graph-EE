@@ -27,10 +27,10 @@ class Soularpanic_CarToGraphEE_Model_Resource_Buyersguide_Layer_Filter_Chain_Lin
 
         $collection = $filter->getLayer()->getProductCollection();
         $directFitSelect = $collection->getSelect();
-        $fallback = "'XB-BALLAST-$wattage'";
+        $ballastSku = "'XB-BALLAST-$wattage,AMP-IGNITER-R,D2S-IGNITER-R'";
 
         $directFitSelect
-            ->joinLeft([$f => new Zend_Db_Expr("(select $fallback as ballast)")],
+            ->joinLeft([$f => new Zend_Db_Expr("(select $ballastSku as ballast)")],
                 "true",
                 ["preselect_$f" => "$f.ballast"]);
         Mage::log("wattage sql: ".$directFitSelect->__toString(), null, 'trs_guide.log');
