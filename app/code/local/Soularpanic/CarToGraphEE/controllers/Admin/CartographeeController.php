@@ -46,8 +46,11 @@ class Soularpanic_CarToGraphEE_Admin_CartographeeController
             $car = $carHelper->fetchCar($relationRow);
 
             $relations = $carHelper->getCarProductRelations($car, $relationRow);
-            $excelHelper->log(print_r($relations, true));
+            Mage::log("beginning loop", null, 'trs_guide.log');
             foreach ($relations as $relation) {
+
+                Mage::log("relation: (".print_r($relation, true).")", null, 'trs_guide.log');
+
                 $link = Mage::getModel('cartographee/linkcarproduct');
                 $link->setData($relation);
                 $link->save();
@@ -58,19 +61,23 @@ class Soularpanic_CarToGraphEE_Admin_CartographeeController
 
 
     protected function _saveExcelFile() {
+        Mage::log("saving excel file...", null, 'trs_guide.log');
         $requestKey = Mage::helper('cartographee/excel')->getUploadElementName();
-        $filename = $_FILES[$requestKey]['name'];
+        $filename = Varien_File_Uploader::getCorrectFileName($_FILES[$requestKey]['name']);
+        Mage::log("filename: $filename", null, 'trs_guide.log');
         if ($filename) {
             $uploader = new Varien_File_Uploader($requestKey);
             $uploader->setAllowedExtensions(['xls'])
                 ->setAllowRenameFiles(false)
                 ->setFilesDispersion(false);
             $path = Mage::getBaseDir('var').DS.'tmp'.DS;
+            Mage::log("writing to disk...", null, 'trs_guide.log');
             try {
                 $uploader->save($path, $filename);
                 return $path.$filename;
             }
             catch (Exception $e) {
+                Mage::log("FAILED!~ {$e->getMessage()}", null, 'trs_guide.log');
                 Mage::getSingleton('adminhtml/session')->addError("Error saving {$filename}: {$e->getMessage()}");
                 return false;
             }

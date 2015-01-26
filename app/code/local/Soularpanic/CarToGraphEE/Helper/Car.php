@@ -1,11 +1,16 @@
 <?php
 class Soularpanic_CarToGraphEE_Helper_Car
-    extends Mage_Core_Helper_Abstract {
+    extends Soularpanic_CarToGraphEE_Helper_Data {
+
+    public $FILTERED_CAR_PROPERTY_ORDER = ['year', 'make', 'model'];
 
     private $_resolutionFailures = [];
 
+
     public function fetchCar($carArr = []) {
-        $altId = $this->getCarAltId($carArr['make'], $carArr['model'], $carArr['year']);
+        $_model = $carArr['option'] ? "{$carArr['model']} {$carArr['option']}" : $carArr['model'];
+        $carArr['model'] = $_model;
+        $altId = $this->getCarAltId($carArr['make'], $_model, $carArr['year']);
 
         $car = Mage::getModel('cartographee/car')->load($altId);
         if (!$car->getId()) {
@@ -16,13 +21,15 @@ class Soularpanic_CarToGraphEE_Helper_Car
         return $car;
     }
 
+
     public function getCarAltId($make, $model, $year) {
         return strtolower(sprintf('%s_%s_%s', $make, $model, $year));
     }
 
+
     public function getCarProductRelations($car, $relationsRowArr) {
         $relationsData = [];
-        $option = strtolower(str_replace(' ', '_', trim($relationsRowArr['option'])));
+
         foreach ($relationsRowArr as $relKey => $relValue) {
             if (in_array($relKey, ['make', 'model', 'year', 'option'])) {
                 continue;
@@ -40,7 +47,6 @@ class Soularpanic_CarToGraphEE_Helper_Car
                         'car_id' => $car->getId(),
                         'product_id' => $productId,
                         'preselect_ids' => $preselectIds,
-                        'option' => $option,
                         'type' => $type
                     ];
                 }
@@ -49,9 +55,47 @@ class Soularpanic_CarToGraphEE_Helper_Car
         return $relationsData;
     }
 
+
+
+    public function getFilteredCarProperties($properties) {
+        $this->log("getFilteredCarProperties - start");
+        $results = [];
+        $matchedProperties = [];
+        foreach ($this->FILTERED_CAR_PROPERTY_ORDER as $_propertyName) {
+            $_propertyValue = $properties[$_propertyName];
+            $results[$_propertyName] = $this->getFilteredCarProperty($_propertyName, $matchedProperties, $_propertyName === 'year' ? 'DESC' : 'ASC');
+            if (!$_propertyValue) {
+                break;
+            }
+            $matchedProperties[$_propertyName] = $_propertyValue;
+        }
+
+        return $results;
+    }
+
+
+    public function getFilteredCarProperty($propertyName, $properties = [], $order = 'ASC') {
+        $cars = Mage::getModel('cartographee/car')
+            ->getCollection();
+
+        foreach ($properties as $_property => $_propertyValue) {
+            if ($_propertyValue && $propertyName !== $_property) {
+                $cars->addFieldToFilter($_property, $_propertyValue);
+            }
+        }
+
+        $cars->getSelect()
+            ->group($propertyName)
+            ->order("{$propertyName} {$order}");
+
+        return $cars->getColumnValues($propertyName);
+    }
+
+
     protected function _resolveProduct($sku) {
         $_sku = trim($sku);
-        if (!$_sku) {
+        Mage::log("attempting to resolve [$_sku]", null, 'trs_guide.log');
+        if (!$_sku || $_sku === '-') {
             return false;
         }
         $product = Mage::getModel('catalog/product');
@@ -63,6 +107,7 @@ class Soularpanic_CarToGraphEE_Helper_Car
         return $id;
     }
 
+
     protected function _resolveProducts($skuArr) {
         $resolved = [];
         foreach ($skuArr as $sku) {
@@ -71,9 +116,11 @@ class Soularpanic_CarToGraphEE_Helper_Car
         return $resolved;
     }
 
+
     protected function _resolvePreselectProducts($preselectSkus) {
         return implode(',', $this->_resolveProducts(explode(':', $preselectSkus)));
     }
+
 
     protected function _reportResolutionFailure($sku) {
         if (in_array($sku, $this->_resolutionFailures)) {

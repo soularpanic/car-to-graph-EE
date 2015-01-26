@@ -1,7 +1,0 @@
-<?php
-$categories = $this->getCategories();
-foreach ($categories as $category):
-    ?>
-    <a href="<?php echo $this->getUrl('*/*/listing', ['category' => $category->getId()]) ?>"><?php echo $category->getName() ?></a>
-    <br/>
-<?php endforeach; ?>

@@ -76,7 +76,7 @@ class Soularpanic_CarToGraphEE_Block_Buyersguide_Layer_View
         $this->_attributeFilterBlockName    = 'catalog/layer_filter_attribute';
         $this->_priceFilterBlockName        = 'catalog/layer_filter_price';
         $this->_decimalFilterBlockName      = 'catalog/layer_filter_decimal';
-        $this->_buyersguideFilterBlockName  = 'cartographee/buyersguide_layer_filter_car';
+        $this->_buyersguideFilterBlockName  = 'cartographee/buyersguide_layer_filter_buyersguide';
     }
 
     /**
@@ -105,13 +105,17 @@ class Soularpanic_CarToGraphEE_Block_Buyersguide_Layer_View
             ->setLayer($this->getLayer())
             ->init();
 
-        $buyersGuideBlock = $this->getLayout()->createBlock($this->_buyersguideFilterBlockName)
-            ->setLayer($this->getLayer())
-            ->init();
+//        $buyersGuideBlock = $this->getChild('buyers_guide');
+//        if ($buyersGuideBlock === false) {
+//
+//            $buyersGuideBlock = $this->getLayout()->createBlock($this->_buyersguideFilterBlockName);
+//        }
+//        $buyersGuideBlock->setLayer($this->getLayer())->init();
+
 
         $this->setChild('layer_state', $stateBlock);
         $this->setChild('category_filter', $categoryBlock);
-        $this->setChild('buyers_guide', $buyersGuideBlock);
+//        $this->setChild('buyers_guide', $buyersGuideBlock);
 
         $filterableAttributes = $this->_getFilterableAttributes();
         foreach ($filterableAttributes as $attribute) {
@@ -132,9 +136,16 @@ class Soularpanic_CarToGraphEE_Block_Buyersguide_Layer_View
                     ->init());
         }
 
-        $this->getLayer()->apply();
+//        $this->getLayer()->apply();
 
         return parent::_prepareLayout();
+    }
+
+    public function _beforeToHtml() {
+        $buyersGuide = $this->getChild('buyers_guide');
+        $buyersGuide->setLayer($this->getLayer())->init();
+        $this->getLayer()->apply();
+        return parent::_beforeToHtml();
     }
 
     /**

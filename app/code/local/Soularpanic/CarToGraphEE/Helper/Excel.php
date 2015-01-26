@@ -6,16 +6,21 @@ class Soularpanic_CarToGraphEE_Helper_Excel
 
     function __construct() {
         require_once(Mage::getBaseDir('lib').'/PHPExcel/PHPExcel.php');
+
+        PHPExcel_Settings::setCacheStorageMethod(PHPExcel_CachedObjectStorageFactory::cache_to_sqlite3);
     }
 
-    public function log($txt) {
-        Mage::log($txt, null, 'trs_guide.log');
+
+    public function log($message) {
+        Mage::log($message, null, 'trs_guide.log');
+        return $this;
     }
 
 
     public function getUploadElementName() {
         return self::UPLOAD_ELEMENT_NAME;
     }
+
 
     public function parseExcel($path) {
         $this->log('Beginning helper method...');
@@ -25,18 +30,24 @@ class Soularpanic_CarToGraphEE_Helper_Excel
         foreach ($excelObj->getAllSheets() as $worksheet) {
             $this->log("Processing worksheet [{$worksheet->getTitle()}]");
             $lastRow = $worksheet->getHighestDataRow();
+            $this->log("got last row ($lastRow)");
             $lastCol = $worksheet->getHighestDataColumn();
+            $this->log("got last col ($lastCol)");
             $keyRow = [];
+            $this->log("beginning to iterate through sheet...");
             for ($row = 1; $row <= $lastRow; $row++) {
                 $relation = [];
-                for ($col = 'A'; $col <= $lastCol; $col++) {
-                    $cell = $worksheet->getCell($col.$row);
-                    if ($row === 1) {
-                        $keyRow[$col] = strtolower($cell->getValue());
-                    }
-                    else {
-                        $key = $keyRow[$col];
-                        $relation[$key] = $cell->getValue();
+                $this->log("key row: ".print_r($keyRow,true));
+                for ($col = 'A'; $col != $lastCol; $col++) {
+                    if ($worksheet->cellExists($col.$row)) {
+                        $cell = $worksheet->getCell($col.$row);
+                        if ($row === 1) {
+                            $keyRow[$col] = str_replace(':', '', strtolower($cell->getValue()));
+                        }
+                        else {
+                            $key = $keyRow[$col];
+                            $relation[$key] = $cell->getValue();
+                        }
                     }
                 }
                 if ($relation) {
@@ -44,6 +55,7 @@ class Soularpanic_CarToGraphEE_Helper_Excel
                 }
             }
         }
+        $this->log("returning relations");
         return $relations;
     }
 }

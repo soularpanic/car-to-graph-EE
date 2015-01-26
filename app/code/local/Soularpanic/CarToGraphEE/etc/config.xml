@@ -25,6 +25,18 @@
                     </linkcarproduct>
                 </entities>
             </cartographee_resource>
+
+            <catalog_resource>
+                <rewrite>
+                    <product_collection>Soularpanic_CarToGraphEE_Model_Resource_Catalog_Product_Collection</product_collection>
+                    <layer_filter_attribute>Soularpanic_CarToGraphEE_Model_Resource_Catalog_Layer_Filter_Attribute</layer_filter_attribute>
+                </rewrite>
+            </catalog_resource>
+            <catalog>
+                <rewrite>
+                    <product_url>Soularpanic_CarToGraphEE_Model_Catalog_Product_Url</product_url>
+                </rewrite>
+            </catalog>
         </models>
 
         <resources>
@@ -47,6 +59,14 @@
                 <class>Soularpanic_CarToGraphEE_Block</class>
             </cartographee>
         </blocks>
+
+        <!--<catalog>-->
+        <!--<product>-->
+        <!--<url>-->
+        <!--<model>cartographee/catalog_product_url</model>-->
+        <!--</url>-->
+        <!--</product>-->
+        <!--</catalog>-->
     </global>
 
     <frontend>

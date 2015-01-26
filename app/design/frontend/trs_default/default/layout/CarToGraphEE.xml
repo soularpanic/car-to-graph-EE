@@ -1,22 +1,1119 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 
 <layout version="0.1.0">
 
-    <cartographee_buyersguide_index>
-        <reference name="content">
-            <block type="cartographee/buyersguide_CategorySelection" name="bar" as="bar" template="CarToGraphEE/buyersguide/category.phtml"/>
 
+    <buyersguide_completekits>
+        <reference name="head">
+            <action method="addJs"><script>soularpanic/buyersguide/bg-wattageinfoinit.js</script></action>
+            <action method="addJs"><script>belvg/productviewgallery/jquery.fancybox.pack.js</script></action>
+            <action method="addCss"><stylesheet>css/belvg/productviewgallery.css</stylesheet></action>
+            <block type="core/template" name="before_js" as="before_js" template="page/html/jQuery-migrate.phtml"/>
         </reference>
-    </cartographee_buyersguide_index>
-
-    <cartographee_buyersguide_listing>
-        <reference name="content">
-            <block type="core/template" name="foo" as="foo" template="CarToGraphEE/buyersguide/category.phtml"/>
+        <reference name="buyers_guide">
+            <action method="addContainerClass"><value>completekits</value></action>
+            <block type="cartographee/buyersguide_layer_filter_car" name="buyersguide_car_filter" as="car_filter" template="cartographee/buyersguide/toolbar/Car.phtml">
+                <action method="setDirectFitBundleTargets"><targets>Harnesses</targets></action>
+                <action method="setDirectFitAction"><value>step:1</value></action>
+            </block>
+            <block type="cartographee/buyersguide_layer_filter_step_generic" name="buyersguide_toolbar_supplemental_postcar" as="buyersguide_toolbar_supplemental_postcar" template="cartographee/buyersguide/toolbar/Supplemental.phtml">
+                <action method="setModel"><model>cartographee/buyersguide_layer_filter_chain_link_completekits_harness</model></action>
+                <action method="setDirectFitBundleTarget"><target>Harnesses</target></action>
+                <action method="setSkuRestraint"><restraint>MINIH1-STG3-R, MINID2S-STG3-R, FXR-STG3-R, MATCHBOX-STG3-R</restraint></action>
+                <action method="setStepConfig">
+                    <config>
+                        <id>harnesses</id>
+                        <apply_to_direct_fit>true</apply_to_direct_fit>
+                        <resource_model>cartographee/buyersguide_layer_filter_chain_link_completekits_harness</resource_model>
+                        <restrict>MINIH1-STG3-R, MINID2S-STG3-R, FXR-STG3-R, MATCHBOX-STG3-R</restrict>
+                        <options>
+                            <all>
+                                <title>All Function Types</title>
+                            </all>
+                            <high>
+                                <title>High Beams</title>
+                                <action>sql:type=high_beam_harness</action>
+                            </high>
+                            <low>
+                                <title>Low Beams</title>
+                                <action>sql:type=low_beam_harness</action>
+                            </low>
+                            <fog>
+                                <title>Fog Lights</title>
+                                <action>sql:type=fog_light_harness</action>
+                            </fog>
+                        </options>
+                    </config>
+                </action>
+            </block>
+            <block type="cartographee/buyersguide_layer_filter_step_container" name="buyersguide_steps" as="buyersguide_steps" template="cartographee/buyersguide/step/Container.phtml">
+                <block type="cartographee/buyersguide_layer_filter_step_completekits_projector_size" name="step_1" as="step_1" template="cartographee/buyersguide/step/Diagram.phtml">
+                    <action method="setQ"><q>1</q></action>
+                    <action method="setStepConfig">
+                        <config>
+                            <display_name>Projector Size</display_name>
+                            <apply_to_direct_fit>true</apply_to_direct_fit>
+                            <step_question>What is the approximate height &amp; depth of your headlight reflector?</step_question>
+                            <step_image>
+                                <url>images/productcategory/projectors-q1.svg</url>
+                                <alt>HID Projectors Diagram</alt>
+                            </step_image>
+                            <options>
+                                <tiny>
+                                    <title>Tiny</title>
+                                    <desc>Height: 55-75mm
+                                        Depth: 106-137mm</desc>
+                                    <action>step:2[MATCHBOX-R]</action>
+                                </tiny>
+                                <small>
+                                    <title>Small</title>
+                                    <desc>Height: 75-80mm
+                                        Depth: 136-138mm</desc>
+                                    <action>step:2[MATCHBOX-R, MH16.0-R]</action>
+                                </small>
+                                <medium>
+                                    <title>Medium</title>
+                                    <desc>Height: 80-95mm
+                                        Depth: 138-149mm</desc>
+                                    <action>step:2[MH16.0-R, MD2S3.0-R]</action>
+                                </medium>
+                                <large>
+                                    <title>Large</title>
+                                    <desc>Height: 95mm +
+                                        Depth: 149mm +</desc>
+                                    <action>step:2[MD2S3.0-R, FXR3.0-R]</action>
+                                </large>
+                            </options>
+                        </config>
+                    </action>
+                </block>
+                <block type="cartographee/buyersguide_layer_filter_step_completekits_projector_performance" name="step_2" as="step_2" template="cartographee/buyersguide/step/Performance.phtml">
+                    <action method="setQ"><q>2</q></action>
+                    <action method="setStepConfig">
+                        <config>
+                            <display_name>Performance/Install Balance</display_name>
+                            <step_question>What are your performance vs ease-of-install requirements?</step_question>
+                            <apply_to_direct_fit>true</apply_to_direct_fit>
+                            <performance_aspects>
+                                <output>Light Output Performance</output>
+                                <sharp>Cutoff Sharpness</sharp>
+                                <install>Install Difficulty</install>
+                            </performance_aspects>
+                            <options>
+                                <MATCHBOX-R>
+                                    <title>Matchbox</title>
+                                    <action>step:5</action> <!-- Need to set up group in step 4, as this is a _SKIP -->
+                                    <aspects>
+                                        <output>4</output>
+                                        <sharp>6</sharp>
+                                        <install>3</install>
+                                    </aspects>
+                                </MATCHBOX-R>
+                                <MH16.0-R>
+                                    <title>Mini H1</title>
+                                    <action>step:3[MH16.0-R]</action>
+                                    <aspects>
+                                        <output>7</output>
+                                        <sharp>8</sharp>
+                                        <install>5</install>
+                                    </aspects>
+                                </MH16.0-R>
+                                <MD2S3.0-R>
+                                    <title>Mini D2S</title>
+                                    <action>step:3[MD2S3.0-R]</action>
+                                    <aspects>
+                                        <output>8</output>
+                                        <sharp>8</sharp>
+                                        <install>6</install>
+                                    </aspects>
+                                </MD2S3.0-R>
+                                <FXR3.0-R>
+                                    <title>FXR</title>
+                                    <action>step:3[FXR3.0-R]</action>
+                                    <aspects>
+                                        <output>9</output>
+                                        <sharp>9</sharp>
+                                        <install>9</install>
+                                    </aspects>
+                                </FXR3.0-R>
+                                <stock>
+                                    <title>Baseline (Stock)</title>
+                                    <active>0</active>
+                                    <aspects>
+                                        <output>4</output>
+                                        <sharp>2</sharp>
+                                    </aspects>
+                                </stock>
+                            </options>
+                        </config>
+                    </action>
+                </block>
+                <block type="cartographee/buyersguide_layer_filter_step_completekits_projector_orientation" name="step_3" as="step_3" template="cartographee/buyersguide/step/Binary.phtml">
+                    <action method="setQ"><q>3</q></action>
+                    <action method="setStepConfig">
+                        <config>
+                            <display_name>Pattern</display_name>
+                            <step_question>What beam pattern do you need?</step_question>
+                            <apply_to_direct_fit>true</apply_to_direct_fit>
+                            <binary>
+                                <lhd>
+                                    <title>Left Hand Drive</title>
+                                    <subtitle>(LHD)</subtitle>
+                                    <desc>Oncoming traffic drives on the left side of you.</desc>
+                                    <ps>United States</ps>
+                                    <info_template>cartographee/buyersguide/info/LHD.phtml</info_template>
+                                </lhd>
+                                <rhd>
+                                    <title>Right Hand Drive</title>
+                                    <subtitle>(RHD)</subtitle>
+                                    <desc>Oncoming traffic drives on the right side of you.</desc>
+                                    <ps>UK, Australia, India, Japan</ps>
+                                    <info_template>cartographee/buyersguide/info/RHD.phtml</info_template>
+                                </rhd>
+                            </binary>
+                            <options>
+                                <MH16.0-R>
+                                    <binary>
+                                        <lhd><action>step:4/minih1</action></lhd>
+                                        <rhd><action>step:4/minih1</action></rhd>
+                                    </binary>
+                                </MH16.0-R>
+                                <MD2S3.0-R>
+                                    <binary>
+                                        <lhd><action>step:4/minid2so</action></lhd>
+                                        <rhd><action>step:4/minid2so</action></rhd>
+                                    </binary>
+                                </MD2S3.0-R>
+                                <FXR3.0-R>
+                                    <binary>
+                                        <lhd><action>step:4/fxr30</action></lhd>
+                                        <rhd><action>step:4/fxr30</action></rhd>
+                                    </binary>
+                                </FXR3.0-R>
+                            </options>
+                        </config>
+                    </action>
+                </block>
+                <block type="cartographee/buyersguide_layer_filter_step_completekits_shroud" name="step_4" as="step_4" template="cartographee/buyersguide/step/Ribbon.phtml">
+                    <action method="setQ"><q>4</q></action>
+                    <action method="setStepConfig">
+                        <config>
+                            <display_name>Reflector Shape</display_name>
+                            <apply_to_direct_fit>true</apply_to_direct_fit>
+                            <step_question>What is the overall size/shape of your headlight reflector?</step_question>
+                            <step_desc>This will give you a good idea what shrouds would look best, but overall, the choice is purely aesthetic.
+                                Please note that trimming shrouds in retrofits is very common.</step_desc>
+                            <options>
+                                <_SKIP>
+                                    <action>step:5</action>
+                                </_SKIP>
+                                <round>
+                                    <title>Round</title>
+                                    <image><url>images/productcategory/shrouds-round.svg</url></image>
+                                    <action>
+                                        <minih1>step:5</minih1>
+                                        <minid2so>step:5</minid2so>
+                                        <minid2sx>step:5</minid2sx>
+                                        <fxr30>step:5</fxr30>
+                                        <other>step:5</other>
+                                    </action>
+                                </round>
+                                <oval>
+                                    <title>Oval</title>
+                                    <image><url>images/productcategory/shrouds-oval.svg</url></image>
+                                    <action>
+                                        <minih1>step:5</minih1>
+                                        <minid2so>step:5</minid2so>
+                                        <minid2sx>step:5</minid2sx>
+                                        <fxr30>step:5</fxr30>
+                                        <other>step:5</other>
+                                    </action>
+                                </oval>
+                                <flatsided>
+                                    <title>Flat-sided</title>
+                                    <image><url>images/productcategory/shrouds-flatsided.svg</url></image>
+                                    <action>
+                                        <minih1>step:5</minih1>
+                                        <minid2so>step:5</minid2so>
+                                        <minid2sx>step:5</minid2sx>
+                                        <fxr30>step:5</fxr30>
+                                        <other>step:5</other>
+                                    </action>
+                                </flatsided>
+                                <big>
+                                    <title>Big</title>
+                                    <image><url>images/productcategory/shrouds-large.svg</url></image>
+                                    <action>
+                                        <minih1>step:5</minih1>
+                                        <minid2so>step:5</minid2so>
+                                        <minid2sx>step:5</minid2sx>
+                                        <fxr30>step:5</fxr30>
+                                        <other>step:5</other>
+                                    </action>
+                                </big>
+                                <odd>
+                                    <title>Compact/Odd</title>
+                                    <image><url>images/productcategory/shrouds-small.svg</url></image>
+                                    <action>
+                                        <minih1>step:5[watt35]</minih1>
+                                        <minid2so>step:5</minid2so>
+                                        <minid2sx>step:5</minid2sx>
+                                        <fxr30>step:5</fxr30>
+                                        <other>step:5</other>
+                                    </action>
+                                </odd>
+                            </options>
+                        </config>
+                    </action>
+                </block>
+                <block type="cartographee/buyersguide_layer_filter_step_completekits_ballast" name="step_5" as="step_5" template="cartographee/buyersguide/step/Binary.phtml">
+                    <action method="setQ"><q>5</q></action>
+                    <action method="setStepConfig">
+                        <config>
+                            <apply_to_direct_fit>true</apply_to_direct_fit>
+                            <display_name>Light Output</display_name>
+                            <step_question>How much light output do you need?</step_question>
+                            <binary>
+                                <watt35>
+                                    <title>35 Watt Ballast</title>
+                                    <info_template>cartographee/buyersguide/info/35WattBallast.phtml</info_template>
+                                </watt35>
+                                <watt55>
+                                    <title>50 Watt Ballast</title>
+                                    <info_template>cartographee/buyersguide/info/55WattBallast.phtml</info_template>
+                                </watt55>
+                            </binary>
+                            <options>
+                                <wattage>
+                                    <binary>
+                                        <watt35><action>step:done</action></watt35>
+                                        <watt55><action>step:done</action></watt55>
+                                    </binary>
+                                </wattage>
+                            </options>
+                        </config>
+                    </action>
+                </block>
+            </block>
         </reference>
-    </cartographee_buyersguide_listing>
+    </buyersguide_completekits>
+    <CATEGORY_5>
+        <update handle="buyersguide_completekits"/>
+    </CATEGORY_5>
 
-    <catalog_category_layered>
 
-    </catalog_category_layered>
+
+    <buyersguide_hidsystems>
+        <reference name="buyers_guide">
+            <action method="addContainerClass"><value>hidsystems</value></action>
+            <block type="cartographee/buyersguide_layer_filter_car" name="buyersguide_car_filter" as="car_filter" template="cartographee/buyersguide/toolbar/Car.phtml">
+                <action method="setDirectFitAction"><value>step:1</value></action>
+            </block>
+            <block type="cartographee/buyersguide_layer_filter_step_generic" name="buyersguide_toolbar_supplemental_postcar" as="buyersguide_toolbar_supplemental_postcar" template="cartographee/buyersguide/toolbar/Supplemental.phtml">
+                <action method="setStepConfig">
+                    <config>
+                        <id>hidbulb_function</id>
+                        <apply_to_direct_fit>true</apply_to_direct_fit>
+                        <options>
+                            <all>
+                                <title>All Function Types</title>
+                                <action>step:1</action>
+                            </all>
+                            <high>
+                                <title>High Beams</title>
+                                <action>sql:type=hid_system_high_beam</action>
+                            </high>
+                            <low>
+                                <title>Low Beams</title>
+                                <action>sql:type=hid_system_low_beam</action>
+                            </low>
+                            <fog>
+                                <title>Fog Lights</title>
+                                <action>sql:type=hid_system_fog_light</action>
+                            </fog>
+                        </options>
+                    </config>
+                </action>
+            </block>
+            <block type="cartographee/buyersguide_layer_filter_step_container" name="buyersguide_steps" as="buyersguide_steps" template="cartographee/buyersguide/step/Container.phtml">
+                <block type="cartographee/buyersguide_layer_filter_step_hidsystems_wattage" name="step_1" as="step_1" template="cartographee/buyersguide/step/Binary.phtml">
+                    <action method="setQ"><q>1</q></action>
+                    <action method="setStepConfig">
+                        <config>
+                            <apply_to_direct_fit>true</apply_to_direct_fit>
+                            <display_name>Light Output</display_name>
+                            <step_question>How much light output do you need?</step_question>
+                            <binary>
+                                <watt35>
+                                    <title>35 Watt Ballast</title>
+                                    <info_template>cartographee/buyersguide/info/35WattBallast.phtml</info_template>
+                                </watt35>
+                                <watt55>
+                                    <title>50 Watt Ballast</title>
+                                    <info_template>cartographee/buyersguide/info/55WattBallast.phtml</info_template>
+                                </watt55>
+                            </binary>
+                            <options>
+                                <wattage>
+                                    <binary>
+                                        <watt35><action>step:2</action></watt35>
+                                        <watt55><action>step:2</action></watt55>
+                                    </binary>
+                                </wattage>
+                            </options>
+                        </config>
+                    </action>
+                </block>
+            </block>
+        </reference>
+    </buyersguide_hidsystems>
+    <CATEGORY_4>
+        <update handle="buyersguide_hidsystems"/>
+    </CATEGORY_4>
+
+
+    <buyersguide_shrouds>
+        <reference name="buyers_guide">
+            <action method="addContainerClass"><value>shrouds</value></action>
+            <block type="cartographee/buyersguide_layer_filter_car" name="buyersguide_car_filter" as="car_filter" template="cartographee/buyersguide/toolbar/Car.phtml">
+                <action method="setNoFitAction"><value>step:1</value></action>
+            </block>
+            <block type="cartographee/buyersguide_layer_filter_step_container" name="buyersguide_steps" as="buyersguide_steps" template="cartographee/buyersguide/step/Container.phtml">
+                <block type="cartographee/buyersguide_layer_filter_step_generic" name="step_1" as="step_1" template="cartographee/buyersguide/step/Ribbon.phtml">
+                    <action method="setStepConfig">
+                        <config>
+                            <display_name>Projectors</display_name>
+                            <step_question>What projectors are you using?</step_question>
+                            <options>
+                                <matchbox>
+                                    <title>Matchbox</title>
+                                    <image>
+                                        <url>images/productcategory/projectors-matchbox.svg</url>
+                                    </image>
+                                    <action>sku:MICROGAT-R</action>
+                                </matchbox>
+                                <miniH1>
+                                    <title>Mini H1</title>
+                                    <image><url>images/productcategory/projectors-h1.svg</url></image>
+                                    <action>step:2/minih1</action>
+                                </miniH1>
+                                <miniD2S-O>
+                                    <title>Mini D2S</title>
+                                    <subtitle>(O Lens)</subtitle>
+                                    <image><url>images/productcategory/projectors-D2S-O.svg</url></image>
+                                    <action>step:2/minid2so</action>
+                                </miniD2S-O>
+                                <miniD2S-X>
+                                    <title>Mini D2S</title>
+                                    <subtitle>(X Lens)</subtitle>
+                                    <image><url>images/productcategory/projectors-D2S-X.svg</url></image>
+                                    <action>step:2/minid2sx</action>
+                                </miniD2S-X>
+                                <fxr3.0>
+                                    <title>FX-R 3.0</title>
+                                    <image><url>images/productcategory/projectors-FXR.svg</url></image>
+                                    <action>step:2/fxr30</action>
+                                </fxr3.0>
+                                <other>
+                                    <title>Other</title>
+                                    <image><url>images/productcategory/projectors-other.svg</url></image>
+                                    <action>step:2/other</action>
+                                </other>
+                            </options>
+                        </config>
+                    </action>
+                </block>
+                <block type="cartographee/buyersguide_layer_filter_step_generic" name="step_2" as="step_2" template="cartographee/buyersguide/step/Ribbon.phtml">
+                    <action method="setQ"><q>2</q></action>
+                    <action method="setStepConfig">
+                        <config>
+                            <display_name>Reflector Shape</display_name>
+                            <step_question>What is the overall size/shape of your headlight reflector?</step_question>
+                            <step_desc>This will give you a good idea what shrouds would look best, but overall, the choice is purely aesthetic.
+                                Please note that trimming shrouds in retrofits is very common.</step_desc>
+                            <options>
+                                <round>
+                                    <title>Round</title>
+                                    <image><url>images/productcategory/shrouds-round.svg</url></image>
+                                    <action>
+                                        <minih1>sku:MiniGat-R, GRAPH-R, APOLLO-R, APOLLO2-R, APOLLO3-R, ORBIT-R, MCR-R, Panamera-R, GTIR-R, BULLET-R, GAT2.0-R, GATLING-R, G37C-R, G37-R</minih1>
+                                        <minid2so>sku:APOLLO-R, APOLLO2-R, APOLLO3-R, ORBIT-R, MCR-R, Panamera-R, GTIR-R, BULLET-R, G37C-R, G37-R</minid2so>
+                                        <minid2sx>sku:Gatling2.0Square-R</minid2sx>
+                                        <fxr30>sku:APOLLO-R, APOLLO2-R, APOLLO3-R, ORBIT-R, MCR-R, Panamera-R, BULLET-R, G37C-R, G37-R</fxr30>
+                                        <other>sku:APOLLO-R, APOLLO2-R, APOLLO3-R, ORBIT-R, MCR-R, Panamera-R, BULLET-R, G37C-R, G37-R</other>
+                                    </action>
+                                </round>
+                                <oval>
+                                    <title>Oval</title>
+                                    <image><url>images/productcategory/shrouds-oval.svg</url></image>
+                                    <action>
+                                        <minih1>sku:E55R-R, OCULAR-R</minih1>
+                                        <minid2so>sku:E55R-R, OCULAR-R</minid2so>
+                                        <minid2sx>sku:Apollo2SQ-R, OcularSquare-R</minid2sx>
+                                        <fxr30>sku:E55R-R, OCULAR-R</fxr30>
+                                        <other>sku:E55R-R, OCULAR-R</other>
+                                    </action>
+                                </oval>
+                                <flatsided>
+                                    <title>Flat-sided</title>
+                                    <image><url>images/productcategory/shrouds-flatsided.svg</url></image>
+                                    <action>
+                                        <minih1>sku:E46R-R, E46EXT-R, IRIS-R</minih1>
+                                        <minid2so>sku:E46R-R, E46EXT-R, IRIS-R</minid2so>
+                                        <minid2sx>sku:Apollo2SQ-R, OcularSquare-R</minid2sx>
+                                        <fxr30>sku:E46R-R, E46EXT-R, IRIS-R</fxr30>
+                                        <other>sku:E46R-R, E46EXT-R, IRIS-R</other>
+                                    </action>
+                                </flatsided>
+                                <big>
+                                    <title>Big</title>
+                                    <image><url>images/productcategory/shrouds-large.svg</url></image>
+                                    <action>
+                                        <minih1>sku:APOLLO-R, APOLLO2-R, APOLLO3-R, ORBIT-R, MCR-R, Panamera-R, BULLET-R, GAT2.0-R, GATLING-R, G37C-R, G37-R</minih1>
+                                        <minid2so>sku:APOLLO-R, APOLLO2-R, APOLLO3-R, ORBIT-R, MCR-R, BULLET-R, G37C-R, G37-R, Panamera-R</minid2so>
+                                        <minid2sx>sku:PanaSquare-R, Apollo1Square-R, Gatling2.0Square-R, Apollo2SQ-R</minid2sx>
+                                        <fxr30>sku:APOLLO-R, APOLLO2-R, APOLLO3-R, ORBIT-R, MCR-R, BULLET-R, G37C-R, G37-R, Panamera-R</fxr30>
+                                        <other>sku:APOLLO-R, APOLLO2-R, APOLLO3-R, ORBIT-R, MCR-R, BULLET-R, G37C-R, G37-R, Panamera-R</other>
+                                    </action>
+                                </big>
+                                <odd>
+                                    <title>Compact/Odd</title>
+                                    <image><url>images/productcategory/shrouds-small.svg</url></image>
+                                    <action>
+                                        <minih1>sku:MiniGat-R, GRAPH-R</minih1>
+                                        <minid2so>sku:E46-R, E46EXT-R, IRIS-R, BULLET-R</minid2so>
+                                        <minid2sx>sku:Gatling2.0Square-R, PanaSquare-R</minid2sx>
+                                        <fxr30>sku:E46-R, E46EXT-R, IRIS-R, BULLET-R</fxr30>
+                                        <other>step:contactus</other>
+                                    </action>
+                                </odd>
+                            </options>
+                        </config>
+                    </action>
+                </block>
+            </block>
+        </reference>
+    </buyersguide_shrouds>
+
+    <CATEGORY_26>
+        <update handle="buyersguide_shrouds"/>
+    </CATEGORY_26>
+
+
+    <buyersguide_ballasts>
+        <reference name="head">
+            <action method="addJs"><script>soularpanic/buyersguide/bg-wattageinfoinit.js</script></action>
+            <action method="addJs"><script>belvg/productviewgallery/jquery.fancybox.pack.js</script></action>
+            <action method="addCss"><stylesheet>css/belvg/productviewgallery.css</stylesheet></action>
+            <block type="core/template" name="before_js" as="before_js" template="page/html/jQuery-migrate.phtml"/>
+        </reference>
+        <reference name="buyers_guide">
+            <action method="addContainerClass"><value>ballasts</value></action>
+            <block type="cartographee/buyersguide_layer_filter_car" name="buyersguide_car_filter" as="car_filter" template="cartographee/buyersguide/toolbar/Car.phtml">
+                <action method="setNoFitAction"><value>step:1</value></action>
+            </block>
+            <block type="cartographee/buyersguide_layer_filter_step_container" name="buyersguide_steps" as="buyersguide_steps" template="cartographee/buyersguide/step/Container.phtml">
+                <block type="cartographee/buyersguide_layer_filter_step_generic" name="step_1" as="step_1" template="cartographee/buyersguide/step/Binary.phtml">
+                    <action method="setQ"><q>1</q></action>
+                    <action method="setStepConfig">
+                        <config>
+                            <display_name>Light Output</display_name>
+                            <step_question>How much light output do you need?</step_question>
+                            <binary>
+                                <watt35>
+                                    <title>35 Watt Ballast</title>
+                                    <info_template>cartographee/buyersguide/info/35WattBallast.phtml</info_template>
+                                </watt35>
+                                <watt55>
+                                    <title>50 Watt Ballast</title>
+                                    <info_template>cartographee/buyersguide/info/55WattBallast.phtml</info_template>
+                                </watt55>
+                            </binary>
+                            <options>
+                                <wattage>
+                                    <binary>
+                                        <watt35><action>step:2/w35</action></watt35>
+                                        <watt55><action>step:2/w55</action></watt55>
+                                    </binary>
+                                </wattage>
+                            </options>
+                        </config>
+                    </action>
+                </block>
+                <block type="cartographee/buyersguide_layer_filter_step_generic" name="step_2" as="step_2" template="cartographee/buyersguide/step/Ribbon.phtml">
+                    <action method="setQ"><q>2</q></action>
+                    <action method="setStepConfig">
+                        <config>
+                            <display_name>Bulb</display_name>
+                            <step_question>What HID bulbs will you be running with the ballasts?</step_question>
+                            <step_desc>This will determine whether you need them for "AMP" or "D2" Fitment</step_desc>
+                            <options>
+                                <d2s>
+                                    <title>D2S</title>
+                                    <image>
+                                        <url>images/productcategory/bulbs-D2S.svg</url>
+                                    </image>
+                                    <action>
+                                        <w35>sku:XB35-D2SB-R</w35>
+                                        <w55>sku:XB55-D2SB-R</w55>
+                                    </action>
+                                </d2s>
+                                <d2r>
+                                    <title>D2R</title>
+                                    <image>
+                                        <url>images/productcategory/bulbs-D2R.svg</url>
+                                    </image>
+                                    <action>
+                                        <w35>sku:XB35-D2SB-R</w35>
+                                        <w55>sku:XB55-D2SB-R</w55>
+                                    </action>
+                                </d2r>
+                                <h1>
+                                    <title>H1</title>
+                                    <image>
+                                        <url>images/productcategory/bulbs-h1.svg</url>
+                                    </image>
+                                    <action>
+                                        <w35>sku:XB35-AMPB-R</w35>
+                                        <w55>sku:XB55-AMPB-R</w55>
+                                    </action>
+                                </h1>
+                                <h3>
+                                    <title>H3</title>
+                                    <image>
+                                        <url>images/productcategory/bulbs-h3.svg</url>
+                                    </image>
+                                    <action>
+                                        <w35>sku:XB35-AMPB-R</w35>
+                                        <w55>sku:XB55-AMPB-R</w55>
+                                    </action>
+                                </h3>
+                                <h4>
+                                    <title>H4</title>
+                                    <image>
+                                        <url>images/productcategory/bulbs-h4.svg</url>
+                                    </image>
+                                    <action>
+                                        <w35>sku:XB35-AMPB-R</w35>
+                                        <w55>sku:XB55-AMPB-R</w55>
+                                    </action>
+                                </h4>
+                                <h7>
+                                    <title>H7</title>
+                                    <image>
+                                        <url>images/productcategory/bulbs-h7.svg</url>
+                                    </image>
+                                    <action>
+                                        <w35>sku:XB35-AMPB-R</w35>
+                                        <w55>sku:XB55-AMPB-R</w55>
+                                    </action>
+                                </h7>
+                                <h8>
+                                    <title>H8</title>
+                                    <image>
+                                        <url>images/productcategory/bulbs-h8.svg</url>
+                                    </image>
+                                    <action>
+                                        <w35>sku:XB35-AMPB-R</w35>
+                                        <w55>sku:XB55-AMPB-R</w55>
+                                    </action>
+                                </h8>
+                                <h9>
+                                    <title>H9</title>
+                                    <image>
+                                        <url>images/productcategory/bulbs-h9.svg</url>
+                                    </image>
+                                    <action>
+                                        <w35>sku:XB35-AMPB-R</w35>
+                                        <w55>sku:XB55-AMPB-R</w55>
+                                    </action>
+                                </h9>
+                                <h10>
+                                    <title>H10</title>
+                                    <image>
+                                        <url>images/productcategory/bulbs-h10.svg</url>
+                                    </image>
+                                    <action>
+                                        <w35>sku:XB35-AMPB-R</w35>
+                                        <w55>sku:XB55-AMPB-R</w55>
+                                    </action>
+                                </h10>
+                                <h11>
+                                    <title>H11</title>
+                                    <image>
+                                        <url>images/productcategory/bulbs-h11.svg</url>
+                                    </image>
+                                    <action>
+                                        <w35>sku:XB35-AMPB-R</w35>
+                                        <w55>sku:XB55-AMPB-R</w55>
+                                    </action>
+                                </h11>
+                                <h13>
+                                    <title>H13</title>
+                                    <image>
+                                        <url>images/productcategory/bulbs-h13.svg</url>
+                                    </image>
+                                    <action>
+                                        <w35>sku:XB35-AMPB-R</w35>
+                                        <w55>sku:XB55-AMPB-R</w55>
+                                    </action>
+                                </h13>
+                                <x880>
+                                    <title>880</title>
+                                    <image>
+                                        <url>images/productcategory/bulbs-880.svg</url>
+                                    </image>
+                                    <action>
+                                        <w35>sku:XB35-AMPB-R</w35>
+                                        <w55>sku:XB55-AMPB-R</w55>
+                                    </action>
+                                </x880>
+                                <x9005>
+                                    <title>9005</title>
+                                    <image>
+                                        <url>images/productcategory/bulbs-9005.svg</url>
+                                    </image>
+                                    <action>
+                                        <w35>sku:XB35-AMPB-R</w35>
+                                        <w55>sku:XB55-AMPB-R</w55>
+                                    </action>
+                                </x9005>
+                                <x9006>
+                                    <title>9006</title>
+                                    <image>
+                                        <url>images/productcategory/bulbs-9006.svg</url>
+                                    </image>
+                                    <action>
+                                        <w35>sku:XB35-AMPB-R</w35>
+                                        <w55>sku:XB55-AMPB-R</w55>
+                                    </action>
+                                </x9006>
+                                <x9007>
+                                    <title>9007</title>
+                                    <image>
+                                        <url>images/productcategory/bulbs-9007.svg</url>
+                                    </image>
+                                    <action>
+                                        <w35>sku:XB35-AMPB-R</w35>
+                                        <w55>sku:XB55-AMPB-R</w55>
+                                    </action>
+                                </x9007>
+                                <x9012>
+                                    <title>9012</title>
+                                    <image>
+                                        <url>images/productcategory/bulbs-9012.svg</url>
+                                    </image>
+                                    <action>
+                                        <w35>sku:XB35-AMPB-R</w35>
+                                        <w55>sku:XB55-AMPB-R</w55>
+                                    </action>
+                                </x9012>
+                                <d2h>
+                                    <title>D2H</title>
+                                    <image>
+                                        <url>images/productcategory/bulbs-D2H.svg</url>
+                                    </image>
+                                    <action>
+                                        <w35>sku:XB35-AMPB-R</w35>
+                                        <w55>sku:XB55-AMPB-R</w55>
+                                    </action>
+                                </d2h>
+                                <h16>
+                                    <title>H16</title>
+                                    <image>
+                                        <url>images/productcategory/bulbs-h16.svg</url>
+                                    </image>
+                                    <action>
+                                        <w35>sku:XB35-AMPB-R</w35>
+                                        <w55>sku:XB55-AMPB-R</w55>
+                                    </action>
+                                </h16>
+                            </options>
+                        </config>
+                    </action>
+                </block>
+            </block>
+        </reference>
+    </buyersguide_ballasts>
+
+    <CATEGORY_21>
+        <update handle="buyersguide_ballasts"/>
+    </CATEGORY_21>
+
+
+
+    <buyersguide_housings>
+        <reference name="buyers_guide">
+            <action method="addContainerClass"><value>bulbs</value>
+            </action>
+            <block type="cartographee/buyersguide_layer_filter_car" name="buyersguide_car_filter" as="car_filter" template="cartographee/buyersguide/toolbar/Car.phtml">
+                <action method="setNoFitAction"><value>step:nofit</value></action>
+            </block>
+            <block type="cartographee/buyersguide_layer_filter_step_generic" name="buyersguide_toolbar_supplemental_postcar" as="buyersguide_toolbar_supplemental_postcar" template="cartographee/buyersguide/toolbar/Supplemental.phtml">
+                <action method="setStepConfig">
+                    <config>
+                        <id>housing_function</id>
+                        <apply_to_direct_fit>true</apply_to_direct_fit>
+                        <options>
+                            <all>
+                                <title>All Function Types</title>
+                            </all>
+                            <housings>
+                                <title>Headlights</title>
+                                <action>fit_sql:type=housings</action>
+                            </housings>
+                            <led_fog>
+                                <title>Fog Lights</title>
+                                <action>fit_sql:type=led_fog</action>
+                            </led_fog>
+                        </options>
+                    </config>
+                </action>
+            </block>
+            <block type="cartographee/buyersguide_layer_filter_step_container" name="buyersguide_steps" as="buyersguide_steps" template="cartographee/buyersguide/step/Container.phtml"/>
+        </reference>
+    </buyersguide_housings>
+
+    <CATEGORY_64>
+        <update handle="buyersguide_housings"/>
+    </CATEGORY_64>
+
+
+
+    <buyersguide_leds>
+        <reference name="buyers_guide">
+            <action method="addContainerClass"><value>bulbs</value>
+            </action>
+            <block type="cartographee/buyersguide_layer_filter_car" name="buyersguide_car_filter" as="car_filter" template="cartographee/buyersguide/toolbar/Car.phtml"/>
+            <block type="cartographee/buyersguide_layer_filter_step_generic" name="buyersguide_toolbar_supplemental_postcar" as="buyersguide_toolbar_supplemental_postcar" template="cartographee/buyersguide/toolbar/Supplemental.phtml">
+                <action method="setStepConfig">
+                    <config>
+                        <id>bulb_function</id>
+                        <apply_to_direct_fit>true</apply_to_direct_fit>
+                        <options>
+                            <all>
+                                <title>All Function Types</title>
+                            </all>
+                            <front_turn>
+                                <title>Front Turn Signals</title>
+                                <action>fit_sql:type=front_turn</action>
+                            </front_turn>
+                            <rear_turn>
+                                <title>Rear Turn Signals</title>
+                                <action>fit_sql:type=rear_turn</action>
+                            </rear_turn>
+                            <front_marker>
+                                <title>Front Marker Lights</title>
+                                <action>fit_sql:type=front_marker</action>
+                            </front_marker>
+                            <rear_marker>
+                                <title>Rear Marker Lights</title>
+                                <action>fit_sql:type=rear_marker</action>
+                            </rear_marker>
+                            <license_plate>
+                                <title>License Plates</title>
+                                <action>fit_sql:type=license_plate</action>
+                            </license_plate>
+                            <dome>
+                                <title>Dome Lights</title>
+                                <action>fit_sql:type=dome</action>
+                            </dome>
+                            <brake>
+                                <title>Brake Lights</title>
+                                <action>fit_sql:type=brake</action>
+                            </brake>
+                            <reverse>
+                                <title>Reverse Lights</title>
+                                <action>fit_sql:type=reverse</action>
+                            </reverse>
+                        </options>
+                    </config>
+                </action>
+            </block>
+            <block type="cartographee/buyersguide_layer_filter_step_container" name="buyersguide_steps" as="buyersguide_steps" template="cartographee/buyersguide/step/Container.phtml"/>
+        </reference>
+    </buyersguide_leds>
+
+    <CATEGORY_47>
+        <update handle="buyersguide_leds"/>
+    </CATEGORY_47>
+
+
+
+    <buyersguide_lenses>
+        <reference name="buyers_guide">
+            <action method="addContainerClass"><value>lenses</value></action>
+            <block type="cartographee/buyersguide_layer_filter_car" name="buyersguide_car_filter" as="car_filter" template="cartographee/buyersguide/toolbar/Car.phtml"/>
+            <block type="cartographee/buyersguide_layer_filter_step_container" name="buyersguide_steps" as="buyersguide_steps" template="cartographee/buyersguide/step/Container.phtml"/>
+        </reference>
+    </buyersguide_lenses>
+
+    <CATEGORY_37>
+        <update handle="buyersguide_lenses"/>
+    </CATEGORY_37>
+
+
+
+    <buyersguide_harnesses>
+        <reference name="buyers_guide">
+            <action method="addContainerClass"><value>bulbs</value>
+            </action>
+            <block type="cartographee/buyersguide_layer_filter_car" name="buyersguide_car_filter" as="car_filter" template="cartographee/buyersguide/toolbar/Car.phtml"/>
+            <block type="cartographee/buyersguide_layer_filter_step_generic" name="buyersguide_toolbar_supplemental_postcar" as="buyersguide_toolbar_supplemental_postcar" template="cartographee/buyersguide/toolbar/Supplemental.phtml">
+                <action method="setStepConfig">
+                    <config>
+                        <id>harnesses</id>
+                        <apply_to_direct_fit>true</apply_to_direct_fit>
+                        <options>
+                            <all>
+                                <title>All Function Types</title>
+                            </all>
+                            <high>
+                                <title>High Beams</title>
+                                <action>fit_sql:type=high_beam_harness</action>
+                            </high>
+                            <low>
+                                <title>Low Beams</title>
+                                <action>fit_sql:type=low_beam_harness</action>
+                            </low>
+                            <fog>
+                                <title>Fog Lights</title>
+                                <action>fit_sql:type=fog_light_harness</action>
+                            </fog>
+                        </options>
+                    </config>
+                </action>
+            </block>
+            <block type="cartographee/buyersguide_layer_filter_step_container" name="buyersguide_steps" as="buyersguide_steps" template="cartographee/buyersguide/step/Container.phtml"/>
+        </reference>
+    </buyersguide_harnesses>
+
+    <CATEGORY_32>
+        <update handle="buyersguide_harnesses"/>
+    </CATEGORY_32>
+
+    <buyersguide_hidbulbs>
+        <reference name="buyers_guide">
+            <action method="addContainerClass"><value>bulbs</value>
+            </action>
+            <block type="cartographee/buyersguide_layer_filter_car" name="buyersguide_car_filter" as="car_filter" template="cartographee/buyersguide/toolbar/Car.phtml"/>
+            <block type="cartographee/buyersguide_layer_filter_step_generic" name="buyersguide_toolbar_supplemental_postcar" as="buyersguide_toolbar_supplemental_postcar" template="cartographee/buyersguide/toolbar/Supplemental.phtml">
+                <action method="setStepConfig">
+                    <config>
+                        <id>hidbulb_function</id>
+                        <apply_to_direct_fit>true</apply_to_direct_fit>
+                        <options>
+                            <all>
+                                <title>All Function Types</title>
+                            </all>
+                            <high>
+                                <title>High Beams</title>
+                                <action>fit_sql:type=high_beam_bulb</action>
+                            </high>
+                            <low>
+                                <title>Low Beams</title>
+                                <action>fit_sql:type=low_beam_bulb</action>
+                            </low>
+                            <fog>
+                                <title>Fog Lights</title>
+                                <action>fit_sql:type=fog_light_bulb</action>
+                            </fog>
+                        </options>
+                    </config>
+                </action>
+            </block>
+            <block type="cartographee/buyersguide_layer_filter_step_container" name="buyersguide_steps" as="buyersguide_steps" template="cartographee/buyersguide/step/Container.phtml"/>
+        </reference>
+    </buyersguide_hidbulbs>
+
+    <CATEGORY_7>
+        <update handle="buyersguide_hidbulbs"/>
+    </CATEGORY_7>
+
+
+
+    <buyersguide_projectors>
+        <reference name="buyers_guide">
+            <action method="addContainerClass"><value>projectors</value></action>
+            <!--<block type="cartographee/buyersguide_layer_filter_step_wrapper" name="buyersguide_car_filter_wrapper" as="car_filter" template="cartographee/buyersguide/toolbar/FunctionWrapper.phtml">-->
+            <!--<block type="cartographee/buyersguide_layer_filter_car" name="buyersguide_car_filter" as="wrapped" template="cartographee/buyersguide/toolbar/Car.phtml"/>-->
+            <block type="cartographee/buyersguide_layer_filter_step_generic" name="buyersguide_toolbar_supplemental_precar" as="buyersguide_toolbar_supplemental_precar" template="cartographee/buyersguide/toolbar/Supplemental.phtml">
+                <action method="setStepConfig">
+                    <config>
+                        <id>projector_function</id>
+                        <!--<apply_to_direct_fit>true</apply_to_direct_fit>-->
+                        <options>
+                            <all>
+                                <title>All Function Types</title>
+                                <!--<action>step:1</action>-->
+                            </all>
+                            <headlights>
+                                <title>Headlights</title>
+                                <!--<action>step:1</action>-->
+                            </headlights>
+                            <foglights>
+                                <title>Fog Lights</title>
+                                <action>sku:MATCHBOX-R</action>
+                            </foglights>
+                        </options>
+                    </config>
+                </action>
+            </block>
+            <block type="cartographee/buyersguide_layer_filter_car" name="buyersguide_car_filter" as="car_filter" template="cartographee/buyersguide/toolbar/Car.phtml">
+                <action method="setNoFitAction"><nfa>step:1</nfa></action>
+            </block>
+            <block type="cartographee/buyersguide_layer_filter_step_container" name="buyersguide_steps" as="buyersguide_steps" template="cartographee/buyersguide/step/Container.phtml">
+                <block type="cartographee/buyersguide_layer_filter_step_generic" name="step_1" as="step_1" template="cartographee/buyersguide/step/Diagram.phtml">
+                    <action method="setQ"><q>1</q></action>
+                    <action method="setStepConfig">
+                        <config>
+                            <display_name>Projector Size</display_name>
+                            <step_question>What is the approximate height &amp; depth of your headlight reflector?</step_question>
+                            <step_image>
+                                <url>images/productcategory/projectors-q1.svg</url>
+                                <alt>HID Projectors Diagram</alt>
+                            </step_image>
+                            <options>
+                                <tiny>
+                                    <title>Tiny</title>
+                                    <desc>Height: 55-75mm
+                                        Depth: 106-137mm</desc>
+                                    <action>step:2[MATCHBOX-R]</action>
+                                </tiny>
+                                <small>
+                                    <title>Small</title>
+                                    <desc>Height: 75-80mm
+                                        Depth: 136-138mm</desc>
+                                    <action>step:2[MATCHBOX-R, MH16.0-R]</action>
+                                </small>
+                                <medium>
+                                    <title>Medium</title>
+                                    <desc>Height: 80-95mm
+                                        Depth: 138-149mm</desc>
+                                    <action>step:2[MH16.0-R, MD2S3.0-R]</action>
+                                </medium>
+                                <large>
+                                    <title>Large</title>
+                                    <desc>Height: 95mm +
+                                        Depth: 149mm +</desc>
+                                    <action>step:2[MD2S3.0-R, FXR3.0-R]</action>
+                                </large>
+                            </options>
+                        </config>
+                    </action>
+                </block>
+                <block type="cartographee/buyersguide_layer_filter_step_generic" name="step_2" as="step_2" template="cartographee/buyersguide/step/Performance.phtml">
+                    <action method="setQ"><q>2</q>
+                    </action>
+                    <action method="setStepConfig">
+                        <config>
+                            <display_name>Performance/Install Balance</display_name>
+                            <step_question>What are your performance vs ease-of-install requirements?</step_question>
+                            <performance_aspects>
+                                <output>Light Output Performance</output>
+                                <sharp>Cutoff Sharpness</sharp>
+                                <install>Install Difficulty</install>
+                            </performance_aspects>
+                            <options>
+                                <MATCHBOX-R>
+                                    <title>Matchbox</title>
+                                    <action>sku:MATCHBOX-R</action>
+                                    <aspects>
+                                        <output>4</output>
+                                        <sharp>6</sharp>
+                                        <install>3</install>
+                                    </aspects>
+                                </MATCHBOX-R>
+                                <MH16.0-R>
+                                    <title>Mini H1</title>
+                                    <action>step:3[MH16.0-R]</action>
+                                    <aspects>
+                                        <output>7</output>
+                                        <sharp>8</sharp>
+                                        <install>5</install>
+                                    </aspects>
+                                </MH16.0-R>
+                                <MD2S3.0-R>
+                                    <title>Mini D2S</title>
+                                    <action>step:3[MD2S3.0-R]</action>
+                                    <aspects>
+                                        <output>8</output>
+                                        <sharp>8</sharp>
+                                        <install>6</install>
+                                    </aspects>
+                                </MD2S3.0-R>
+                                <FXR3.0-R>
+                                    <title>FXR</title>
+                                    <action>step:3[FXR3.0-R]</action>
+                                    <aspects>
+                                        <output>9</output>
+                                        <sharp>9</sharp>
+                                        <install>9</install>
+                                    </aspects>
+                                </FXR3.0-R>
+                                <stock>
+                                    <title>Baseline (Stock)</title>
+                                    <active>0</active>
+                                    <aspects>
+                                        <output>4</output>
+                                        <sharp>2</sharp>
+                                    </aspects>
+                                </stock>
+                            </options>
+                        </config>
+                    </action>
+                </block>
+                <block type="cartographee/buyersguide_layer_filter_step_generic" name="step_3" as="step_3" template="cartographee/buyersguide/step/Binary.phtml">
+                    <action method="setQ"><q>3</q></action>
+                    <action method="setStepConfig">
+                        <config>
+                            <display_name>Pattern</display_name>
+                            <step_question>What beam pattern do you need?</step_question>
+                            <binary>
+                                <lhd>
+                                    <title>Left Hand Drive</title>
+                                    <subtitle>(LHD)</subtitle>
+                                    <desc>Oncoming traffic drives on the left side of you.</desc>
+                                    <ps>United States</ps>
+                                    <info_template>cartographee/buyersguide/info/LHD.phtml</info_template>
+                                </lhd>
+                                <rhd>
+                                    <title>Right Hand Drive</title>
+                                    <subtitle>(RHD)</subtitle>
+                                    <desc>Oncoming traffic drives on the right side of you.</desc>
+                                    <ps>UK, Australia, India, Japan</ps>
+                                    <info_template>cartographee/buyersguide/info/RHD.phtml</info_template>
+                                </rhd>
+                            </binary>
+                            <options>
+                                <MH16.0-R>
+                                    <binary>
+                                        <lhd><action>sku:MH16.0-R[MH16-LH]</action></lhd>
+                                        <rhd><action>sku:MH16.0-R[MH16-RH]</action></rhd>
+                                    </binary>
+                                </MH16.0-R>
+                                <MD2S3.0-R>
+                                    <binary>
+                                        <lhd><action>sku:MD2S3.0-R[MD2S-3LH]</action></lhd>
+                                        <rhd><action>sku:MD2S3.0-R[MD2S-3RH]</action></rhd>
+                                    </binary>
+                                </MD2S3.0-R>
+                                <FXR3.0-R>
+                                    <binary>
+                                        <lhd><action>sku:FXR3.0-R[FXR3-3LH]</action></lhd>
+                                        <rhd><action>sku:FXR3.0-R[FXR3-3RH]</action></rhd>
+                                    </binary>
+                                </FXR3.0-R>
+                            </options>
+                        </config>
+                    </action>
+                </block>
+            </block>
+        </reference>
+    </buyersguide_projectors>
+
+    <CATEGORY_6>
+        <update handle="buyersguide_projectors"/>
+    </CATEGORY_6>
 
 </layout>

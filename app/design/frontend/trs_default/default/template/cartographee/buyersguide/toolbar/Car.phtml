@@ -1,0 +1,28 @@
+<h2 class="mobile-hide">on my</h2>
+
+<div class="formFieldContainer year">
+    <select name="car[year]" class="buyersGuide-carSelect">
+        <option value="">Year</option>
+        <?php foreach ($this->getAvailableYears() as $_year): ?>
+            <?php if ($_year): ?>
+                <option value="<?php echo $_year ?>"><?php echo $_year ?></option>
+            <?php endif; ?>
+        <?php endforeach; ?>
+    </select>
+</div>
+
+<div class="formFieldContainer make">
+    <select name="car[make]" class="buyersGuide-carSelect">
+        <option value="">Make</option>
+    </select>
+</div>
+
+<div class="formFieldContainer model">
+    <select name="car[model]" class="buyersGuide-carSelect">
+        <option value="">Model</option>
+    </select>
+</div>
+
+<div id="buyersGuideControllerData" class="invisible" data-carUpdateUrl="<?php echo $this->getUrl('cartographee/buyersguide/updatecarselection') ?>">
+
+</div>
