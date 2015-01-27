@@ -9,11 +9,16 @@ class Soularpanic_CarToGraphEE_Model_Resource_Buyersguide_Layer_Filter_Chain_Lin
         Mage::log("Kits Projector Size Resource applying...", null, 'trs_guide.log');
         Mage::log("Option: ".print_r($option, true), null, 'trs_guide.log');
         $value = $option->getValue();
+
+        $req = Mage::app()->getRequest();
         if ($value === 'tiny') {
             $fitSkuArr = ['MATCHBOX-S'];
+            $req->setParam('step_5', 'wattage_watt35');
+
         }
         elseif ($value === 'small') {
             $fitSkuArr = ['MATCHBOX-S', 'MH16-LH', 'MH16-RH'];
+            $req->setParam('step_5', 'wattage_watt35');
         }
         elseif ($value === 'medium') {
             $fitSkuArr = ['MH16-LH', 'MH16-RH', 'MD2S-3LH', 'MD2S-3RH'];

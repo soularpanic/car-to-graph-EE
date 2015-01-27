@@ -27,7 +27,7 @@ class Soularpanic_CarToGraphEE_Model_Resource_Buyersguide_Layer_Filter_Chain_Lin
 
         $collection = $filter->getLayer()->getProductCollection();
         $directFitSelect = $collection->getSelect();
-        $ballastSku = "'XB-BALLAST-$wattage,AMP-IGNITER-R,D2S-IGNITER-R'";
+        $ballastSku = "'XB-BALLAST-$wattage,AMP-IGNITER-R,D2S-IGNITER-R,IGNITER-AMP,IGNITER-D2S'";
 
         $directFitSelect
             ->joinLeft([$f => new Zend_Db_Expr("(select $ballastSku as ballast)")],
