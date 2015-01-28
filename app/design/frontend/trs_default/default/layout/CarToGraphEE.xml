@@ -922,7 +922,31 @@
                     </config>
                 </action>
             </block>
-            <block type="cartographee/buyersguide_layer_filter_step_container" name="buyersguide_steps" as="buyersguide_steps" template="cartographee/buyersguide/step/Container.phtml"/>
+            <block type="cartographee/buyersguide_layer_filter_step_container" name="buyersguide_steps" as="buyersguide_steps" template="cartographee/buyersguide/step/Container.phtml">
+            <block type="cartographee/buyersguide_layer_filter_step_generic" name="step_1" as="step_1" template="cartographee/buyersguide/step/Ribbon.phtml">
+                <action method="setQ"><q>1</q></action>
+                <action method="setStepConfig">
+                <config>
+                    <display_name>Kelvin</display_name>
+                    <step_question>What color is right for you?</step_question>
+                    <!--<step_desc>This will give you a good idea what shrouds would look best, but overall, the choice is purely aesthetic.-->
+                    <!--Please note that trimming shrouds in retrofits is very common.</step_desc>-->
+                    <options>
+                        <K3000>
+                            <title>3000K</title>
+                        </K3000>
+                        <K4300>
+                            <title>4300K</title>
+                        </K4300>
+                        <K5000>
+                            <title>5000K</title>
+                        </K5000>
+                        <K6000>
+                            <title>6000K</title>
+                        </K6000>
+                    </options>
+                </config>
+            </block>
         </reference>
     </buyersguide_hidbulbs>
 
