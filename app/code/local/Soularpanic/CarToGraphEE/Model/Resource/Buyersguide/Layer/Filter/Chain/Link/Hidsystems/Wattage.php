@@ -34,7 +34,7 @@ class Soularpanic_CarToGraphEE_Model_Resource_Buyersguide_Layer_Filter_Chain_Lin
                 ["preselect_$f" => "$f.ballast"]);
         Mage::log("wattage sql: ".$directFitSelect->__toString(), null, 'trs_guide.log');
 
-        $state['action'] = 'step:done';
+        $state['action'] = 'step:2';
         $filter->setChainState($state);
 
         Mage::log("Wattage SQL:\n{$directFitSelect->__toString()}", null, 'trs_guide.log');
