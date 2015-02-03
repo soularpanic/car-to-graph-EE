@@ -18,6 +18,21 @@
                         <?php if ($option->getSubtitle()) { echo(" <span class='weightRegular-styleNormal'>{$option->getSubtitle()}</span>"); } ?>
                     </h3>
                     <div class="tile-select" data-id="<?php echo $option->getId() ?>" data-groupId="<?php echo $option->getGroupId() ?>" data-value="<?php echo $option->getValue() ?>" data-displayValue="<?php echo $option->getDisplayValue() ?>">&nbsp;</div>
+
+                    <?php
+                    $_ps = $option->getPs();
+                    $_desc = $option->getDesc();
+                    if ($_desc || $_ps):
+                        ?>
+                        <div class="tile80">
+                            <?php if ($_desc) { echo("<span class='product-spec'>$_desc</span>"); } ?>
+                            <?php if($_ps): ?>
+                                <span class="product-spec">
+                                    <span class="weightRegular-styleItalic"><?php echo $_ps ?></span>
+                                </span>
+                            <?php endif; ?>
+                        </div>
+                    <?php endif; ?>
                     <div class="tile-image">
                         <?php if ($option->getImage()) {
                             echo ($option->getImage()->render());

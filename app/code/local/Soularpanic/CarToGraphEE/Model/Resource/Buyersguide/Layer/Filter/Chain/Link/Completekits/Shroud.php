@@ -51,22 +51,6 @@ class Soularpanic_CarToGraphEE_Model_Resource_Buyersguide_Layer_Filter_Chain_Lin
         Mage::log("Kits Shroud Resource applying...", null, 'trs_guide.log');
         Mage::log("Option: ".print_r($option, true), null, 'trs_guide.log');
         $value = $option->getValue();
-//        if ($value === 'tiny') {
-//            $fitSkuArr = ['MATCHBOX-S'];
-//        }
-//        elseif ($value === 'small') {
-//            $fitSkuArr = ['MATCHBOX-S', 'MH16-LH', 'MH16-RH'];
-//        }
-//        elseif ($value === 'medium') {
-//            $fitSkuArr = ['MH16-LH', 'MH16-RH', 'MD2S-3LH', 'MD2S-3RH'];
-//        }
-//        elseif ($value === 'large') {
-//            $fitSkuArr = ['MD2S-3LH', 'MD2S-3RH', 'FXR3-2.5LHD', 'FXR3-2.5RHD', 'FXR3-3LHD', 'FXR3-3RHD'];
-//        }
-//        else {
-//            Mage::log("IDK what to do with this value: [$value]", null, 'trs_guide.log');
-//            return $this;
-//        }
 
         $prevSelection = Mage::app()->getRequest()->getParam($this->_PREV_STEP_VAR_NAME);
         Mage::log("shroud shape key: $prevSelection", null, 'trs_guide.log');
