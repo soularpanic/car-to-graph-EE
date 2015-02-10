@@ -304,6 +304,7 @@
                             <apply_to_direct_fit>true</apply_to_direct_fit>
                             <display_name>Kelvin</display_name>
                             <step_question>What color is right for you?</step_question>
+                            <question_style_override>kelvin</question_style_override>
                             <options>
                                 <K3000>
                                     <title>3000K</title>
@@ -415,6 +416,7 @@
                             <apply_to_direct_fit>true</apply_to_direct_fit>
                             <display_name>Kelvin</display_name>
                             <step_question>What color is right for you?</step_question>
+                            <question_style_override>kelvin</question_style_override>
                             <options>
                                 <K3000>
                                     <title>3000K</title>
@@ -1019,6 +1021,7 @@
                             <apply_to_direct_fit>true</apply_to_direct_fit>
                             <display_name>Kelvin</display_name>
                             <step_question>What color is right for you?</step_question>
+                            <question_style_override>kelvin</question_style_override>
                             <options>
                                 <K3000>
                                     <title>3000K</title>

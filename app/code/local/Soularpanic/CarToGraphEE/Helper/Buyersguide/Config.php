@@ -15,7 +15,7 @@ class Soularpanic_CarToGraphEE_Helper_Buyersguide_Config
 
         $data['step_desc'] = $stepConfigArr['step_desc'];
         $data['apply_to_direct_fit'] = $stepConfigArr['apply_to_direct_fit'];
-
+        $data['question_style_override'] = $stepConfigArr['question_style_override'];
         $data['question'] = $stepConfigArr['step_question'];
         $data['aspects'] = $stepConfigArr['performance_aspects'];
 
@@ -28,16 +28,9 @@ class Soularpanic_CarToGraphEE_Helper_Buyersguide_Config
 
             if (array_key_exists('binary', $values)) {
                 $binary = $stepConfigArr['binary'];
-//                $this->log("binary: ".print_r($binary, true));
                 foreach ($values['binary'] as $binId => $binValues) {
-//                    $this->log("binid: {$binId}; binValues: ".print_r($binValues, true));
                     $combined = array_merge($binary[$binId], $binValues);
                     $combined['value'] = "{$id}_{$binId}";
-
-//                    if (array_key_exists('image', $combined)) {
-//                        $combined['image'] = $this->_buildImage($combined['image']);
-//                    }
-                    //$this->log("combined: ".print_r($combined, true));
                     $options[] = $this->_buildOption($id, $combined);
                 }
             }
@@ -45,11 +38,9 @@ class Soularpanic_CarToGraphEE_Helper_Buyersguide_Config
                 foreach ($this->_buildOptions($id, $values) as $_option) {
                     $options[] = $_option;
                 }
-                //$options += array_merge($options, $this->_buildOptions($id, $values));
             }
         }
         $data['options'] = $options;
-//        $this->log("parsed options:".print_r($options, true));
         return $data;
     }
 
@@ -79,7 +70,6 @@ class Soularpanic_CarToGraphEE_Helper_Buyersguide_Config
             $data['image'] = $this->_buildImage($data['image']);
         }
         $option = Mage::getModel('cartographee/buyersguide_layer_filter_step_option');
-        //$this->log("Seeding option with this data: ".print_r($data, true));
         $option->setData($data)->setId($id);
         return $option;
     }
