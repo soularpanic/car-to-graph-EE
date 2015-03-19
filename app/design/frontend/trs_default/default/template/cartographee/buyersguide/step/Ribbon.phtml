@@ -1,7 +1,7 @@
 <div class="buyersGuide-selections">
     <h2>We&apos;ve got a few more questions before we can find the right projector for you...</h2>
 </div>
-<div class="buyersGuide-select">
+<div class="buyersGuide-select" data-questionStyleOverride="<?php echo $this->getQuestionStyleOverride() ?>">
     <span class="productDrop-headline"><?php echo $this->getQuestion() ?></span>
     <?php if ($this->getStepDesc()): ?>
         <span class="product-spec"><?php echo $this->getStepDesc() ?></span>

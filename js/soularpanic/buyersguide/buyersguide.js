@@ -259,16 +259,21 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
         var reelSelector = this.reelSelector,
             reel = $$(reelSelector)[0],
             _stepId = this._resolveStepId(stepId),
-            step = false,
+            step = this._getStepEltById(_stepId),
             q = false;
 
         this._cleanUpPreviousStep();
         this._prepareNextStep(_stepId, optionsToShowObj);
 
+        var styleOverride = step.select('.buyersGuide-select')[0].readAttribute('data-questionStyleOverride');
+        if (styleOverride) {
+            step.addClassName(styleOverride);
+        }
         // adjust vertical height of guide
         q = this._getQByStepId(_stepId);
         if (q) {
             reel.addClassName('toggle-' + q);
+
         }
 
         this._previousStep = _stepId;
@@ -398,8 +403,9 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
         if (false === previousStep) {
             return;
         }
-
         reel.select(spinnerSelector).each(function(elt) { elt.remove(); });
+
+
 
         reel.select(hiddenStepSelectButtonSelector).each(function(elt) {
             elt.removeClassName('invisible');
@@ -408,6 +414,15 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
         if (this._ERROR_STEP_ID === previousStep) {
             this._showErrorStepElt(false);
         }
+
+        var previousElt = this._getStepEltById(previousStep);
+        if (previousElt) {
+            var styleOverride = previousElt.select('.buyersGuide-select')[0].readAttribute('data-questionStyleOverride');
+            if (styleOverride) {
+                previousElt.removeClassName(styleOverride);
+            }
+        }
+
         q = this._getQByStepId(previousStep);
         if (q) {
             reel.removeClassName("toggle-" + q);
@@ -452,8 +467,8 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
     _handleUpdateInputJson: function(updateJson) {
         var selectorTemplate = new Template('[name="car[#{field}]"]'),
             optionTemplate = new Template('<option value="#{value}">#{value}</option>'),
-            optgroupIdTemplate = new Template('buyersGuide-#{field}Recommend'),
-            optgroupEltTemplate = new Template('<optgroup label="Suggested #{field}s" id="#{id}"></optgroup>');
+            optgroupIdTemplate = new Template('buyersGuide-#{field}Recommend');
+
         $H(updateJson).each(function(pair) {
             var optgroupId = optgroupIdTemplate.evaluate({field: pair.key}),
                 optgroup = $(optgroupId),
@@ -465,27 +480,16 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
 
             var recommendedHtml = '';
 
-//            if (!optgroup) {
-//                var selectElt = $$(fieldSelectSelector)[0],
-//                    firstOption = selectElt.childElements()[0],
-//                    optgroupHtml = optgroupEltTemplate.evaluate({field: pair.key, id: optgroupId});
-//                firstOption.insert({after: optgroupHtml});
-//                optgroup = $(optgroupId);
-//            }
-
             recommendedHtml += '<option value="">' + pair.key.capitalize() + '</option>';
             pair.value.each(function(val) {
                 recommendedHtml += optionTemplate.evaluate({value: val});
             });
 
 
-//            optgroup.update(recommendedHtml);
             selectElt.update(recommendedHtml);
 
             var optionToSelect = $$(fieldSelectSelector + ' option[value="' + currentVal + '"]:first');
-//            var blankOption = $$(fieldSelectSelector + ' option[value=""]:first');
             optionToSelect[0].writeAttribute('selected', 'selected');
-//            blankOption[0].update(currentVal === '' ? pair.key.capitalize() : 'Refresh Suggestions')
         });
     },
 
