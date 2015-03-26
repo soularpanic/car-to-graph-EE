@@ -60,13 +60,6 @@
             </cartographee>
         </blocks>
 
-        <!--<catalog>-->
-        <!--<product>-->
-        <!--<url>-->
-        <!--<model>cartographee/catalog_product_url</model>-->
-        <!--</url>-->
-        <!--</product>-->
-        <!--</catalog>-->
     </global>
 
     <frontend>
