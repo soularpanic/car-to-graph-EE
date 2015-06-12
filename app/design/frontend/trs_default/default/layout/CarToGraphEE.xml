@@ -314,21 +314,21 @@
                                     <image><url>images/productcategory/kelvin-3000k.svg</url></image>
                                 </K3000>
                                 <K4000>
-                                    <title>4300K</title>
+                                    <title>4500K</title>
                                     <subtitle>(Warm White)</subtitle>
                                     <desc>~3400 lumens (35w)</desc>
-                                    <ps>Vehicles with factory installed xenon headlights use 4300K. Best for all-season driving (mix of clear and poor weather).</ps>
+                                    <ps>Vehicles with factory installed xenon headlights use 4500K. Best for all-season driving (mix of clear and poor weather).</ps>
                                     <image><url>images/productcategory/kelvin-4300k.svg</url></image>
                                 </K4000>
                                 <K5000>
-                                    <title>5000K</title>
+                                    <title>5500K</title>
                                     <subtitle>(Pure White)</subtitle>
                                     <desc>~3300 lumens (35w)</desc>
                                     <ps>Our most popular, though slightly less lumens, most people find the increase in contrast at from the whiter light improves overall vision.</ps>
                                     <image><url>images/productcategory/kelvin-5000k.svg</url></image>
                                 </K5000>
                                 <K6000>
-                                    <title>6000K</title>
+                                    <title>6500K</title>
                                     <subtitle>(Blue Tinge)</subtitle>
                                     <desc>~3100 lumens (35w)</desc>
                                     <ps>For those looking for a more "stand-out" look compared to stock, without over-compromising the amount of useful light output.</ps>
@@ -411,6 +411,14 @@
                 <block type="cartographee/buyersguide_layer_filter_step_generic" name="step_2" as="step_2" template="cartographee/buyersguide/step/Ribbon.phtml">
                     <action method="setQ"><q>2</q></action>
                     <action method="setModel"><model>cartographee/buyersguide_layer_filter_chain_link_hidbulbs_kelvin</model></action>
+                    <action method="setCrossreference"><crossreference>
+                        <hidbulb_function>
+                            <all></all>
+                            <high>hid_system_high_beam</high>
+                            <low>hid_system_low_beam</low>
+                            <fog>hid_system_fog_light</fog>
+                        </hidbulb_function>
+                    </crossreference></action>
                     <action method="setStepConfig">
                         <config>
                             <apply_to_direct_fit>true</apply_to_direct_fit>
@@ -426,21 +434,21 @@
                                     <image><url>images/productcategory/kelvin-3000k.svg</url></image>
                                 </K3000>
                                 <K4000>
-                                    <title>4300K</title>
+                                    <title>4500K</title>
                                     <subtitle>(Warm White)</subtitle>
                                     <desc>~3400 lumens (35w)</desc>
-                                    <ps>Vehicles with factory installed xenon headlights use 4300K. Best for all-season driving (mix of clear and poor weather).</ps>
+                                    <ps>Vehicles with factory installed xenon headlights use 4500K. Best for all-season driving (mix of clear and poor weather).</ps>
                                     <image><url>images/productcategory/kelvin-4300k.svg</url></image>
                                 </K4000>
                                 <K5000>
-                                    <title>5000K</title>
+                                    <title>5500K</title>
                                     <subtitle>(Pure White)</subtitle>
                                     <desc>~3300 lumens (35w)</desc>
                                     <ps>Our most popular, though slightly less lumens, most people find the increase in contrast at from the whiter light improves overall vision.</ps>
                                     <image><url>images/productcategory/kelvin-5000k.svg</url></image>
                                 </K5000>
                                 <K6000>
-                                    <title>6000K</title>
+                                    <title>6500K</title>
                                     <subtitle>(Blue Tinge)</subtitle>
                                     <desc>~3100 lumens (35w)</desc>
                                     <ps>For those looking for a more "stand-out" look compared to stock, without over-compromising the amount of useful light output.</ps>
@@ -1031,21 +1039,21 @@
                                     <image><url>images/productcategory/kelvin-3000k.svg</url></image>
                                 </K3000>
                                 <K4000>
-                                    <title>4300K</title>
+                                    <title>4500K</title>
                                     <subtitle>(Warm White)</subtitle>
                                     <desc>~3400 lumens (35w)</desc>
-                                    <ps>Vehicles with factory installed xenon headlights use 4300K. Best for all-season driving (mix of clear and poor weather).</ps>
+                                    <ps>Vehicles with factory installed xenon headlights use 4500K. Best for all-season driving (mix of clear and poor weather).</ps>
                                     <image><url>images/productcategory/kelvin-4300k.svg</url></image>
                                 </K4000>
                                 <K5000>
-                                    <title>5000K</title>
+                                    <title>5500K</title>
                                     <subtitle>(Pure White)</subtitle>
                                     <desc>~3300 lumens (35w)</desc>
                                     <ps>Our most popular, though slightly less lumens, most people find the increase in contrast at from the whiter light improves overall vision.</ps>
                                     <image><url>images/productcategory/kelvin-5000k.svg</url></image>
                                 </K5000>
                                 <K6000>
-                                    <title>6000K</title>
+                                    <title>6500K</title>
                                     <subtitle>(Blue Tinge)</subtitle>
                                     <desc>~3100 lumens (35w)</desc>
                                     <ps>For those looking for a more "stand-out" look compared to stock, without over-compromising the amount of useful light output.</ps>
