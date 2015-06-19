@@ -16,17 +16,20 @@ class Soularpanic_CarToGraphEE_Block_Buyersguide_Layer_Filter_Car
 
 
     public function getAvailableYears() {
-        return $this->_carHelper->getFilteredCarProperty('year', [], 'DESC');
+        $properties = $this->_carHelper->getPropertiesFromRequest();
+        return $this->_carHelper->getFilteredCarProperty('year', $properties, 'DESC');
     }
 
 
     public function getAvailableMakes() {
-        return $this->_carHelper->getFilteredCarProperty('make');
+        $properties = $this->_carHelper->getPropertiesFromRequest();
+        return $this->_carHelper->getFilteredCarProperty('make', $properties);
     }
 
 
     public function getAvailableModels() {
-        $models = $this->_carHelper->getFilteredCarProperty('model');
+        $properties = $this->_carHelper->getPropertiesFromRequest();
+        $models = $this->_carHelper->getFilteredCarProperty('model', $properties);
         Mage::log("available models:\n".print_r($models, true), null, 'trs_guide.log');
         return $models;
     }
