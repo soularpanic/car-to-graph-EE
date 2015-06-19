@@ -1,0 +1,30 @@
+<div id="buyersGuideContainerWrapper">
+
+    <div class="generalBtn-orange buyersGuide-mobileStart mobile-only"><a href="#"><span class="generalBtn-title"><span class="buyersGuide-mobileStart-titleA">Show </span><span class="buyersGuide-mobileStart-titleB">Hide </span> Buyer's Guide</span></a></div>
+
+    <div class="<?php echo $this->getContainerClassString() ?>" id="buyersGuideContainer">
+
+        <div class="buyersGuide-intro mobile-hide">
+            <div class="animatedAlert-icon"><img src="<?php echo $this->getSkinUrl('images/icon_alert-animated.svg') ?>" alt="Visa" border="0"></div>
+            <h3><span class="weightRegular-styleNormal">Need help?</span>&nbsp; Try the Buyer's Guide!</h3>
+        </div>
+
+        <div class="buyersGuide-filter">
+            <?php echo $this->getChildHtml('buyersguide_toolbar_supplemental_precar') ?>
+            <?php echo $this->getChildHtml('buyersguide_toolbar_supplemental_postcar') ?>
+            <?php echo $this->getChildHtml('car_filter') ?>
+
+            <div class="buyersGuide-filterInner last">
+                <div class="buyersGuideCTA">
+                    <input type="button" class="go" id="buyersGuideStartButton" value="Go!"/>
+                </div>
+                <span class="fakeA" id="buyersGuideResetButton"><h2>Reset</h2></span>
+                <!--                <span class="fakeA" id="buyersGuideStopButton"><h2>Close</h2></span>-->
+            </div>
+
+            <input type="hidden" id="buyersGuideStartUrl" value="<?php echo $this->getUrl('*/*/*') ?>"/>
+            <input type="hidden" id="buyersGuideAction" value='<?php echo json_encode($this->getChainState()); ?>'/>
+            <?php echo $this->getChildHtml('buyersguide_steps') ?>
+        </div>
+    </div>
+</div>

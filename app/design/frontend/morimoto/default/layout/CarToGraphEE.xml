@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<layout version="0.1.0">
+
+    <buyersguide_morimoto>
+        <reference name="buyers_guide">
+            <action method="addContainerClass"><value>completekits</value></action>
+            <block type="cartographee/buyersguide_layer_filter_car" name="buyersguide_car_filter" as="car_filter" template="cartographee/buyersguide/toolbar/Car.phtml">
+                <action method="setDirectFitBundleTargets"><targets>Harnesses</targets></action>
+                <action method="setDirectFitAction"><value>step:1</value></action>
+            </block>
+        </reference>
+    </buyersguide_morimoto>
+    <CATEGORY_49>
+        <update handle="buyersguide_morimoto"/>
+    </CATEGORY_49>
+
+</layout>
