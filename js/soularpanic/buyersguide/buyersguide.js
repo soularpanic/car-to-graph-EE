@@ -43,6 +43,7 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
         this.stepSelections = [];
         this.buyersGuideSelector = _args.buyersGuideSelector || this._DEFAULT_BG_CONTAINER_SELECTOR;
         this.carInputSelector = _args.carInputSelector || this._DEFAULT_BG_CAR_INPUT_SELECTOR;
+        this.carSelectController = _args.carSelectController;
         this.supplementInputSelector = _args.supplementInputSelector || this._DEFAULT_BG_SUPPLEMENT_INPUT_SELECTOR;
         this.goButtonId = _args.goButtonId || this._DEFAULT_GO_BUTTON_ID;
         this.stopButtonId = _args.stopButtonId || this._DEFAULT_STOP_BUTTON_ID;
@@ -67,8 +68,8 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
     },
 
     _initializeObservers: function() {
-        var carSelector = this.carInputSelector,
-            reelContainerSelector = this.reelContainerSelector,
+//        var carSelector = this.carInputSelector,
+          var reelContainerSelector = this.reelContainerSelector,
             stepSelectButtonSelector = this.stepSelectButtonSelector,
             historyStepSelectButtonSelector = this.historyStepSelectButtonSelector,
             goId = this.goButtonId,
@@ -76,9 +77,9 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
             resetId = this.resetButtonId,
             newDataEvent = this.NEW_DATA_EVENT,
             context = this;
-        $$(carSelector).each(function(elt) {
-            elt.observe('change', context.updateCarInputs.bind(context));
-        });
+//        $$(carSelector).each(function(elt) {
+//            elt.observe('change', context.updateCarInputs.bind(context));
+//        });
         $$(reelContainerSelector).each(function(elt) {
             Event.on(elt, 'click', stepSelectButtonSelector, context.handleStepSelection.bind(context));
             Event.on(elt, 'click', historyStepSelectButtonSelector, context.handleHistorySelection.bind(context));
@@ -141,9 +142,8 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
         if (!this.isRunning()) {
             return {};
         }
-
         var filters = {
-                car: this._getCarId(),
+                car: this.carSelectController.getSelectedCarId(),
                 buyersGuideActive: true
             },
             supplementSelector = this.supplementInputSelector,
@@ -170,27 +170,28 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
     },
 
 
-    _getCarId: function() {
-        var inputSelector = this.carInputSelector,
-            nameRe = /car\[(\w+)\]/,
-            facets = {},
-            template = new Template("#{make}_#{model}_#{year}"),
-            complete = true;
-        $$(inputSelector).each(function(elt) {
-            var matches = nameRe.exec(elt.name),
-                key = matches[1];
-
-            if (!elt.value) {
-                complete = false;
-            }
-            facets[key] = elt.value;
-        });
-        return complete ? template.evaluate(facets).toLowerCase() : false;
-    },
+//    _getCarId: function() {
+//        var inputSelector = this.carInputSelector,
+//            nameRe = /car\[(\w+)\]/,
+//            facets = {},
+//            template = new Template("#{make}_#{model}_#{year}"),
+//            complete = true;
+//        $$(inputSelector).each(function(elt) {
+//            var matches = nameRe.exec(elt.name),
+//                key = matches[1];
+//
+//            if (!elt.value) {
+//                complete = false;
+//            }
+//            facets[key] = elt.value;
+//        });
+//        return complete ? template.evaluate(facets).toLowerCase() : false;
+//    },
 
 
     startBuyersGuide: function(evt) {
-        var carId = this._getCarId(),
+        var carSelectController = this.carSelectController,
+            carId = carSelectController.getSelectedCarId(),
             containerSelector = this.buyersGuideSelector;
         if (carId) {
             this._isRunning = true;
@@ -217,10 +218,11 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
 
 
     resetBuyersGuide: function(evt) {
-        $$(this.carInputSelector).each(function (elt) {
-            elt.setValue('');
-        });
-        this.updateCarInputs();
+        this.carSelectController.reset();
+//        $$(this.carInputSelector).each(function (elt) {
+//            elt.setValue('');
+//        });
+//        this.updateCarInputs();
 
         if (this._isRunning) {
             this.stepSelections = [];
@@ -228,30 +230,30 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
     },
 
 
-    updateCarInputs: function() {
-        var selector = this.carInputSelector,
-            url = this.updateCarInputsUrl,
-            params = {},
-            createHandler = this._handleUpdateInputAjaxCreate.bind(this),
-            completeHandler = this._handleUpdateInputAjaxComplete.bind(this),
-            successHandler = this._handleUpdateInputJson.bind(this);
-        $$(selector).each(function(elt) {
-            params[elt.name] = elt.value;
-        });
-        new Ajax.Request(url, {
-            parameters: params,
-            onCreate: function() {
-                createHandler();
-            },
-            onSuccess: function(resp) {
-                successHandler(resp.responseJSON);
-            },
-            onComplete: function(resp) {
-                console.log(resp);
-                completeHandler();
-            }
-        });
-    },
+//    updateCarInputs: function() {
+//        var selector = this.carInputSelector,
+//            url = this.updateCarInputsUrl,
+//            params = {},
+//            createHandler = this._handleUpdateInputAjaxCreate.bind(this),
+//            completeHandler = this._handleUpdateInputAjaxComplete.bind(this),
+//            successHandler = this._handleUpdateInputJson.bind(this);
+//        $$(selector).each(function(elt) {
+//            params[elt.name] = elt.value;
+//        });
+//        new Ajax.Request(url, {
+//            parameters: params,
+//            onCreate: function() {
+//                createHandler();
+//            },
+//            onSuccess: function(resp) {
+//                successHandler(resp.responseJSON);
+//            },
+//            onComplete: function(resp) {
+//                console.log(resp);
+//                completeHandler();
+//            }
+//        });
+//    },
 
 
     moveToStep: function(stepId, optionsToShowObj) {
@@ -447,51 +449,51 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
     },
 
 
-    toggleCarInputs: function(state) {
-        var inputs = $$('.buyersGuide-carSelect');
-        state ? inputs.each(Form.Element.enable) : inputs.each(Form.Element.disable);
-    },
-
-
-    _handleUpdateInputAjaxCreate: function() {
-        this.toggleCarInputs(false);
-    },
-
-
-    _handleUpdateInputAjaxComplete: function() {
-        this.toggleCarInputs(true);
-    },
-
-
-
-    _handleUpdateInputJson: function(updateJson) {
-        var selectorTemplate = new Template('[name="car[#{field}]"]'),
-            optionTemplate = new Template('<option value="#{value}">#{value}</option>'),
-            optgroupIdTemplate = new Template('buyersGuide-#{field}Recommend');
-
-        $H(updateJson).each(function(pair) {
-            var optgroupId = optgroupIdTemplate.evaluate({field: pair.key}),
-                optgroup = $(optgroupId),
-                fieldSelectSelector = selectorTemplate.evaluate({field: pair.key}),
-                selectElt = $$(fieldSelectSelector)[0],
-                currentSelectedOption = $$(fieldSelectSelector + " :selected"),
-                currentVal = currentSelectedOption ? currentSelectedOption[0].value : '';
-            console.log("currentVal:" + currentVal);
-
-            var recommendedHtml = '';
-
-            recommendedHtml += '<option value="">' + pair.key.capitalize() + '</option>';
-            pair.value.each(function(val) {
-                recommendedHtml += optionTemplate.evaluate({value: val});
-            });
-
-
-            selectElt.update(recommendedHtml);
-
-            var optionToSelect = $$(fieldSelectSelector + ' option[value="' + currentVal + '"]:first');
-            optionToSelect[0].writeAttribute('selected', 'selected');
-        });
-    },
+//    toggleCarInputs: function(state) {
+//        var inputs = $$('.buyersGuide-carSelect');
+//        state ? inputs.each(Form.Element.enable) : inputs.each(Form.Element.disable);
+//    },
+//
+//
+//    _handleUpdateInputAjaxCreate: function() {
+//        this.toggleCarInputs(false);
+//    },
+//
+//
+//    _handleUpdateInputAjaxComplete: function() {
+//        this.toggleCarInputs(true);
+//    },
+//
+//
+//
+//    _handleUpdateInputJson: function(updateJson) {
+//        var selectorTemplate = new Template('[name="car[#{field}]"]'),
+//            optionTemplate = new Template('<option value="#{value}">#{value}</option>'),
+//            optgroupIdTemplate = new Template('buyersGuide-#{field}Recommend');
+//
+//        $H(updateJson).each(function(pair) {
+//            var optgroupId = optgroupIdTemplate.evaluate({field: pair.key}),
+//                optgroup = $(optgroupId),
+//                fieldSelectSelector = selectorTemplate.evaluate({field: pair.key}),
+//                selectElt = $$(fieldSelectSelector)[0],
+//                currentSelectedOption = $$(fieldSelectSelector + " :selected"),
+//                currentVal = currentSelectedOption ? currentSelectedOption[0].value : '';
+//            console.log("currentVal:" + currentVal);
+//
+//            var recommendedHtml = '';
+//
+//            recommendedHtml += '<option value="">' + pair.key.capitalize() + '</option>';
+//            pair.value.each(function(val) {
+//                recommendedHtml += optionTemplate.evaluate({value: val});
+//            });
+//
+//
+//            selectElt.update(recommendedHtml);
+//
+//            var optionToSelect = $$(fieldSelectSelector + ' option[value="' + currentVal + '"]:first');
+//            optionToSelect[0].writeAttribute('selected', 'selected');
+//        });
+//    },
 
 
     handleNewCatalogData: function(evt) {

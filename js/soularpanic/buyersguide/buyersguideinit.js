@@ -1,6 +1,9 @@
 document.observe('dom:loaded', function() {
-   trsBuyersGuide = new BuyersGuideController({
+    carSelectController = new CarSelectController({
         updateCarInputsUrl: $('buyersGuideControllerData').readAttribute('data-carupdateUrl')
+    });
+   trsBuyersGuide = new BuyersGuideController({
+       carSelectController: carSelectController
    });
    jQuery( ".buyersGuide-mobileStart" ).click(function() {
         jQuery(".buyersGuide").toggleClass( "mobile-active" );

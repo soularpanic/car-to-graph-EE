@@ -1,0 +1,63 @@
+<div class="<?php echo $this->getContainerClassString() ?>" id="buyersGuideContainer">
+    <?php $carHelper = Mage::helper('cartographee/car'); ?>
+
+
+    <div class="formFieldContainer year">
+        <select name="car[year]" class="buyersGuide-carSelect">
+            <option value="">Year</option>
+            <?php
+            $selectedCarProperties = $carHelper->getPropertiesFromRequest();
+            $selectedYear = $selectedCarProperties['year'];
+            ?>
+            <?php foreach ($this->getAvailableYears() as $_year): ?>
+                <?php if ($_year): ?>
+                    <option value="<?php echo $_year ?>" <?php if($selectedYear && $_year == $selectedYear) { echo "selected=selected"; } ?>><?php echo $_year ?></option>
+                <?php endif; ?>
+            <?php endforeach; ?>
+        </select>
+    </div>
+
+    <div class="formFieldContainer make">
+        <?php
+        $selectedCarProperties = $carHelper->getPropertiesFromRequest();
+        $selectedMake = $selectedCarProperties['make'];
+        echo "<!-- $selectedMake = $selectedMake -->";
+        ?>
+        <select name="car[make]" class="buyersGuide-carSelect">
+            <option value="">Make</option>
+            <?php if($carHelper->getPropertiesFromRequest()): ?>
+                <?php foreach ($this->getAvailableMakes() as $_make): ?>
+                    <option value="<?php echo $_make ?>" <?php if($selectedMake && strtolower($_make) == $selectedMake) { echo "selected=selected"; } ?>><?php echo $_make ?></option>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </select>
+    </div>
+
+    <div class="formFieldContainer model">
+        <select name="car[model]" class="buyersGuide-carSelect">
+            <option value="">Model</option>
+            <?php
+            $selectedCarProperties = $carHelper->getPropertiesFromRequest();
+            $selectedModel = $selectedCarProperties['model'];
+            ?>
+            <?php if($carHelper->getPropertiesFromRequest()): ?>
+                <?php foreach ($this->getAvailableModels() as $_model): ?>
+                    <option value="<?php echo $_model ?>" <?php if($selectedModel && strtolower($_model) == $selectedModel) { echo "selected=selected"; } ?>><?php echo $_model ?></option>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </select>
+    </div>
+
+    <div class="buyersGuide-filterInner last">
+        <div class="buyersGuideCTA">
+            <input type="button" class="go" id="buyersGuideStartButton" value="Go!"/>
+        </div>
+        <span class="fakeA" id="buyersGuideResetButton"><h2>Reset</h2></span>
+        <!--                <span class="fakeA" id="buyersGuideStopButton"><h2>Close</h2></span>-->
+    </div>
+ss
+    <div id="buyersGuideControllerData" class="invisible" data-carUpdateUrl="<?php echo $this->getUrl('cartographee/buyersguide/updatecarselection') ?>">
+
+    </div>
+    <input type="hidden" id="buyersGuideStartUrl" value="<?php echo $this->getUrl('all-products.html') ?>"/>
+</div>
