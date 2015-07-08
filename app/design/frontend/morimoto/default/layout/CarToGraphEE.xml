@@ -3,13 +3,18 @@
 <layout version="0.1.0">
 
     <buyersguide_morimoto>
-        <reference name="buyers_guide">
-            <action method="addContainerClass"><value>completekits</value></action>
-            <block type="cartographee/buyersguide_layer_filter_car" name="buyersguide_car_filter" as="car_filter" template="cartographee/buyersguide/toolbar/Car.phtml">
-                <!--<action method="setDirectFitBundleTargets"><targets>Harnesses</targets></action>-->
-                <action method="setDirectFitAction"><value>step:done</value></action>
-            </block>
-            <block type="cartographee/buyersguide_layer_filter_step_container" name="buyersguide_steps" as="buyersguide_steps" template="cartographee/buyersguide/step/Container.phtml">
+        <reference name="product_list">
+            <block type="cartographee/buyersguide_layer_view" name="catalog.filter" as="layeredNav" template="catalog/layer/view.phtml">
+                <block type="cartographee/buyersguide_layer_filter_buyersguide" name="buyers_guide" as="buyers_guide" template="cartographee/buyersguide/Container.phtml">
+
+                    <action method="addContainerClass"><value>completekits</value></action>
+                    <block type="cartographee/buyersguide_layer_filter_car" name="buyersguide_car_filter" as="car_filter" template="cartographee/buyersguide/toolbar/Car.phtml">
+                        <!--<action method="setDirectFitBundleTargets"><targets>Harnesses</targets></action>-->
+                        <action method="setDirectFitAction"><value>step:done</value></action>
+                    </block>
+                    <block type="cartographee/buyersguide_layer_filter_step_container" name="buyersguide_steps" as="buyersguide_steps" template="cartographee/buyersguide/step/Container.phtml">
+                    </block>
+                </block>
             </block>
         </reference>
     </buyersguide_morimoto>
