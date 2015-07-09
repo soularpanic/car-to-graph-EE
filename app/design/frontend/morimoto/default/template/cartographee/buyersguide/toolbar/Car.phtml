@@ -1,8 +1,7 @@
 <?php $carHelper = Mage::helper('cartographee/car'); ?>
-<h2 class="mobile-hide">on my</h2>
 
-<div class="formFieldContainer year">
-    <select name="car[year]" class="buyersGuide-carSelect">
+<div class="col-xs-12 col-sm-3 year">
+    <select name="car[year]" class="buyersGuide-carSelect form-control drop">
         <option value="">Year</option>
         <?php
         $selectedCarProperties = $carHelper->getPropertiesFromRequest();
@@ -16,13 +15,13 @@
     </select>
 </div>
 
-<div class="formFieldContainer make">
+<div class="col-xs-12 col-sm-4 make">
     <?php
     $selectedCarProperties = $carHelper->getPropertiesFromRequest();
     $selectedMake = $selectedCarProperties['make'];
-    echo "<!-- $selectedMake = $selectedMake -->";
+    echo "<!-- selectedMake = $selectedMake -->";
     ?>
-    <select name="car[make]" class="buyersGuide-carSelect">
+    <select name="car[make]" class="buyersGuide-carSelect form-control drop">
         <option value="">Make</option>
         <?php if($carHelper->getPropertiesFromRequest()): ?>
             <?php foreach ($this->getAvailableMakes() as $_make): ?>
@@ -32,8 +31,8 @@
     </select>
 </div>
 
-<div class="formFieldContainer model">
-    <select name="car[model]" class="buyersGuide-carSelect">
+<div class="col-xs-12 col-sm-4 formFieldContainer model">
+    <select name="car[model]" class="buyersGuide-carSelect form-control drop">
         <option value="">Model</option>
         <?php
         $selectedCarProperties = $carHelper->getPropertiesFromRequest();
