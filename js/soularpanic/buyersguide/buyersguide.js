@@ -10,30 +10,30 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
     _NEXT_KEYWORD: 'next',
 
     _DEFAULT_BG_CONTAINER_SELECTOR: '.buyersGuide',
-    _DEFAULT_REEL_CONTAINER_SELECTOR: '.buyersGuide-questionMask',
+//    _DEFAULT_REEL_CONTAINER_SELECTOR: '.buyersGuide-questionMask',
 //    _DEFAULT_REEL_SELECTOR: '.buyersGuide-questionWrap',
-    _DEFAULT_STEP_SELECTOR: '.buyersGuide-questions',
+//    _DEFAULT_STEP_SELECTOR: '.buyersGuide-questions',
     _DEFAULT_STEP_OPTION_SELECTOR: '.tile',
-    _DEFAULT_STEP_SELECT_BUTTON_SELECTOR: '.tile-select',
-    _DEFAULT_STEP_HISTORY_BUTTON_SELECTOR: '.buyersGuide-previousSelectionLink',
+//    _DEFAULT_STEP_SELECT_BUTTON_SELECTOR: '.tile-select',
+//    _DEFAULT_STEP_HISTORY_BUTTON_SELECTOR: '.buyersGuide-previousSelectionLink',
     _DEFAULT_BG_CAR_INPUT_SELECTOR: '.buyersGuide-carSelect',
     _DEFAULT_BG_SUPPLEMENT_INPUT_SELECTOR: '.buyersGuide-supplement',
     _DEFAULT_GO_BUTTON_ID: 'buyersGuideStartButton',
     _DEFAULT_STOP_BUTTON_ID: 'buyersGuideStopButton',
     _DEFAULT_RESET_BUTTON_ID: 'buyersGuideResetButton',
 //    _STEP_ID_ATTR_NAME: 'data-stepId',
-    _STEP_DISPLAY_NAME_ATTR_NAME: 'data-stepDisplayName',
-    _STEP_DISPLAY_VALUE_ATTR_NAME: 'data-displayValue',
-    _OPTION_ID_ATTR_NAME: 'data-id',
-    _OPTION_GROUP_ATTR_NAME: 'data-groupId',
-    _OPTION_VALUE_ATTR_NAME: 'data-value',
+//    _STEP_DISPLAY_NAME_ATTR_NAME: 'data-stepDisplayName',
+//    _STEP_DISPLAY_VALUE_ATTR_NAME: 'data-displayValue',
+//    _OPTION_ID_ATTR_NAME: 'data-id',
+//    _OPTION_GROUP_ATTR_NAME: 'data-groupId',
+//    _OPTION_VALUE_ATTR_NAME: 'data-value',
 
-    _DEFAULT_SELECTIONS_CONTENT: "<h2>We've got a few more questions before we can find the right parts for you...</h2>",
-    _DEFAULT_SELECTIONS_FIT_CONTENT: "<h2>Well, that was easy...</h2>",
-    _DEFAULT_SELECTIONS_NOFIT_CONTENT: "<h2>Hmm, that's interesting...</h2>",
+//    _DEFAULT_SELECTIONS_CONTENT: "<h2>We've got a few more questions before we can find the right parts for you...</h2>",
+//    _DEFAULT_SELECTIONS_FIT_CONTENT: "<h2>Well, that was easy...</h2>",
+//    _DEFAULT_SELECTIONS_NOFIT_CONTENT: "<h2>Hmm, that's interesting...</h2>",
 
-    _SPINNER_CLASS: 'buyersGuide-spinner',
-    _SPINNER_HTML: '<div class="buyersGuide-spinner">&nbsp;</div>',
+//    _SPINNER_CLASS: 'buyersGuide-spinner',
+//    _SPINNER_HTML: '<div class="buyersGuide-spinner">&nbsp;</div>',
 
     initialize: function($super, args) {
         var _args = args || {};
@@ -51,14 +51,14 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
         this.resetButtonId = _args.resetButtonId || this._DEFAULT_RESET_BUTTON_ID;
         this.updateCarInputsUrl = _args.updateCarInputsUrl || '';
 //        this.reelSelector = _args.reelSelector || this._DEFAULT_REEL_SELECTOR;
-        this.reelContainerSelector = _args.reelContainerSelector || this._DEFAULT_REEL_CONTAINER_SELECTOR;
-        this.stepSelector = _args.stepSelector || this._DEFAULT_STEP_SELECTOR;
-        this.stepOptionSelector = _args.stepOptionSelector || this._DEFAULT_STEP_OPTION_SELECTOR;
-        this.stepSelectButtonSelector = _args.stepSelectButtonSelector || this._DEFAULT_STEP_SELECT_BUTTON_SELECTOR;
-        this.historyStepSelectButtonSelector = _args.historyStepSelectButtonSelector || this._DEFAULT_STEP_HISTORY_BUTTON_SELECTOR;
-        this.noSelectionsText = _args.noSelectionsText || this._DEFAULT_SELECTIONS_CONTENT;
-        this.noSelectionsDirectFitText = _args.noSelectionsDirectFitText || this._DEFAULT_SELECTIONS_FIT_CONTENT;
-        this.noSelectionsNoFitText = _args.noSelectionsNoFitText || this._DEFAULT_SELECTIONS_NOFIT_CONTENT;
+//        this.reelContainerSelector = _args.reelContainerSelector || this._DEFAULT_REEL_CONTAINER_SELECTOR;
+//        this.stepSelector = _args.stepSelector || this._DEFAULT_STEP_SELECTOR;
+//        this.stepOptionSelector = _args.stepOptionSelector || this._DEFAULT_STEP_OPTION_SELECTOR;
+//        this.stepSelectButtonSelector = _args.stepSelectButtonSelector || this._DEFAULT_STEP_SELECT_BUTTON_SELECTOR;
+//        this.historyStepSelectButtonSelector = _args.historyStepSelectButtonSelector || this._DEFAULT_STEP_HISTORY_BUTTON_SELECTOR;
+//        this.noSelectionsText = _args.noSelectionsText || this._DEFAULT_SELECTIONS_CONTENT;
+//        this.noSelectionsDirectFitText = _args.noSelectionsDirectFitText || this._DEFAULT_SELECTIONS_FIT_CONTENT;
+//        this.noSelectionsNoFitText = _args.noSelectionsNoFitText || this._DEFAULT_SELECTIONS_NOFIT_CONTENT;
 
         this.register();
         this._initializeObservers();
@@ -149,7 +149,7 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
             },
             supplementSelector = this.supplementInputSelector,
             additionalData = {},
-            stepSelections = this.carSelectController.getStepSelections();
+            stepSelections = this.stepDisplayController.getStepSelections();
 //            stepSelections = this.stepSelections;
 
         $$(supplementSelector).each(function(elt) {
@@ -294,27 +294,27 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
 //    },
 
 
-    _maskOptions: function(stepElt, attrName, attrValues) {
-        var stepOptionSelector = this.stepOptionSelector,
-            optionButtonSelector = this.stepSelectButtonSelector;
-
-        if (attrValues && attrValues.length) {
-            attrValues.push('stock');
-            var options = stepElt.select(stepOptionSelector);
-            options.each(function (option) {
-                var optionButtons = option.select(optionButtonSelector);
-                optionButtons.each(function (optionButton) {
-                    var optionId = optionButton.readAttribute(attrName);
-                    if ($A(attrValues).some(function (showableId) { return showableId === optionId; })) {
-                        option.removeClassName('invisible');
-                    }
-                    else {
-                        option.addClassName('invisible');
-                    }
-                });
-            });
-        }
-    },
+//    _maskOptions: function(stepElt, attrName, attrValues) {
+//        var stepOptionSelector = this.stepOptionSelector,
+//            optionButtonSelector = this.stepSelectButtonSelector;
+//
+//        if (attrValues && attrValues.length) {
+//            attrValues.push('stock');
+//            var options = stepElt.select(stepOptionSelector);
+//            options.each(function (option) {
+//                var optionButtons = option.select(optionButtonSelector);
+//                optionButtons.each(function (optionButton) {
+//                    var optionId = optionButton.readAttribute(attrName);
+//                    if ($A(attrValues).some(function (showableId) { return showableId === optionId; })) {
+//                        option.removeClassName('invisible');
+//                    }
+//                    else {
+//                        option.addClassName('invisible');
+//                    }
+//                });
+//            });
+//        }
+//    },
 
 
 //    _getStepEltById: function(stepId) {
@@ -411,7 +411,7 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
         var newActionObj = newActionStr.evalJSON();
         var newAction = newActionObj.action;
         this.takeAction(newAction);
-        this.updateSelectionControls();
+//        this.updateSelectionControls();
     },
 
 
