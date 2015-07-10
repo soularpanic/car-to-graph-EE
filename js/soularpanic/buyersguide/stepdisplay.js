@@ -16,9 +16,11 @@ var StepDisplayControllerInterface = Class.create({
 var QSlideStepDisplayController = Class.create(StepDisplayControllerInterface, {
 
     _DEFAULT_REEL_SELECTOR: '.buyersGuide-questionWrap',
+    _STEP_ID_ATTR_NAME: 'data-stepId',
 
    initialize: function(args) {
        var _args = args || {};
+       this._previousStep = false;
        this.stepSelections = [];
        this.reelSelector = _args.reelSelector || this._DEFAULT_REEL_SELECTOR;
    },
@@ -240,5 +242,5 @@ var QSlideStepDisplayController = Class.create(StepDisplayControllerInterface, {
             return q;
         }
         return false;
-    },
+    }
 });

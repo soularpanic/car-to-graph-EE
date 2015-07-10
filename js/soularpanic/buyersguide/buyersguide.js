@@ -21,7 +21,7 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
     _DEFAULT_GO_BUTTON_ID: 'buyersGuideStartButton',
     _DEFAULT_STOP_BUTTON_ID: 'buyersGuideStopButton',
     _DEFAULT_RESET_BUTTON_ID: 'buyersGuideResetButton',
-    _STEP_ID_ATTR_NAME: 'data-stepId',
+//    _STEP_ID_ATTR_NAME: 'data-stepId',
     _STEP_DISPLAY_NAME_ATTR_NAME: 'data-stepDisplayName',
     _STEP_DISPLAY_VALUE_ATTR_NAME: 'data-displayValue',
     _OPTION_ID_ATTR_NAME: 'data-id',
@@ -39,7 +39,7 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
         var _args = args || {};
         this._moduleName = 'buyers_guide';
         this._isRunning = false;
-        this._previousStep = false;
+//        this._previousStep = false;
 //        this.stepSelections = [];
         this.buyersGuideSelector = _args.buyersGuideSelector || this._DEFAULT_BG_CONTAINER_SELECTOR;
         this.carInputSelector = _args.carInputSelector || this._DEFAULT_BG_CAR_INPUT_SELECTOR;
