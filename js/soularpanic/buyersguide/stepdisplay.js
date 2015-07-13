@@ -309,3 +309,21 @@ var QSlideStepDisplayController = Class.create(StepDisplayControllerInterface, {
         }
     }
 });
+
+var NoStepDisplayController = Class.create(StepDisplayControllerInterface, {
+   initialize: function($super, args) {
+       var _args = args || {};
+   },
+
+    moveToStep: function(stepId, optionsToShowObj) {
+        console.log("moving to step " + stepId);
+    },
+
+    getStepSelections: function() {
+        return [];
+    },
+
+    reset: function() {
+        console.log("resetting...");
+    }
+});

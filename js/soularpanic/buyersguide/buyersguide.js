@@ -13,7 +13,7 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
 //    _DEFAULT_REEL_CONTAINER_SELECTOR: '.buyersGuide-questionMask',
 //    _DEFAULT_REEL_SELECTOR: '.buyersGuide-questionWrap',
 //    _DEFAULT_STEP_SELECTOR: '.buyersGuide-questions',
-    _DEFAULT_STEP_OPTION_SELECTOR: '.tile',
+//    _DEFAULT_STEP_OPTION_SELECTOR: '.tile',
 //    _DEFAULT_STEP_SELECT_BUTTON_SELECTOR: '.tile-select',
 //    _DEFAULT_STEP_HISTORY_BUTTON_SELECTOR: '.buyersGuide-previousSelectionLink',
     _DEFAULT_BG_CAR_INPUT_SELECTOR: '.buyersGuide-carSelect',
