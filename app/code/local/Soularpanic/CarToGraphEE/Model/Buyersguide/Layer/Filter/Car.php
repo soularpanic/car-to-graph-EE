@@ -19,6 +19,11 @@ class Soularpanic_CarToGraphEE_Model_Buyersguide_Layer_Filter_Car
         $bundleTargets = $filterBlock->getDirectFitBundleTargets();
         Mage::log("direct fit bundle targets: {$bundleTargets}", null, 'trs_guide.log');
         $carId = $request->getParam($this->getRequestVar());
+        // Magento concatenates the get param for some reason
+        $carGetParamPosition = strpos($carId, '?car=');
+        if ($carGetParamPosition !== false) {
+            $carId = substr($carId, 0, $carGetParamPosition);
+        }
 //        Mage::log("carArr: [".print_r($carId, true)."]", null, 'trs_guide.log');
 //        Mage::log('filter block class: '.get_class($filterBlock), null, 'trs_guide.log');
 //        $chainState = $filterBlock->getChainState();

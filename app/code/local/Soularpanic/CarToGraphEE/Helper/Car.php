@@ -91,6 +91,19 @@ class Soularpanic_CarToGraphEE_Helper_Car
         return $cars->getColumnValues($propertyName);
     }
 
+    public function getPropertiesFromRequest() {
+        $carParam = Mage::app()->getRequest()->getParam('car');
+        $properties = [];
+        if ($carParam) {
+            $car = explode('_', $carParam);
+            $properties = [
+                'make' => $car[0],
+                'model' => $car[1],
+                'year' => $car[2]
+            ];
+        }
+        return $properties;
+    }
 
     protected function _resolveProduct($sku) {
         $_sku = trim($sku);

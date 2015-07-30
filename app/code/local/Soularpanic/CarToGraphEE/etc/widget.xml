@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+
+<widgets>
+    <cartographee_car type="cartographee/widget_buyersguide_car">
+        <name>Buyer's Guide Car Select</name>
+        <parameters>
+            <template translate="label">
+                <label>Template</label>
+                <visible>1</visible>
+                <value>cartographee/buyersguide/toolbar/Car.phtml</value>
+            </template>
+        </parameters>
+    </cartographee_car>
+</widgets>

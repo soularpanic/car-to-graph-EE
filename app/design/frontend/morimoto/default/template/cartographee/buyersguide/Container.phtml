@@ -1,0 +1,33 @@
+<div class="section module-quickstartguide" id="buyersGuideContainer">
+    <div class="container-fluid">
+        <div class="module-quickstartguideInner">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-10 col-xs-offset-1 col-sm-12 col-sm-offset-0">
+                        <div class="row">
+                            <div class="lead col-xs-12 col-md-6">
+                                <h5 class="text-gray">Find the <span class="hidden-xs">Morimoto </span>Products for you</h5>
+                                <h2 class="text-white">Automobile Info:</h2>
+                            </div>
+                            <div class="col-xs-12 col-md-6">
+                                <form class="form-horizontal">
+                                    <fieldset>
+                                        <div class="form-group">
+                                            <?php echo $this->getChildHtml('buyersguide_toolbar_supplemental_precar') ?>
+                                            <?php echo $this->getChildHtml('buyersguide_toolbar_supplemental_postcar') ?>
+                                            <?php echo $this->getChildHtml('car_filter') ?>
+                                            <a type="submit" class="btn btn-empty icon icon-arrowRfff" id="buyersGuideStartButton"></a>
+                                            <input type="hidden" id="buyersGuideStartUrl" value="<?php echo $this->getUrl('*/*/*') ?>"/>
+                                            <input type="hidden" id="buyersGuideAction" value='<?php echo json_encode($this->getChainState()); ?>'/>
+                                            <?php echo $this->getChildHtml('buyersguide_steps') ?>
+                                        </div>
+                                    </fieldset>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

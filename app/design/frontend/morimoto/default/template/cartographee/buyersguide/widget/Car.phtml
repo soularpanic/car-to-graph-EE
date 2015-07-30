@@ -1,0 +1,63 @@
+<div class="col-xs-12 col-md-6" id="buyersGuideContainer">
+    <?php $carHelper = Mage::helper('cartographee/car'); ?>
+    <form class="form-horizontal">
+        <fieldset>
+            <div class="form-group">
+                <div class="formFieldContainer year col-xs-12 col-sm-3">
+                    <select name="car[year]" class="buyersGuide-carSelect form-control drop">
+                        <option value="">Year</option>
+                        <?php
+                        $selectedCarProperties = $carHelper->getPropertiesFromRequest();
+                        $selectedYear = $selectedCarProperties['year'];
+                        ?>
+                        <?php foreach ($this->getAvailableYears() as $_year): ?>
+                            <?php if ($_year): ?>
+                                <option value="<?php echo $_year ?>" <?php if($selectedYear && $_year == $selectedYear) { echo "selected=selected"; } ?>><?php echo $_year ?></option>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <div class="formFieldContainer make col-xs-12 col-sm-4">
+                    <?php
+                    $selectedCarProperties = $carHelper->getPropertiesFromRequest();
+                    $selectedMake = $selectedCarProperties['make'];
+                    echo "<!-- $selectedMake = $selectedMake -->";
+                    ?>
+                    <select name="car[make]" class="buyersGuide-carSelect form-control drop">
+                        <option value="">Make</option>
+                        <?php if($carHelper->getPropertiesFromRequest()): ?>
+                            <?php foreach ($this->getAvailableMakes() as $_make): ?>
+                                <option value="<?php echo $_make ?>" <?php if($selectedMake && strtolower($_make) == $selectedMake) { echo "selected=selected"; } ?>><?php echo $_make ?></option>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </select>
+                </div>
+
+                <div class="formFieldContainer model col-xs-12 col-sm-4">
+                    <select name="car[model]" class="buyersGuide-carSelect form-control drop">
+                        <option value="">Model</option>
+                        <?php
+                        $selectedCarProperties = $carHelper->getPropertiesFromRequest();
+                        $selectedModel = $selectedCarProperties['model'];
+                        ?>
+                        <?php if($carHelper->getPropertiesFromRequest()): ?>
+                            <?php foreach ($this->getAvailableModels() as $_model): ?>
+                                <option value="<?php echo $_model ?>" <?php if($selectedModel && strtolower($_model) == $selectedModel) { echo "selected=selected"; } ?>><?php echo $_model ?></option>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </select>
+                </div>
+
+                <div class="col-xs-1 col-xs-offset-10 col-sm-1 col-sm-offset-0">
+                    <a id="buyersGuideStartButton" class="btn btn-empty icon icon-arrowRfff" href="#">&nbsp;</a>
+                </div>
+
+                <div id="buyersGuideControllerData" class="invisible" data-carUpdateUrl="<?php echo $this->getUrl('cartographee/buyersguide/updatecarselection') ?>">
+
+                </div>
+                <input type="hidden" id="buyersGuideStartUrl" value="<?php echo $this->getUrl('all-products.html') ?>"/>
+            </div>
+        </fieldset>
+    </form>
+</div>
