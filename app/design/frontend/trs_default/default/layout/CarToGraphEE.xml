@@ -843,27 +843,6 @@
             <block type="cartographee/buyersguide_layer_filter_car" name="buyersguide_car_filter" as="car_filter" template="cartographee/buyersguide/toolbar/Car.phtml">
                 <action method="setNoFitAction"><value>step:nofit</value></action>
             </block>
-            <!--<block type="cartographee/buyersguide_layer_filter_step_generic" name="buyersguide_toolbar_supplemental_postcar" as="buyersguide_toolbar_supplemental_postcar" template="cartographee/buyersguide/toolbar/Supplemental.phtml">-->
-                <!--<action method="setStepConfig">-->
-                    <!--<config>-->
-                        <!--<id>housing_function</id>-->
-                        <!--<apply_to_direct_fit>true</apply_to_direct_fit>-->
-                        <!--<options>-->
-                            <!--<all>-->
-                                <!--<title>All Function Types</title>-->
-                            <!--</all>-->
-                            <!--<housings>-->
-                                <!--<title>Headlights</title>-->
-                                <!--<action>fit_sql:type=housings</action>-->
-                            <!--</housings>-->
-                            <!--<led_fog>-->
-                                <!--<title>Fog Lights</title>-->
-                                <!--<action>fit_sql:type=led_fog</action>-->
-                            <!--</led_fog>-->
-                        <!--</options>-->
-                    <!--</config>-->
-                <!--</action>-->
-            <!--</block>-->
             <block type="cartographee/buyersguide_layer_filter_step_container" name="buyersguide_steps" as="buyersguide_steps" template="cartographee/buyersguide/step/Container.phtml"/>
         </reference>
     </buyersguide_housings>

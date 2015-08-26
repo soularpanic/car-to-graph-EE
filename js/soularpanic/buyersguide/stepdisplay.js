@@ -317,6 +317,20 @@ var NoStepDisplayController = Class.create(StepDisplayControllerInterface, {
 
     moveToStep: function(stepId, optionsToShowObj) {
         console.log("moving to step " + stepId);
+        var startButtonId = 'buyersGuideStartButton',
+            startButton = $(startButtonId),
+            arrowClass = 'icon-arrowRfff',
+            spinnerClass = 'icon-ring-spinner';
+        if (stepId === this._LOADING_STEP_ID) {
+            console.log("i should show the ajax spinner now");
+            startButton.removeClassName(arrowClass);
+            startButton.addClassName(spinnerClass);
+        }
+        else {
+            console.log("i should stop showing the ajax spinner now");
+            startButton.removeClassName(spinnerClass);
+            startButton.addClassName(arrowClass);
+        }
     },
 
     getStepSelections: function() {

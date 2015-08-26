@@ -12,6 +12,12 @@
                         <!--<action method="setDirectFitBundleTargets"><targets>Harnesses</targets></action>-->
                         <action method="setDirectFitAction"><value>step:done</value></action>
                     </block>
+                    <!--<block type="cartographee/buyersguide_layer_filter_step_generic" name="buyersguide_toolbar_supplemental_precar" as="buyersguide_toolbar_supplemental_precar" template="cartographee/buyersguide/generic/Blank.phtml">-->
+                        <!--<action method="setModel"><model>cartographee/buyersguide_layer_filter_chain_link_curtain</model></action>-->
+                    <!--</block>-->
+                    <block type="cartographee/buyersguide_layer_filter_curtain" name="buyersguide_toolbar_supplemental_precar" as="buyersguide_toolbar_supplemental_precar" template="cartographee/buyersguide/generic/Blank.phtml">
+                        <action method="setModel"><model>cartographee/buyersguide_layer_filter_chain_link_curtain</model></action>
+                    </block>
                     <block type="cartographee/buyersguide_layer_filter_step_container" name="buyersguide_steps" as="buyersguide_steps" template="cartographee/buyersguide/step/Container.phtml">
                     </block>
                 </block>
