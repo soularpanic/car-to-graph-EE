@@ -48,7 +48,7 @@ class Soularpanic_CarToGraphEE_Admin_CartographeeController
             $this->log("beginning to iterate through sheet...");
             for ($row = 1; $row <= $lastRow; $row++) {
                 $relation = [];
-                $this->log("key row: ".print_r($keyRow,true));
+                $this->log("key row ($row): ".print_r($keyRow,true));
                 for ($col = 'A'; $col != $lastCol; $col++) {
                     if ($worksheet->cellExists($col.$row)) {
                         $cell = $worksheet->getCell($col.$row);
