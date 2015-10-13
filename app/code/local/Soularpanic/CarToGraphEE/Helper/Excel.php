@@ -21,6 +21,11 @@ class Soularpanic_CarToGraphEE_Helper_Excel
         return self::UPLOAD_ELEMENT_NAME;
     }
 
+    public function getRawExcel($path) {
+        $this->log('Beginning helper method...');
+        $excelObj = PHPExcel_IOFactory::load($path);
+        return $excelObj;
+    }
 
     public function parseExcel($path) {
         $this->log('Beginning helper method...');

@@ -34,28 +34,77 @@ class Soularpanic_CarToGraphEE_Admin_CartographeeController
 
         $excelHelper = Mage::helper('cartographee/excel');
         $carHelper = Mage::helper('cartographee/car');
-        $data = $excelHelper->parseExcel($excelPath);
+        $excelObj = $excelHelper->getRawExcel($excelPath);
 
         $lastMake = null;
-        foreach ($data as $relationRow) {
 
-            $make = $relationRow['make'] ?: $lastMake;
-            $lastMake = $make;
-            $relationRow['make'] = $make;
+        foreach ($excelObj->getAllSheets() as $worksheet) {
+            $this->log("Processing worksheet [{$worksheet->getTitle()}]");
+            $lastRow = $worksheet->getHighestDataRow();
+            $this->log("got last row ($lastRow)");
+            $lastCol = $worksheet->getHighestDataColumn();
+            $this->log("got last col ($lastCol)");
+            $keyRow = [];
+            $this->log("beginning to iterate through sheet...");
+            for ($row = 1; $row <= $lastRow; $row++) {
+                $relation = [];
+                $this->log("key row: ".print_r($keyRow,true));
+                for ($col = 'A'; $col != $lastCol; $col++) {
+                    if ($worksheet->cellExists($col.$row)) {
+                        $cell = $worksheet->getCell($col.$row);
+                        if ($row === 1) {
+                            $keyRow[$col] = str_replace(':', '', strtolower($cell->getValue()));
+                        }
+                        else {
+                            $key = $keyRow[$col];
+                            $relation[$key] = $cell->getValue();
+                        }
+                    }
+                }
+                if ($relation) {
+                    $relations[] = $relation;
 
-            $car = $carHelper->fetchCar($relationRow);
+                    $_relationRow = $relation;
+                    $make = $_relationRow['make'] ?: $lastMake;
+                    $lastMake = $make;
+                    $_relationRow['make'] = $make;
 
-            $relations = $carHelper->getCarProductRelations($car, $relationRow);
-            Mage::log("beginning loop", null, 'trs_guide.log');
-            foreach ($relations as $relation) {
+                    $car = $carHelper->fetchCar($_relationRow);
+                    $_relations = $carHelper->getCarProductRelations($car, $_relationRow);
+                    foreach ($_relations as $_relation) {
 
-                Mage::log("relation: (".print_r($relation, true).")", null, 'trs_guide.log');
+                        Mage::log("relation: (".print_r($_relation, true).")", null, 'trs_guide.log');
 
-                $link = Mage::getModel('cartographee/linkcarproduct');
-                $link->setData($relation);
-                $link->save();
+                        $link = Mage::getModel('cartographee/linkcarproduct');
+                        $link->setData($_relation);
+                        $link->save();
+                    }
+                }
             }
         }
+
+//        $data = $excelHelper->parseExcel($excelPath);
+//
+//        $lastMake = null;
+//        foreach ($data as $relationRow) {
+//
+//            $make = $relationRow['make'] ?: $lastMake;
+//            $lastMake = $make;
+//            $relationRow['make'] = $make;
+//
+//            $car = $carHelper->fetchCar($relationRow);
+//
+//            $relations = $carHelper->getCarProductRelations($car, $relationRow);
+//            Mage::log("beginning loop", null, 'trs_guide.log');
+//            foreach ($relations as $relation) {
+//
+//                Mage::log("relation: (".print_r($relation, true).")", null, 'trs_guide.log');
+//
+//                $link = Mage::getModel('cartographee/linkcarproduct');
+//                $link->setData($relation);
+//                $link->save();
+//            }
+//        }
         return $this;
     }
 
@@ -83,5 +132,10 @@ class Soularpanic_CarToGraphEE_Admin_CartographeeController
             }
         }
         return false;
+    }
+
+    protected function log($message) {
+        Mage::log($message, null, 'trs_guide.log');
+        return $this;
     }
 }
