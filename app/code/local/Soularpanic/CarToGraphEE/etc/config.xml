@@ -106,4 +106,12 @@
         </layout>
     </frontend>
 
+    <default>
+        <trs_logging>
+            <logs>
+                <cartographee_logging>1</cartographee_logging>
+            </logs>
+        </trs_logging>
+    </default>
+
 </config>

@@ -1135,7 +1135,8 @@
                             <options>
                                 <MATCHBOX-R>
                                     <title>Matchbox</title>
-                                    <action>sku:MATCHBOX-R</action>
+                                    <!--<action>sku:MATCHBOX-R</action>-->
+                                    <action>id:48635</action>
                                     <aspects>
                                         <output>4</output>
                                         <sharp>6</sharp>
@@ -1206,14 +1207,18 @@
                             <options>
                                 <MH16.0-R>
                                     <binary>
-                                        <lhd><action>sku:MH16.0-R[MH16-LH]</action></lhd>
-                                        <rhd><action>sku:MH16.0-R[MH16-RH]</action></rhd>
+                                        <!--<lhd><action>sku:MH16.0-R[MH16-LH]</action></lhd>-->
+                                        <lhd><action>id:51206[50325]</action></lhd>
+                                        <!--<rhd><action>sku:MH16.0-R[MH16-RH]</action></rhd>-->
+                                        <rhd><action>id:51206</action></rhd>
                                     </binary>
                                 </MH16.0-R>
                                 <MD2S3.0-R>
                                     <binary>
-                                        <lhd><action>sku:MD2S3.0-R[MD2S-3LH]</action></lhd>
-                                        <rhd><action>sku:MD2S3.0-R[MD2S-3RH]</action></rhd>
+                                        <!--<lhd><action>sku:MD2S3.0-R[MD2S-3LH]</action></lhd>-->
+                                        <lhd><action>id:48297[48286, 47735]</action></lhd>
+                                        <!--<rhd><action>sku:MD2S3.0-R[MD2S-3RH]</action></rhd>-->
+                                        <rhd><action>id:48297[48287, 47736]</action></rhd>
                                     </binary>
                                 </MD2S3.0-R>
                                 <FXR3.0-R>

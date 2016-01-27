@@ -136,9 +136,9 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
     },
 
 
-    recommendProducts: function(recommendedSkus) {
+    recommendProducts: function(recommended) {
         console.log('we recommend:');
-        console.log(recommendedSkus);
+        console.log(recommended);
         this.moveToStep(this._ROUGH_FITS_STEP_ID);
     },
 
@@ -221,6 +221,9 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
         else if (command === 'sku') {
             return this._parseSku(remainder);
         }
+        else if (command === 'id') {
+            return this._parseId(remainder);
+        }
         else {
             console.log("Unhandled command: [" + command + "]/[" + remainder + "]");
         }
@@ -274,6 +277,15 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
         console.log("here are my skus:");
         console.log(skus);
         this.recommendProducts(skus);
+        return '';
+    },
+
+
+    _parseId: function(remainder) {
+        var ids = remainder.split(',');
+        console.log("here are my ids:");
+        console.log(ids);
+        this.recommendProducts(ids);
         return '';
     },
 

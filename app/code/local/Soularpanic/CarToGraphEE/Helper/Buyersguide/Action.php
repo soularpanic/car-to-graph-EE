@@ -9,7 +9,7 @@ class Soularpanic_CarToGraphEE_Helper_Buyersguide_Action
 
 
     public function isTerminal($actionStr) {
-        return strpos($actionStr, 'sku:') === 0;
+        return (strpos($actionStr, 'sku:') === 0 || strpos($actionStr, 'id:') === 0);
     }
 
 
@@ -23,6 +23,9 @@ class Soularpanic_CarToGraphEE_Helper_Buyersguide_Action
             $this->log("action: [{$action}]; value: [{$value}]");
             if ($action == 'sku') {
                 return $this->_applySkuToCollection($filter, $value);
+            }
+            if ($action == 'id') {
+                return $this->_applyIdToCollection($filter, $value);
             }
             elseif ($action == 'step') {
                 return $this->_applyStepToCollection($filter, $value);
@@ -130,6 +133,46 @@ class Soularpanic_CarToGraphEE_Helper_Buyersguide_Action
         return false;
     }
 
+    protected function _applyIdToCollection($filter, $idAction) {
+        $this->log("applying id action");
+
+        $idPairs = explode(',', $idAction);
+//        $x = preg_match
+
+        $idPreselects = [];
+
+        foreach ($idPairs as $idPair) {
+            $matches = [];
+            $matched = preg_match('/^([^\[]+)(?:\[([^\]]+)\])?$/', trim($idPair), $matches);
+
+            if ($matched) {
+                $id = $matches[1];
+                $preselect = count($matches > 1) ? $matches[2] : '';
+                $idPreselects[$id] = $preselect;
+            }
+        }
+
+        $idInStmt = "e.entity_id in ('" . implode("', '", array_keys($idPreselects)) . "')";
+
+        $preselectStmtArr = array_map(
+            function($id, $preselector) { return "select '{$id}' as product_id, '{$preselector}' as preselect"; },
+            array_keys($idPreselects),
+            $idPreselects
+        );
+
+        $preselectStmt = '('.implode(' union ', $preselectStmtArr).')';
+
+        $select = $filter->getLayer()->getProductCollection()->getSelect();
+        $select
+            ->joinLeft(['preselects' => new Zend_Db_Expr($preselectStmt)],
+                "e.entity_id = preselects.product_id",
+                ['preselect'])
+            ->where($idInStmt);
+
+        $this->log("id SQL:\n".$select->__toString());
+        return false;
+    }
+
 
     protected function _applyStepToCollection($filter, $step) {
         $this->log("checking step value ({$step}) for sku filters...");
@@ -139,7 +182,7 @@ class Soularpanic_CarToGraphEE_Helper_Buyersguide_Action
         if ($matched) {
             $this->log("sku filter matches: ".print_r($matches, true));
             $skusRawStr = $matches[1];
-            $skus = implode("', '", array_map("trim", explode(',', $skusRawStr)));
+            $skus = implode("', '", array_map("trim", explode(';', $skusRawStr)));
             $collection->getSelect()->where("e.sku IN ('{$skus}')");
             $this->log("collection sql: ".$collection->getSelect()->__toString());
         }
