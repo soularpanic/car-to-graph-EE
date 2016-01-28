@@ -1096,25 +1096,26 @@
                                     <title>Tiny</title>
                                     <desc>Height: 55-75mm
                                         Depth: 106-137mm</desc>
-                                    <action>step:2[MATCHBOX-R]</action>
+                                    <action>step:2[MATCHBOX]; product_id:48635</action>
+                                    <!--<action>step:2[MATCHBOX-R]</action>-->
                                 </tiny>
                                 <small>
                                     <title>Small</title>
                                     <desc>Height: 75-80mm
                                         Depth: 136-138mm</desc>
-                                    <action>step:2[MATCHBOX-R, MH16.0-R]</action>
+                                    <action>step:2[MATCHBOX, MH1]; product_id:48635, 51206</action>
                                 </small>
                                 <medium>
                                     <title>Medium</title>
                                     <desc>Height: 80-95mm
                                         Depth: 138-149mm</desc>
-                                    <action>step:2[MH16.0-R, MD2S3.0-R]</action>
+                                    <action>step:2[MH1, MD2S]; product_id:51206, 48297</action>
                                 </medium>
                                 <large>
                                     <title>Large</title>
                                     <desc>Height: 95mm +
                                         Depth: 149mm +</desc>
-                                    <action>step:2[MD2S3.0-R, FXR3.0-R]</action>
+                                    <action>step:2[MD2S, FXR]; product_id: 48297, 48298</action>
                                 </large>
                             </options>
                         </config>
@@ -1133,43 +1134,43 @@
                                 <install>Install Difficulty</install>
                             </performance_aspects>
                             <options>
-                                <MATCHBOX-R>
+                                <MATCHBOX>
                                     <title>Matchbox</title>
                                     <!--<action>sku:MATCHBOX-R</action>-->
-                                    <action>id:48635</action>
+                                    <action>product_id:48635; done</action>
                                     <aspects>
                                         <output>4</output>
                                         <sharp>6</sharp>
                                         <install>3</install>
                                     </aspects>
-                                </MATCHBOX-R>
-                                <MH16.0-R>
+                                </MATCHBOX>
+                                <MH1>
                                     <title>Mini H1</title>
-                                    <action>step:3[MH16.0-R]</action>
+                                    <action>step:3[MH1]; product_id:51206</action>
                                     <aspects>
                                         <output>7</output>
                                         <sharp>8</sharp>
                                         <install>5</install>
                                     </aspects>
-                                </MH16.0-R>
-                                <MD2S3.0-R>
+                                </MH1>
+                                <MD2S>
                                     <title>Mini D2S</title>
-                                    <action>step:3[MD2S3.0-R]</action>
+                                    <action>step:3[MD2S]; product_id:48297</action>
                                     <aspects>
                                         <output>8</output>
                                         <sharp>8</sharp>
                                         <install>6</install>
                                     </aspects>
-                                </MD2S3.0-R>
-                                <FXR3.0-R>
+                                </MD2S>
+                                <FXR>
                                     <title>FXR</title>
-                                    <action>step:3[FXR3.0-R]</action>
+                                    <action>step:3[FXR]; product_id:48298</action>
                                     <aspects>
                                         <output>9</output>
                                         <sharp>9</sharp>
                                         <install>9</install>
                                     </aspects>
-                                </FXR3.0-R>
+                                </FXR>
                                 <stock>
                                     <title>Baseline (Stock)</title>
                                     <active>0</active>
@@ -1205,28 +1206,30 @@
                                 </rhd>
                             </binary>
                             <options>
-                                <MH16.0-R>
+                                <MH1>
                                     <binary>
                                         <!--<lhd><action>sku:MH16.0-R[MH16-LH]</action></lhd>-->
-                                        <lhd><action>id:51206[50325]</action></lhd>
+                                        <lhd><action>product_id:51206[50325]; done</action></lhd>
                                         <!--<rhd><action>sku:MH16.0-R[MH16-RH]</action></rhd>-->
-                                        <rhd><action>id:51206</action></rhd>
+                                        <rhd><action>product_id:51206[50326]; done</action></rhd>
                                     </binary>
-                                </MH16.0-R>
-                                <MD2S3.0-R>
+                                </MH1>
+                                <MD2S>
                                     <binary>
                                         <!--<lhd><action>sku:MD2S3.0-R[MD2S-3LH]</action></lhd>-->
-                                        <lhd><action>id:48297[48286, 47735]</action></lhd>
+                                        <lhd><action>product_id:48297[48286, 47735]; done</action></lhd>
                                         <!--<rhd><action>sku:MD2S3.0-R[MD2S-3RH]</action></rhd>-->
-                                        <rhd><action>id:48297[48287, 47736]</action></rhd>
+                                        <rhd><action>product_id:48297[48287, 47736]; done</action></rhd>
                                     </binary>
-                                </MD2S3.0-R>
-                                <FXR3.0-R>
+                                </MD2S>
+                                <FXR>
                                     <binary>
-                                        <lhd><action>sku:FXR3.0-R[FXR3-3LH]</action></lhd>
-                                        <rhd><action>sku:FXR3.0-R[FXR3-3RH]</action></rhd>
+                                        <!--<lhd><action>sku:FXR3.0-R[FXR3-3LH]</action></lhd>-->
+                                        <lhd><action>product_id:48298[47822, 47825]; done</action></lhd>
+                                        <!--<rhd><action>sku:FXR3.0-R[FXR3-3RH]</action></rhd>-->
+                                        <rhd><action>product_id:48298[47823, 47824]; done</action></rhd>
                                     </binary>
-                                </FXR3.0-R>
+                                </FXR>
                             </options>
                         </config>
                     </action>

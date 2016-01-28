@@ -9,43 +9,48 @@ class Soularpanic_CarToGraphEE_Helper_Buyersguide_Action
 
 
     public function isTerminal($actionStr) {
-        return (strpos($actionStr, 'sku:') === 0 || strpos($actionStr, 'id:') === 0);
+        return (strpos($actionStr, 'sku:') === 0 || strpos($actionStr, 'product_id:') === 0);
     }
 
 
     public function applyActionToCollection($filter, $actionsStr) {
         $this->log('applying action to collection - start');
         $actions = explode(';', $actionsStr);
+        $toReturn = true;
         foreach ($actions as $actionStr) {
             list($action, $value) = explode(':', $actionStr, 2);
             $action = trim($action);
             $value = trim($value);
             $this->log("action: [{$action}]; value: [{$value}]");
             if ($action == 'sku') {
-                return $this->_applySkuToCollection($filter, $value);
+                $toReturn &= $this->_applySkuToCollection($filter, $value);
             }
-            if ($action == 'id') {
-                return $this->_applyIdToCollection($filter, $value);
+            if ($action == 'product_id') {
+                $toReturn &= $this->_applyIdToCollection($filter, $value);
             }
             elseif ($action == 'step') {
-                return $this->_applyStepToCollection($filter, $value);
+                $toReturn &= $this->_applyStepToCollection($filter, $value);
             }
             elseif ($action == 'sql') {
 //                return $this->_applySqlToCollection($filter, $value, false);
-                return $this->_applySqlToCollection($filter, $value, "step:next");
+                $toReturn &= $this->_applySqlToCollection($filter, $value, "step:next");
             }
             elseif ($action == 'fit_sql') {
 //                return $this->_applySqlToCollection($filter, $value, true);
-                return $this->_applySqlToCollection($filter, $value, "step:directfit");
+                $toReturn &= $this->_applySqlToCollection($filter, $value, "step:directfit");
             }
             elseif (strpos($action, '(') === 0) {
-                return $this->_applyComplex($filter, $action);
+                $toReturn &= $this->_applyComplex($filter, $action);
+            }
+            elseif ($action == 'done') {
+                return true;
             }
             else {
                 $this->log("Unhandled action: [{$action}]/[{$value}]", null, 'trs_guide.log');
                 return false;
             }
         }
+        return $toReturn;
     }
 
 
@@ -137,20 +142,49 @@ class Soularpanic_CarToGraphEE_Helper_Buyersguide_Action
         $this->log("applying id action");
 
         $idPairs = explode(',', $idAction);
-//        $x = preg_match
+
+        /*
+         * Split action string up into id[preselect ids] strings
+         */
+        $actionRemainder = trim($idAction);
+        $remainderMatch = true;
+        $actionMatches = [];
+        $actionMatch = [];
+        while($remainderMatch && strlen($actionRemainder)) {
+            $remainderMatch = preg_match('(^(\d+(?:\[[\d\s,]+\])?)[\s,]*)', $actionRemainder, $actionMatch);
+            if ($remainderMatch) {
+                $actionMatches[] = $actionMatch[1];
+                $actionRemainder = substr($actionRemainder, strlen($actionMatch[0]));
+            }
+        }
+
+
 
         $idPreselects = [];
+        $sqlNeedsPreselect = false;
 
-        foreach ($idPairs as $idPair) {
-            $matches = [];
-            $matched = preg_match('/^([^\[]+)(?:\[([^\]]+)\])?$/', trim($idPair), $matches);
-
-            if ($matched) {
-                $id = $matches[1];
-                $preselect = count($matches > 1) ? $matches[2] : '';
+        foreach($actionMatches as $idPair) {
+            $idMatches = [];
+            $idMatched = preg_match('((\d+)(?:\[([\d, ]+)\])?)', $idPair, $idMatches);
+            if ($idMatched) {
+                $id = $idMatches[1];
+                $preselect = count($idMatches) > 1 ? $idMatches[2] : '';
+                if ($preselect) {
+                    $sqlNeedsPreselect = true;
+                }
                 $idPreselects[$id] = $preselect;
             }
         }
+//        foreach ($idPairs as $idPair) {
+//            $matches = [];
+//            $matched = preg_match('/^([^\[]+)(?:\[([^\]]+)\])?$/', trim($idPair), $matches);
+//
+//            if ($matched) {
+//                $id = $matches[1];
+//                $preselect = count($matches > 1) ? $matches[2] : '';
+//                $idPreselects[$id] = $preselect;
+//            }
+//        }
 
         $idInStmt = "e.entity_id in ('" . implode("', '", array_keys($idPreselects)) . "')";
 
@@ -163,11 +197,16 @@ class Soularpanic_CarToGraphEE_Helper_Buyersguide_Action
         $preselectStmt = '('.implode(' union ', $preselectStmtArr).')';
 
         $select = $filter->getLayer()->getProductCollection()->getSelect();
+        /*
+         * Can only use preselects once w/o table naming conflict; YAGNI
+         */
+        if ($sqlNeedsPreselect) {
         $select
             ->joinLeft(['preselects' => new Zend_Db_Expr($preselectStmt)],
                 "e.entity_id = preselects.product_id",
-                ['preselect'])
-            ->where($idInStmt);
+                ['preselect']);
+        }
+        $select->where($idInStmt);
 
         $this->log("id SQL:\n".$select->__toString());
         return false;
@@ -175,17 +214,17 @@ class Soularpanic_CarToGraphEE_Helper_Buyersguide_Action
 
 
     protected function _applyStepToCollection($filter, $step) {
-        $this->log("checking step value ({$step}) for sku filters...");
-        $collection = $filter->getLayer()->getProductCollection();
-        $matches = [];
-        $matched = preg_match('/^\d+\[([^\]]+)\]/', $step, $matches);
-        if ($matched) {
-            $this->log("sku filter matches: ".print_r($matches, true));
-            $skusRawStr = $matches[1];
-            $skus = implode("', '", array_map("trim", explode(';', $skusRawStr)));
-            $collection->getSelect()->where("e.sku IN ('{$skus}')");
-            $this->log("collection sql: ".$collection->getSelect()->__toString());
-        }
+//        $this->log("checking step value ({$step}) for sku filters...");
+//        $collection = $filter->getLayer()->getProductCollection();
+//        $matches = [];
+//        $matched = preg_match('/^\d+\[([^\]]+)\]/', $step, $matches);
+//        if ($matched) {
+//            $this->log("sku filter matches: ".print_r($matches, true));
+//            $skusRawStr = $matches[1];
+//            $skus = implode("', '", array_map("trim", explode(';', $skusRawStr)));
+//            $collection->getSelect()->where("e.sku IN ('{$skus}')");
+//            $this->log("collection sql: ".$collection->getSelect()->__toString());
+//        }
         return true;
     }
 

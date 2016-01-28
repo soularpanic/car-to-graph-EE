@@ -8,15 +8,9 @@ class Soularpanic_CarToGraphEE_Model_Catalog_Product_Url
             $params['_query'] = array();
         }
 
-        $preselect = null;
-        foreach ($product->getData() as $k => $v) {
-//            Mage::log("generating url ($k/$v)", null, 'trs_guide.log');
-            if (strpos($k, 'preselect') === 0) {
-                $preselect = $preselect ? implode(',', [$preselect, $v]) : $v;
-            }
-        }
-
+        $preselect = $product->getPreselect();
         if ($preselect) {
+            $preselect = implode(',', array_map('trim', explode(',', $preselect)));
             $params['_query']['preselect'] = $preselect;
             $params['_query']['carDisplay'] = $product->getData('buyers_guide_car_display');
         }

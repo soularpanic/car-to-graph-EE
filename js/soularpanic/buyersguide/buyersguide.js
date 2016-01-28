@@ -197,14 +197,15 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
         console.log("commands:");
         console.log(commands);
         commands.each(function(commandStr) {
+            commandStr = commandStr.trim();
             console.log("command: " + commandStr);
             var delimiter = ':',
                 delimiterIndex = commandStr.indexOf(delimiter),
                 command = '',
                 remainder = '';
 
-            command = commandStr.slice(0, delimiterIndex);
-            remainder = commandStr.slice(delimiterIndex + 1);
+            command = delimiterIndex > -1 ? commandStr.slice(0, delimiterIndex) : commandStr;
+            remainder = delimiterIndex > -1 ? commandStr.slice(delimiterIndex + 1) : '';
             console.log("after split: " + command + '/' + remainder);
             parser(command.trim(), remainder.trim());
         });
@@ -221,8 +222,11 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
         else if (command === 'sku') {
             return this._parseSku(remainder);
         }
-        else if (command === 'id') {
+        else if (command === 'product_id') {
             return this._parseId(remainder);
+        }
+        else if (command === 'done') {
+            return this._parseDone(remainder);
         }
         else {
             console.log("Unhandled command: [" + command + "]/[" + remainder + "]");
@@ -276,7 +280,7 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
         var skus = remainder.split(',');
         console.log("here are my skus:");
         console.log(skus);
-        this.recommendProducts(skus);
+//        this.recommendProducts(skus);
         return '';
     },
 
@@ -285,7 +289,7 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
         var ids = remainder.split(',');
         console.log("here are my ids:");
         console.log(ids);
-        this.recommendProducts(ids);
+//        this.recommendProducts(ids);
         return '';
     },
 
@@ -298,6 +302,7 @@ var BuyersGuideController = Class.create(TRSCategoryBase, {
 
     _parseDone: function(remainder) {
         console.log("i'm done!");
+        this.recommendProducts();
         return '';
     }
 
