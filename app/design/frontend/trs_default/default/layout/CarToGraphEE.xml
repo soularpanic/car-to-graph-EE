@@ -1071,7 +1071,8 @@
                             </headlights>
                             <foglights>
                                 <title>Fog Lights</title>
-                                <action>sku:MATCHBOX-R</action>
+                                <!--<action>sku:MATCHBOX-R</action>-->
+                                <action>product_id:48635; done</action>
                             </foglights>
                         </options>
                     </config>
