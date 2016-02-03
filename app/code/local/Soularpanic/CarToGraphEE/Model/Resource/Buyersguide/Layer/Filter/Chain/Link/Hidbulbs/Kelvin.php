@@ -4,7 +4,8 @@ class Soularpanic_CarToGraphEE_Model_Resource_Buyersguide_Layer_Filter_Chain_Lin
 
     public function applyFilterToCollection($filter, $option)
     {
-        Mage::log('HID Bulbs Kelvin resource starting up...', null, 'trs_guide.log');
+        $logger = Mage::helper('cartographee');
+        $logger->log('HID Bulbs Kelvin resource starting up...');
         $value = $option->getValue();
 
         $_dfBundleTarget = 'HID Bulbs';
@@ -14,7 +15,7 @@ class Soularpanic_CarToGraphEE_Model_Resource_Buyersguide_Layer_Filter_Chain_Lin
         $state = $filter->getChainState();
 
         if ($value) {
-            Mage::log("Altering SQL...", null, 'trs_guide.log');
+            $logger->log("Altering SQL...");
             $collection = $filter->getLayer()->getProductCollection();
             $directFitSelect = $collection->getSelect();
 
@@ -29,7 +30,7 @@ class Soularpanic_CarToGraphEE_Model_Resource_Buyersguide_Layer_Filter_Chain_Lin
                     [])
                 ->joinLeft([$f => $catalogProductTable],
                     "$f.entity_id = bulb_package_options.product_id and $f.name like '$likeStr'",
-                    [$columnAlias => "GROUP_CONCAT(DISTINCT $f.sku SEPARATOR ',')"])
+                    [$columnAlias => "GROUP_CONCAT(DISTINCT $f.entity_id SEPARATOR ',')"])
                 ->where("$f.sku is not null")
                 ->having("$columnAlias is not null");
 
@@ -56,7 +57,7 @@ class Soularpanic_CarToGraphEE_Model_Resource_Buyersguide_Layer_Filter_Chain_Lin
                             [])
                         ->where("$z.attribute_set_name = '$_dfBundleTarget'")
                         ->where("$x.type = '$crossRefSqlValue'");
-                    Mage::log("\n\nSubselect SQL:\n".$subselect->__toString(), null, 'trs_guide.log');
+                    $logger->log("\n\nSubselect SQL:\n".$subselect->__toString());
 
                     $foo = "foo";
                     $directFitSelect
@@ -67,7 +68,7 @@ class Soularpanic_CarToGraphEE_Model_Resource_Buyersguide_Layer_Filter_Chain_Lin
                 }
             }
 
-            Mage::log("HID Bulbs Kelvin SQL:\n{$directFitSelect->__toString()}", null, 'trs_guide.log');
+            $logger->log("HID Bulbs Kelvin SQL:\n{$directFitSelect->__toString()}");
 
             $state['action'] = 'step:done';
             $filter->setChainState($state);
@@ -75,7 +76,7 @@ class Soularpanic_CarToGraphEE_Model_Resource_Buyersguide_Layer_Filter_Chain_Lin
 
 
 
-        Mage::log("Request vars:\n".print_r(Mage::app()->getRequest()->getParams(), true), null, 'trs_guide.log');
+        $logger->log("Request vars:\n".print_r(Mage::app()->getRequest()->getParams(), true));
         return $this;
     }
 

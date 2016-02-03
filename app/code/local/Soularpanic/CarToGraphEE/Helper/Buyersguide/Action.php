@@ -43,7 +43,7 @@ class Soularpanic_CarToGraphEE_Helper_Buyersguide_Action
                 $toReturn &= $this->_applyComplex($filter, $action);
             }
             elseif ($action == 'done') {
-                return true;
+                return false;
             }
             else {
                 $this->log("Unhandled action: [{$action}]/[{$value}]", null, 'trs_guide.log');

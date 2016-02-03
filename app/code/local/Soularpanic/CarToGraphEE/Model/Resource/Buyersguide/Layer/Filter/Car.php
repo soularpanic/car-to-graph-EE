@@ -15,10 +15,11 @@ class Soularpanic_CarToGraphEE_Model_Resource_Buyersguide_Layer_Filter_Car
 
 
     public function applyFilterToCollection($filter, $value) {
-        Mage::log('applying car filter in resource!', null, 'trs_guide.log');
+        $logger = Mage::helper('cartographee');
+        Mage::log('applying car filter in resource!');
         $collection = $filter->getLayer()->getProductCollection();
         $dfBundleTargets = $this->getDirectFitBundleTargets();
-        Mage::log('resource direct fit bundle targets: '.print_r($dfBundleTargets, true), null, 'trs_guide.log');
+        Mage::log('resource direct fit bundle targets: '.print_r($dfBundleTargets, true));
         $helper = Mage::helper('cartographee/buyersguide_action');
         if ($value) {
             $collection->getSelect()
@@ -81,15 +82,15 @@ class Soularpanic_CarToGraphEE_Model_Resource_Buyersguide_Layer_Filter_Car
                     ['preselect' => "g.sku"])
                 ->group('e.entity_id');
         }
-        Mage::log("DF SQL:\n{$directFitSelect->__toString()}", null, 'trs_guide.log');
+        Mage::log("DF SQL:\n{$directFitSelect->__toString()}");
 
         $directFits = $collection->count();
-        Mage::log("Direct fits found: [{$directFits}]", null, 'trs_guide.log');
+        Mage::log("Direct fits found: [{$directFits}]");
         $collection->clear();
 
-        Mage::log("filter? ".get_class($filter), null, 'trs_guide.log');
+        Mage::log("filter? ".get_class($filter));
         $chain = $filter->getChain();
-        Mage::log("chain? ".get_class($chain), null, 'trs_guide.log');
+        Mage::log("chain? ".get_class($chain));
         $state = $filter->getChainState();
         $state['has_direct_fit'] = $directFits;// > 0 ? true : false;
         if (!isset($state['action'])) {
@@ -97,7 +98,7 @@ class Soularpanic_CarToGraphEE_Model_Resource_Buyersguide_Layer_Filter_Car
         }
 
         if ($directFits <= 0) {
-            Mage::log("Restoring original select to collection", null, 'trs_guide.log');
+            Mage::log("Restoring original select to collection");
 
             $collection->setSelect($originalSelect);
         }
@@ -106,7 +107,7 @@ class Soularpanic_CarToGraphEE_Model_Resource_Buyersguide_Layer_Filter_Car
         }
 
 
-        Mage::log("in car resource, chain state: [".print_r($state, true)."]", null, 'trs_guide.log');
+        Mage::log("in car resource, chain state: [".print_r($state, true)."]");
         $filter->setChainState($state);
 
         return $this;

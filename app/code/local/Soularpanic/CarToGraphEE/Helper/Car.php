@@ -107,7 +107,7 @@ class Soularpanic_CarToGraphEE_Helper_Car
 
     protected function _resolveProduct($sku) {
         $_sku = trim($sku);
-        Mage::log("attempting to resolve [$_sku]", null, 'trs_guide.log');
+        $this->log("attempting to resolve [$_sku]");
         if (!$_sku || $_sku === '-') {
             return false;
         }

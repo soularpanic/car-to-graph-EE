@@ -8,11 +8,17 @@ class Soularpanic_CarToGraphEE_Model_Catalog_Product_Url
             $params['_query'] = array();
         }
 
-        $preselect = $product->getPreselect();
-        if ($preselect) {
-            $preselect = implode(',', array_map('trim', explode(',', $preselect)));
-            $params['_query']['preselect'] = $preselect;
-            $params['_query']['carDisplay'] = $product->getData('buyers_guide_car_display');
+        $preselect = null;
+        foreach ($product->getData() as $k => $v) {
+            /*
+             * Done this way because there may be multiple data keys that start with 'preselect', e.g. bulb kelvin preselects
+             */
+            if (strpos($k, 'preselect') === 0) {
+                $newPreselects = implode(',', array_map('trim', explode(',', $v)));
+                $preselect = $preselect ? implode(',', [$preselect, $newPreselects]) : $newPreselects;
+                $params['_query']['preselect'] = $preselect;
+                $params['_query']['carDisplay'] = $product->getData('buyers_guide_car_display');
+            }
         }
 
         return parent::getUrl($product, $params);
