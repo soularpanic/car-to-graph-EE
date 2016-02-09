@@ -36,12 +36,12 @@ class Soularpanic_CarToGraphEE_Helper_Car
             }
             $type = strtolower(str_replace(' ', '_', trim($relKey)));
             foreach (explode(',', $relValue) as $relLink) {
-                list($productSku, $preselectSkus) = explode(':', $relLink, 2);
-                if ('-' === $productSku) {
+                list($productIdentifier, $preselectIdentifiers) = explode(':', $relLink, 2);
+                if ('-' === $productIdentifier) {
                     continue;
                 }
-                $productId = $this->_resolveProduct($productSku);
-                $preselectIds = $this->_resolvePreselectProducts($preselectSkus);
+                $productId = $this->_resolveProduct($productIdentifier);
+                $preselectIds = $this->_resolvePreselectProducts($preselectIdentifiers);
                 if ($productId) {
                     $relationsData[] = [
                         'car_id' => $car->getId(),
@@ -105,41 +105,46 @@ class Soularpanic_CarToGraphEE_Helper_Car
         return $properties;
     }
 
-    protected function _resolveProduct($sku) {
-        $_sku = trim($sku);
-        $this->log("attempting to resolve [$_sku]");
-        if (!$_sku || $_sku === '-') {
+    protected function _resolveProduct($identifier) {
+        $_identifier = trim($identifier);
+        $this->log("attempting to resolve [$_identifier]");
+        if (!$_identifier || $_identifier === '-') {
             return false;
         }
         $product = Mage::getModel('catalog/product');
-        $id = $product->getIdBySku($_sku);
+        if (is_numeric($_identifier)) {
+            $id = $product->load($_identifier)->getId();
+        }
+        else {
+            $id = $product->getIdBySku($_identifier);
+        }
         if (!$id) {
-            $this->_reportResolutionFailure($_sku);
+            $this->_reportResolutionFailure($_identifier);
             return false;
         }
         return $id;
     }
 
 
-    protected function _resolveProducts($skuArr) {
+    protected function _resolveProducts($identifierArr) {
         $resolved = [];
-        foreach ($skuArr as $sku) {
-            $resolved[] = $this->_resolveProduct($sku);
+        foreach ($identifierArr as $identifier) {
+            $resolved[] = $this->_resolveProduct($identifier);
         }
         return $resolved;
     }
 
 
-    protected function _resolvePreselectProducts($preselectSkus) {
-        return implode(',', $this->_resolveProducts(explode(':', $preselectSkus)));
+    protected function _resolvePreselectProducts($preselectIdentifiers) {
+        return implode(',', $this->_resolveProducts(explode(':', $preselectIdentifiers)));
     }
 
 
-    protected function _reportResolutionFailure($sku) {
-        if (in_array($sku, $this->_resolutionFailures)) {
+    protected function _reportResolutionFailure($identifier) {
+        if (in_array($identifier, $this->_resolutionFailures)) {
             return;
         }
-        $this->_resolutionFailures[] = $sku;
-        Mage::getSingleton('adminhtml/session')->addError("Could not find product with SKU of [{$sku}]");
+        $this->_resolutionFailures[] = $identifier;
+        Mage::getSingleton('adminhtml/session')->addError("Could not find product with identifier of [{$identifier}]");
     }
 }

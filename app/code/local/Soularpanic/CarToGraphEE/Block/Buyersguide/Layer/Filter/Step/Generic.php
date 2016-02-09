@@ -22,13 +22,12 @@ class Soularpanic_CarToGraphEE_Block_Buyersguide_Layer_Filter_Step_Generic
 
 
     public function setStepConfig($config) {
-//        Mage::log("step config: ".print_r($config, true), null, 'trs_guide.log');
         $this->_stepConfig = $config;
 
         $processed = Mage::helper('cartographee/buyersguide_config')->processStepConfigArray($config);
         $this->_data = array_merge($this->_data, $processed);
         if ($this->_data['model']) {
-            Mage::log("overwriting filter model from {$this->_filterModelName} to {$this->_data['model']}", null, 'trs_guide.log');
+            Mage::helper('cartographee')->log("overwriting filter model from {$this->_filterModelName} to {$this->_data['model']}");
             $this->_filterModelName = $this->_data['model'];
         }
     }

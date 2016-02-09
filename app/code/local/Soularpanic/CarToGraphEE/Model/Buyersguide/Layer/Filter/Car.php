@@ -1,8 +1,7 @@
 <?php
 class Soularpanic_CarToGraphEE_Model_Buyersguide_Layer_Filter_Car
     extends Soularpanic_CarToGraphEE_Model_Buyersguide_Layer_Filter_Chain_Link_Abstract {
-    //extends Mage_Catalog_Model_Layer_Filter_Abstract {
-
+ 
 
     public function __construct() {
         parent::_construct();
@@ -11,29 +10,26 @@ class Soularpanic_CarToGraphEE_Model_Buyersguide_Layer_Filter_Car
 
 
     protected function _chainApply(Zend_Controller_Request_Abstract $request, $filterBlock) {
-        Mage::log("Applying car filter - start", null, 'trs_guide.log');
+        $logger = Mage::helper('cartographee');
+        $logger->log("Applying car filter - start");
         $noFitAction = $filterBlock->getNoFitAction();
-        Mage::log("no fit action: {$noFitAction}", null, 'trs_guide.log');
+        $logger->log("no fit action: {$noFitAction}");
         $directFitAction = $filterBlock->getDirectFitAction();
-        Mage::log("direct fit action: {$directFitAction}", null, 'trs_guide.log');
+        $logger->log("direct fit action: {$directFitAction}");
         $bundleTargets = $filterBlock->getDirectFitBundleTargets();
-        Mage::log("direct fit bundle targets: {$bundleTargets}", null, 'trs_guide.log');
+        $logger->log("direct fit bundle targets: {$bundleTargets}");
         $carId = $request->getParam($this->getRequestVar());
         // Magento concatenates the get param for some reason
         $carGetParamPosition = strpos($carId, '?car=');
         if ($carGetParamPosition !== false) {
             $carId = substr($carId, 0, $carGetParamPosition);
         }
-//        Mage::log("carArr: [".print_r($carId, true)."]", null, 'trs_guide.log');
-//        Mage::log('filter block class: '.get_class($filterBlock), null, 'trs_guide.log');
-//        $chainState = $filterBlock->getChainState();
-//        Mage::log('chain state: ['.print_r($chainState, true).']', null, 'trs_guide.log');
-//        Mage::log('chain? '.get_class($filterBlock->getChain()).'/'.count($filterBlock->getChain()), null, 'trs_guide.log');
+
         if ($carId) {
-            Mage::log("getting resource", null, 'trs_guide.log');
+            $logger->log("getting resource");
             $resource = $this->_getResource();
             if ($noFitAction) {
-                Mage::log("setting no fit action to [{$noFitAction}]", null, 'trs_guide.log');
+                $logger->log("setting no fit action to [{$noFitAction}]");
                 $resource->setNoFitAction($noFitAction);
             }
             if ($directFitAction) {
@@ -43,29 +39,12 @@ class Soularpanic_CarToGraphEE_Model_Buyersguide_Layer_Filter_Car
                 $resource->setDirectFitBundleTargets(array_map('trim', explode(',', $bundleTargets)));
             }
 
-            Mage::log("applying!", null, 'trs_guide.log');
+            $logger->log("applying!");
             $resource->applyFilterToCollection($this, $carId);
         }
         $chainState = $this->getChainState();
-        Mage::log("after resource application, chain state: [".print_r($chainState, true)."]", null, 'trs_guide.log');
-        //return (!$filterBlock->getContinueOnDirectFit() && $chainState['has_direct_fit'] < 1);
+        $logger->log("after resource application, chain state: [".print_r($chainState, true)."]");
         return true;
-
-//
-//        $chain = $filterBlock->getChain();
-//        if (count($chain)) {
-//            $car = reset($chain);
-//            Mage::log("next chain link is ".get_class($car), null, 'trs_guide.log');
-//            $cdr = array_slice($chain, 1, null, true);
-//            Mage::log("after that, we have ".count($cdr)." more", null, 'trs_guide.log');
-//            $car->setLayer($this->getLayer());
-//            $car->setChain($cdr);
-//            $car->setChainState($this->getChainState());
-//            //$car->setChainState([]);
-//            $car->init();
-//        }
-//
-//        return $this;
     }
 
     protected function _getResource() {

@@ -20,7 +20,6 @@ abstract class Soularpanic_CarToGraphEE_Model_Buyersguide_Layer_Filter_Chain_Lin
             $car->setChain($cdr);
             $car->setChainState($this->getChainState());
             $car->init();
-            //Mage::log("after it was all over, chain state was [".print_r($car->getChainState(), true).']', null, 'trs_guide.log');
             $this->setChainState($car->getChainState());
         }
 

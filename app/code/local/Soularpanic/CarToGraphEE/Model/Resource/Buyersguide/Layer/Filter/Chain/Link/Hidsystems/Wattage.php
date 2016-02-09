@@ -4,8 +4,9 @@ class Soularpanic_CarToGraphEE_Model_Resource_Buyersguide_Layer_Filter_Chain_Lin
 
     public function applyFilterToCollection($filter, $option)
     {
-        Mage::log("HID Systems Wattage Resource applying...", null, 'trs_guide.log');
-        Mage::log("Option: ".print_r($option, true), null, 'trs_guide.log');
+        $logger = Mage::helper('cartographee');
+        $logger->log("HID Systems Wattage Resource applying...");
+        $logger->log("Option: ".print_r($option, true));
         $productId = $option->getProductId();
 
         $_dfBundleTarget = 'HID Ballats';
@@ -21,13 +22,13 @@ class Soularpanic_CarToGraphEE_Model_Resource_Buyersguide_Layer_Filter_Chain_Lin
             ->joinLeft([$f => new Zend_Db_Expr("(select $productId as ballast)")],
                 "true",
                 ["preselect_$f" => "$f.ballast"]);
-        Mage::log("wattage sql: ".$directFitSelect->__toString(), null, 'trs_guide.log');
+        $logger->log("wattage sql: ".$directFitSelect->__toString());
 
         $state['action'] = 'step:2';
         $filter->setChainState($state);
 
-        Mage::log("Wattage SQL:\n{$directFitSelect->__toString()}", null, 'trs_guide.log');
-        Mage::log("Request vars:\n".print_r(Mage::app()->getRequest()->getParams(), true), null, 'trs_guide.log');
+        $logger->log("Wattage SQL:\n{$directFitSelect->__toString()}");
+        $logger->log("Request vars:\n".print_r(Mage::app()->getRequest()->getParams(), true));
         return $this;
     }
 

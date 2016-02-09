@@ -24,8 +24,6 @@
                     <config>
                         <id>harnesses</id>
                         <apply_to_direct_fit>true</apply_to_direct_fit>
-                        <!--<resource_model>cartographee/buyersguide_layer_filter_chain_link_completekits_harness</resource_model>-->
-                        <!--<restrict>MINIH1-STG3-R, MINID2S-STG3-R, FXR-STG3-R, MATCHBOX-STG3-R</restrict>-->
                         <options>
                             <all>
                                 <title>All Function Types</title>
@@ -47,46 +45,6 @@
                 </action>
             </block>
             <block type="cartographee/buyersguide_layer_filter_step_container" name="buyersguide_steps" as="buyersguide_steps" template="cartographee/buyersguide/step/Container.phtml">
-                <!--<block type="cartographee/buyersguide_layer_filter_step_completekits_projector_size" name="step_1" as="step_1" template="cartographee/buyersguide/step/Diagram.phtml">-->
-                    <!--<action method="setQ"><q>1</q></action>-->
-                    <!--<action method="setStepConfig">-->
-                        <!--<config>-->
-                            <!--<display_name>Projector Size</display_name>-->
-                            <!--<apply_to_direct_fit>true</apply_to_direct_fit>-->
-                            <!--<step_question>What is the approximate height &amp; depth of your headlight reflector?</step_question>-->
-                            <!--<step_image>-->
-                                <!--<url>images/productcategory/projectors-q1.svg</url>-->
-                                <!--<alt>HID Projectors Diagram</alt>-->
-                            <!--</step_image>-->
-                            <!--<options>-->
-                                <!--<tiny>-->
-                                    <!--<title>Tiny</title>-->
-                                    <!--<desc>Height: 55-75mm-->
-                                        <!--Depth: 106-137mm</desc>-->
-                                    <!--<action>step:2[MATCHBOX-R]</action>-->
-                                <!--</tiny>-->
-                                <!--<small>-->
-                                    <!--<title>Small</title>-->
-                                    <!--<desc>Height: 75-80mm-->
-                                        <!--Depth: 136-138mm</desc>-->
-                                    <!--<action>step:2[MATCHBOX-R, MH16.0-R]</action>-->
-                                <!--</small>-->
-                                <!--<medium>-->
-                                    <!--<title>Medium</title>-->
-                                    <!--<desc>Height: 80-95mm-->
-                                        <!--Depth: 138-149mm</desc>-->
-                                    <!--<action>step:2[MH16.0-R, MD2S3.0-R]</action>-->
-                                <!--</medium>-->
-                                <!--<large>-->
-                                    <!--<title>Large</title>-->
-                                    <!--<desc>Height: 95mm +-->
-                                        <!--Depth: 149mm +</desc>-->
-                                    <!--<action>step:2[MD2S3.0-R, FXR3.0-R]</action>-->
-                                <!--</large>-->
-                            <!--</options>-->
-                        <!--</config>-->
-                    <!--</action>-->
-                <!--</block>-->
                 <block type="cartographee/buyersguide_layer_filter_step_generic" name="step_1" as="step_1" template="cartographee/buyersguide/step/Diagram.phtml">
                     <action method="setQ"><q>1</q></action>
                     <action method="setStepConfig">
@@ -127,67 +85,6 @@
                         </config>
                     </action>
                 </block>
-                <!--<block type="cartographee/buyersguide_layer_filter_step_completekits_projector_performance" name="step_2" as="step_2" template="cartographee/buyersguide/step/Performance.phtml">-->
-                    <!--<action method="setQ"><q>2</q></action>-->
-                    <!--<action method="setStepConfig">-->
-                        <!--<config>-->
-                            <!--<display_name>Performance/Install Balance</display_name>-->
-                            <!--<step_question>What are your performance vs ease-of-install requirements?</step_question>-->
-                            <!--<apply_to_direct_fit>true</apply_to_direct_fit>-->
-                            <!--<performance_aspects>-->
-                                <!--<output>Light Output Performance</output>-->
-                                <!--<sharp>Cutoff Sharpness</sharp>-->
-                                <!--<install>Install Difficulty</install>-->
-                            <!--</performance_aspects>-->
-                            <!--<options>-->
-                                <!--<MATCHBOX>-->
-                                    <!--<title>Matchbox</title>-->
-                                    <!--<action>step:5; remove_preselect:hid_projectors_size;</action> &lt;!&ndash; Need to set up group in step 4, as this is a _SKIP &ndash;&gt;-->
-                                    <!--<aspects>-->
-                                        <!--<output>4</output>-->
-                                        <!--<sharp>6</sharp>-->
-                                        <!--<install>3</install>-->
-                                    <!--</aspects>-->
-                                <!--</MATCHBOX>-->
-                                <!--<MH1>-->
-                                    <!--<title>Mini H1</title>-->
-                                    <!--<action>step:3[MH16.0-R]; remove_preselect:hid_projectors_size;</action>-->
-                                    <!--<aspects>-->
-                                        <!--<output>7</output>-->
-                                        <!--<sharp>8</sharp>-->
-                                        <!--<install>5</install>-->
-                                    <!--</aspects>-->
-                                <!--</MH1>-->
-                                <!--<MD2S>-->
-                                    <!--<title>Mini D2S</title>-->
-                                    <!--<action>step:3[MD2S3.0-R]; remove_preselect:hid_projectors_size;</action>-->
-                                    <!--<aspects>-->
-                                        <!--<output>8</output>-->
-                                        <!--<sharp>8</sharp>-->
-                                        <!--<install>6</install>-->
-                                    <!--</aspects>-->
-                                <!--</MD2S>-->
-                                <!--<FXR>-->
-                                    <!--<title>FXR</title>-->
-                                    <!--<action>step:3[FXR3.0-R]; remove_preselect:hid_projectors_size;</action>-->
-                                    <!--<aspects>-->
-                                        <!--<output>9</output>-->
-                                        <!--<sharp>9</sharp>-->
-                                        <!--<install>9</install>-->
-                                    <!--</aspects>-->
-                                <!--</FXR>-->
-                                <!--<stock>-->
-                                    <!--<title>Baseline (Stock)</title>-->
-                                    <!--<active>0</active>-->
-                                    <!--<aspects>-->
-                                        <!--<output>4</output>-->
-                                        <!--<sharp>2</sharp>-->
-                                    <!--</aspects>-->
-                                <!--</stock>-->
-                            <!--</options>-->
-                        <!--</config>-->
-                    <!--</action>-->
-                <!--</block>-->
                 <block type="cartographee/buyersguide_layer_filter_step_generic" name="step_2" as="step_2" template="cartographee/buyersguide/step/Performance.phtml">
                     <action method="setQ"><q>2</q></action>
                     <action method="setStepConfig">
@@ -249,52 +146,6 @@
                         </config>
                     </action>
                 </block>
-                <!--<block type="cartographee/buyersguide_layer_filter_step_completekits_projector_orientation" name="step_3" as="step_3" template="cartographee/buyersguide/step/Binary.phtml">-->
-                    <!--<action method="setQ"><q>3</q></action>-->
-                    <!--<action method="setStepConfig">-->
-                        <!--<config>-->
-                            <!--<display_name>Pattern</display_name>-->
-                            <!--<step_question>What beam pattern do you need?</step_question>-->
-                            <!--<apply_to_direct_fit>true</apply_to_direct_fit>-->
-                            <!--<binary>-->
-                                <!--<lhd>-->
-                                    <!--<title>Left Hand Drive</title>-->
-                                    <!--<subtitle>(LHD)</subtitle>-->
-                                    <!--<desc>Oncoming traffic drives on the left side of you.</desc>-->
-                                    <!--<ps>United States</ps>-->
-                                    <!--<info_template>cartographee/buyersguide/info/LHD.phtml</info_template>-->
-                                <!--</lhd>-->
-                                <!--<rhd>-->
-                                    <!--<title>Right Hand Drive</title>-->
-                                    <!--<subtitle>(RHD)</subtitle>-->
-                                    <!--<desc>Oncoming traffic drives on the right side of you.</desc>-->
-                                    <!--<ps>UK, Australia, India, Japan</ps>-->
-                                    <!--<info_template>cartographee/buyersguide/info/RHD.phtml</info_template>-->
-                                <!--</rhd>-->
-                            <!--</binary>-->
-                            <!--<options>-->
-                                <!--<MH1>-->
-                                    <!--<binary>-->
-                                        <!--<lhd><action>step:4/minih1</action></lhd>-->
-                                        <!--<rhd><action>step:4/minih1</action></rhd>-->
-                                    <!--</binary>-->
-                                <!--</MH1>-->
-                                <!--<MD2S>-->
-                                    <!--<binary>-->
-                                        <!--<lhd><action>step:4/minid2so</action></lhd>-->
-                                        <!--<rhd><action>step:4/minid2so</action></rhd>-->
-                                    <!--</binary>-->
-                                <!--</MD2S>-->
-                                <!--<FXR>-->
-                                    <!--<binary>-->
-                                        <!--<lhd><action>step:4/fxr30</action></lhd>-->
-                                        <!--<rhd><action>step:4/fxr30</action></rhd>-->
-                                    <!--</binary>-->
-                                <!--</FXR>-->
-                            <!--</options>-->
-                        <!--</config>-->
-                    <!--</action>-->
-                <!--</block>-->
                 <block type="cartographee/buyersguide_layer_filter_step_generic" name="step_3" as="step_3" template="cartographee/buyersguide/step/Binary.phtml">
                     <action method="setQ"><q>3</q></action>
                     <action method="setStepConfig">
