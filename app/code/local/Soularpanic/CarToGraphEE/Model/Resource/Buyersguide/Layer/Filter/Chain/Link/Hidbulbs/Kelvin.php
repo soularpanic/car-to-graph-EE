@@ -43,28 +43,28 @@ class Soularpanic_CarToGraphEE_Model_Resource_Buyersguide_Layer_Filter_Chain_Lin
 
                 if ($crossRefSqlValue) {
                     $subselect = Mage::getSingleton('core/resource')->getConnection('core_read')->select();
-                    $x = 'x';
-                    $y = 'y';
-                    $z = 'z';
+                    $subselectLinkAlias = 'subselect_link';
+                    $subselectProductAlias = 'subselect_product';
+                    $subselectAttributeSetAlias = 'subselect_attribute_set';
                     $subselect
-                        ->from([$x => $this->getTable('cartographee/linkcarproduct')],
+                        ->from([$subselectLinkAlias => $this->getTable('cartographee/linkcarproduct')],
                             [ 'car_id' ])
-                        ->join([$y => $catalogProductTable],
-                            "$x.product_id = $y.entity_id",
-                            [ 'sku' ])
-                        ->join([$z => $this->getTable('eav/attribute_set')],
-                            "$y.attribute_set_id = $z.attribute_set_id",
+                        ->join([$subselectProductAlias => $catalogProductTable],
+                            "$subselectLinkAlias.product_id = $subselectProductAlias.entity_id",
+                            [ 'entity_id' ])
+                        ->join([$subselectAttributeSetAlias => $this->getTable('eav/attribute_set')],
+                            "$subselectProductAlias.attribute_set_id = $subselectAttributeSetAlias.attribute_set_id",
                             [])
-                        ->where("$z.attribute_set_name = '$_dfBundleTarget'")
-                        ->where("$x.type = '$crossRefSqlValue'");
+                        ->where("$subselectAttributeSetAlias.attribute_set_name = '$_dfBundleTarget'")
+                        ->where("$subselectLinkAlias.type = '$crossRefSqlValue'");
                     $logger->log("\n\nSubselect SQL:\n".$subselect->__toString());
 
-                    $foo = "foo";
+                    $subselectAlias = "subselect";
                     $directFitSelect
-                        ->joinLeft([$foo => $subselect],
-                            "$foo.car_id = car.entity_id",
+                        ->joinLeft([$subselectAlias => $subselect],
+                            "$subselectAlias.car_id = car.entity_id",
                             [])
-                        ->where("if($foo.sku is not null, $f.sku in ($foo.sku), true)");
+                        ->where("if($subselectAlias.entity_id is not null, $f.entity_id in ($subselectAlias.entity_id), true)");
                 }
             }
 

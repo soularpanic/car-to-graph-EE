@@ -16,10 +16,10 @@ class Soularpanic_CarToGraphEE_Model_Resource_Buyersguide_Layer_Filter_Car
 
     public function applyFilterToCollection($filter, $value) {
         $logger = Mage::helper('cartographee');
-        Mage::log('applying car filter in resource!');
+        $logger->log('applying car filter in resource!');
         $collection = $filter->getLayer()->getProductCollection();
         $dfBundleTargets = $this->getDirectFitBundleTargets();
-        Mage::log('resource direct fit bundle targets: '.print_r($dfBundleTargets, true));
+        $logger->log('resource direct fit bundle targets: '.print_r($dfBundleTargets, true));
         $helper = Mage::helper('cartographee/buyersguide_action');
         if ($value) {
             $collection->getSelect()
@@ -43,8 +43,6 @@ class Soularpanic_CarToGraphEE_Model_Resource_Buyersguide_Layer_Filter_Car
                 ->group('e.entity_id');
             foreach ($dfBundleTargets as $_dfBundleTarget) {
                 $f = $helper->toDirectFitTableAlias($_dfBundleTarget);
-//                $dfBundleTarget = strtolower(str_replace(' ', '_', $_dfBundleTarget));
-//                $f = "f_$dfBundleTarget";
 
                 $sqlString = "(select
                     f.entity_id
@@ -63,8 +61,8 @@ class Soularpanic_CarToGraphEE_Model_Resource_Buyersguide_Layer_Filter_Car
                 $directFitSelect
                     ->joinLeft([$f => new Zend_Db_Expr($sqlString)],
                         "$f.entity_id = package_options.product_id",
-                        [$preselectAlias => "GROUP_CONCAT(DISTINCT $f.sku SEPARATOR ',')"])
-                    ->orWhere("$f.sku is not null")
+                        [$preselectAlias => "GROUP_CONCAT(DISTINCT $f.entity_id SEPARATOR ',')"])
+                    ->where("$f.sku is not null")
                     ->having("$preselectAlias is not null");
 
             }
@@ -79,18 +77,18 @@ class Soularpanic_CarToGraphEE_Model_Resource_Buyersguide_Layer_Filter_Car
                     [])
                 ->joinLeft(['g' => $this->getTable('catalog/product')],
                     "g.entity_id = {$linkAlias}.preselect_ids",
-                    ['preselect' => "g.sku"])
+                    ['preselect' => "g.entity_id"])
                 ->group('e.entity_id');
         }
-        Mage::log("DF SQL:\n{$directFitSelect->__toString()}");
+        $logger->log("DF SQL:\n{$directFitSelect->__toString()}");
 
         $directFits = $collection->count();
-        Mage::log("Direct fits found: [{$directFits}]");
+        $logger->log("Direct fits found: [{$directFits}]");
         $collection->clear();
 
-        Mage::log("filter? ".get_class($filter));
+        $logger->log("filter? ".get_class($filter));
         $chain = $filter->getChain();
-        Mage::log("chain? ".get_class($chain));
+        $logger->log("chain? ".get_class($chain));
         $state = $filter->getChainState();
         $state['has_direct_fit'] = $directFits;// > 0 ? true : false;
         if (!isset($state['action'])) {
@@ -98,7 +96,7 @@ class Soularpanic_CarToGraphEE_Model_Resource_Buyersguide_Layer_Filter_Car
         }
 
         if ($directFits <= 0) {
-            Mage::log("Restoring original select to collection");
+            $logger->log("Restoring original select to collection");
 
             $collection->setSelect($originalSelect);
         }
@@ -107,7 +105,7 @@ class Soularpanic_CarToGraphEE_Model_Resource_Buyersguide_Layer_Filter_Car
         }
 
 
-        Mage::log("in car resource, chain state: [".print_r($state, true)."]");
+        $logger->log("in car resource, chain state: [".print_r($state, true)."]");
         $filter->setChainState($state);
 
         return $this;

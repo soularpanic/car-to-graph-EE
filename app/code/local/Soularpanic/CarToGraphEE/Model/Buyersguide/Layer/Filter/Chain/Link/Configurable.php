@@ -1,7 +1,6 @@
 <?php
 class Soularpanic_CarToGraphEE_Model_Buyersguide_Layer_Filter_Chain_Link_Configurable
     extends Soularpanic_CarToGraphEE_Model_Buyersguide_Layer_Filter_Chain_Link_Abstract {
-    //extends Mage_Catalog_Model_Layer_Filter_Abstract {
 
     protected function _chainApply(Zend_Controller_Request_Abstract $request, $filterBlock) {
         $logger = Mage::helper('cartographee');
@@ -33,6 +32,10 @@ class Soularpanic_CarToGraphEE_Model_Buyersguide_Layer_Filter_Chain_Link_Configu
             $parts = explode('/', $action);
             if (count($parts) > 1) {
                 $prevGroup = $parts[1];
+                $commandEndPos = strpos($prevGroup, ';');
+                if ($commandEndPos !== false) {
+                    $prevGroup = substr($prevGroup, 0, $commandEndPos);
+                }
             }
         }
         $logger->log("previous group was <$prevGroup>");
@@ -40,7 +43,6 @@ class Soularpanic_CarToGraphEE_Model_Buyersguide_Layer_Filter_Chain_Link_Configu
 
         if ($value) {
             foreach ($this->getOptions() as $option) {
-//                $logger->log("checking this option:\n".print_r($option, true));
                 if ($option->getValue() === $value) {
                     if ($prevGroup) {
                         if ($prevGroup === $option->getGroupId()) {
@@ -52,7 +54,6 @@ class Soularpanic_CarToGraphEE_Model_Buyersguide_Layer_Filter_Chain_Link_Configu
                         $selectedOption = $option;
                         break;
                     }
-                    //$selectedAction = str_replace('~', $option->getId(), $selectedAction);
                 }
             }
             if ($value === '_SKIP' && !isset($selectedOption)) {

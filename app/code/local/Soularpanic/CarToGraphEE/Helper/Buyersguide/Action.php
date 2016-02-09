@@ -39,6 +39,15 @@ class Soularpanic_CarToGraphEE_Helper_Buyersguide_Action
 //                return $this->_applySqlToCollection($filter, $value, true);
                 $toReturn &= $this->_applySqlToCollection($filter, $value, "step:directfit");
             }
+            elseif (strpos($action, 'preselect_id') === 0) {
+                $toReturn &= $this->_applyPreselectIdToCollection($filter, $action, $value);
+            }
+            elseif ($action == 'remove_preselect') {
+                $toReturn &= $this->_applyRemovePreselectToCollection($filter, $value);
+            }
+            elseif (strpos($action, 'set') === 0) {
+                $toReturn &= $this->_applySetToRequest($action, $value);
+            }
             elseif (strpos($action, '(') === 0) {
                 $toReturn &= $this->_applyComplex($filter, $action);
             }
@@ -201,10 +210,10 @@ class Soularpanic_CarToGraphEE_Helper_Buyersguide_Action
          * Can only use preselects once w/o table naming conflict; YAGNI
          */
         if ($sqlNeedsPreselect) {
-        $select
-            ->joinLeft(['preselects' => new Zend_Db_Expr($preselectStmt)],
-                "e.entity_id = preselects.product_id",
-                ['preselect']);
+            $select
+                ->joinLeft(['preselects' => new Zend_Db_Expr($preselectStmt)],
+                    "e.entity_id = preselects.product_id",
+                    ['preselect']);
         }
         $select->where($idInStmt);
 
@@ -265,4 +274,58 @@ class Soularpanic_CarToGraphEE_Helper_Buyersguide_Action
         }
         return true;
     }
+
+    protected function _applyPreselectIdToCollection($filter, $action, $value) {
+
+        $this->log("Altering SQL for preselect...");
+
+        $dfBundleTarget = substr($action, strlen("preselect_id_"));
+        $f = "f_$dfBundleTarget";
+        $collection = $filter->getLayer()->getProductCollection();
+        $directFitSelect = $collection->getSelect();
+
+        //$originalSelect = clone $directFitSelect;
+        $fitIds = "('".implode("','", array_map('trim', explode(',', $value)))."')";
+        $columnAlias = "preselect_$dfBundleTarget";
+        $directFitSelect
+            ->joinLeft([$f => $collection->getResource()->getTable('catalog/product_flat').'_'.Mage::app()->getStore()->getStoreId()],
+                "$f.entity_id = package_options.product_id and $f.entity_id in $fitIds",
+                [$columnAlias => "GROUP_CONCAT(DISTINCT $f.entity_id SEPARATOR ',')"])
+            ->orWhere("$f.sku is not null")
+            ->having("$columnAlias is not null");
+
+        $this->log("Preselect SQL:\n{$directFitSelect->__toString()}");
+        return true;
+    }
+
+    protected function _applyRemovePreselectToCollection($filter, $value) {
+        $preselectKey = "preselect_$value";
+
+        $select = $filter->getLayer()->getProductCollection()->getSelect();
+        $columns = $select->getPart('columns');
+        $having = $select->getPart('having');
+
+        $select->reset('columns');
+        foreach ($columns as $k => $v) {
+            if ($v[2] != $preselectKey) {
+                $select->columns([$v[2] => $v[1]], $v[0]);
+            }
+        }
+
+        $select->reset('having');
+        foreach ($having as $k => $v) {
+            if (strpos($v, $preselectKey) === false) {
+                $select->having($v);
+            }
+        }
+
+        return true;
+    }
+
+    protected function _applySetToRequest($action, $value) {
+        $key = substr($action, strlen('set_'));
+        Mage::app()->getRequest()->setParam($key, $value);
+        return true;
+    }
+
 }
