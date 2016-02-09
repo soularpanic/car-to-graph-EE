@@ -10,15 +10,15 @@ class Soularpanic_CarToGraphEE_Model_Catalog_Product_Url
 
         $preselect = null;
         foreach ($product->getData() as $k => $v) {
-//            Mage::log("generating url ($k/$v)", null, 'trs_guide.log');
+            /*
+             * Done this way because there may be multiple data keys that start with 'preselect', e.g. bulb kelvin preselects
+             */
             if (strpos($k, 'preselect') === 0) {
-                $preselect = $preselect ? implode(',', [$preselect, $v]) : $v;
+                $newPreselects = implode(',', array_map('trim', explode(',', $v)));
+                $preselect = $preselect ? implode(',', [$preselect, $newPreselects]) : $newPreselects;
+                $params['_query']['preselect'] = $preselect;
+                $params['_query']['carDisplay'] = $product->getData('buyers_guide_car_display');
             }
-        }
-
-        if ($preselect) {
-            $params['_query']['preselect'] = $preselect;
-            $params['_query']['carDisplay'] = $product->getData('buyers_guide_car_display');
         }
 
         return parent::getUrl($product, $params);

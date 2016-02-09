@@ -1,6 +1,6 @@
 <?php
 class Soularpanic_CarToGraphEE_Helper_Excel
-    extends Mage_Core_Helper_Abstract {
+    extends Soularpanic_CarToGraphEE_Helper_Data {
 
     const UPLOAD_ELEMENT_NAME = 'excelUpload';
 
@@ -8,12 +8,6 @@ class Soularpanic_CarToGraphEE_Helper_Excel
         require_once(Mage::getBaseDir('lib').'/PHPExcel/PHPExcel.php');
 
         PHPExcel_Settings::setCacheStorageMethod(PHPExcel_CachedObjectStorageFactory::cache_to_sqlite3);
-    }
-
-
-    public function log($message) {
-        Mage::log($message, null, 'trs_guide.log');
-        return $this;
     }
 
 

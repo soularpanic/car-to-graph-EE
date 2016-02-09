@@ -7,7 +7,7 @@ class Soularpanic_CarToGraphEE_Block_Buyersguide_Layer_Filter_Step_Container
 
     public function _construct() {
         parent::_construct();
-        Mage::log("Constructing step container", null, 'trs_guide.log');
+        Mage::helper('cartographee')->log("Constructing step container");
         $this->_steps = [];
         $this->_filterModelName = 'cartographee/buyersguide_layer_filter_chain';
     }
@@ -20,26 +20,23 @@ class Soularpanic_CarToGraphEE_Block_Buyersguide_Layer_Filter_Step_Container
 
 
     public function getSteps() {
-        Mage::log("Getting steps....", null, 'trs_guide.log');
+        $logger = Mage::helper('cartographee');
+        $logger->log("Getting steps....");
         if (!$this->_steps) {
             $steps = [];
             $children = $this->getChild();
             foreach ($children as $child) {
                 $childName = $child->getNameInLayout();
-                Mage::log("Processing [{$childName}]...", null, 'trs_guide.log');
+                $logger->log("Processing [{$childName}]...");
 
                 $matches = [];
                 $matched = preg_match('/^step_(\d+)$/', $childName, $matches);
                 if ($matched) {
                     $stepNumber = $matches[1];
-                    Mage::log("Adding [{$childName}] to step list at position [{$stepNumber}]", null, 'trs_guide.log');
+                    $logger->log("Adding [{$childName}] to step list at position [{$stepNumber}]");
                     $steps[$stepNumber] = $child;
                 }
             }
-//
-//            if (count($steps) === 0) {
-//                $steps[] =
-//            }
 
             $this->_steps = $steps;
         }

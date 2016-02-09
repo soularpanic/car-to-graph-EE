@@ -10,7 +10,7 @@ class Soularpanic_CarToGraphEE_Model_Resource_Buyersguide_Layer_Filter_Chain_Lin
             $whitelistSql = "'".implode("', '", array_map('trim', explode(',', $whitelistStr)))."'";
             $collection = $filter->getLayer()->getProductCollection();
             $collection->getSelect()
-                ->where("e.sku IN ($whitelistSql)");
+                ->where("e.entity_id IN ($whitelistSql)");
         }
 
         if (!$action) {

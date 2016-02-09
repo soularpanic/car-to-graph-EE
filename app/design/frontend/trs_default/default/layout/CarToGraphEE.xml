@@ -19,13 +19,11 @@
             <block type="cartographee/buyersguide_layer_filter_step_generic" name="buyersguide_toolbar_supplemental_postcar" as="buyersguide_toolbar_supplemental_postcar" template="cartographee/buyersguide/toolbar/Supplemental.phtml">
                 <action method="setModel"><model>cartographee/buyersguide_layer_filter_chain_link_completekits_harness</model></action>
                 <action method="setDirectFitBundleTarget"><target>Harnesses</target></action>
-                <action method="setSkuRestraint"><restraint>MINIH1-STG3-R, MINID2S-STG3-R, FXR-STG3-R, MATCHBOX-STG3-R</restraint></action>
+                <action method="setSkuRestraint"><restraint>47831, 47832, 47826, 48299</restraint></action>
                 <action method="setStepConfig">
                     <config>
                         <id>harnesses</id>
                         <apply_to_direct_fit>true</apply_to_direct_fit>
-                        <resource_model>cartographee/buyersguide_layer_filter_chain_link_completekits_harness</resource_model>
-                        <restrict>MINIH1-STG3-R, MINID2S-STG3-R, FXR-STG3-R, MATCHBOX-STG3-R</restrict>
                         <options>
                             <all>
                                 <title>All Function Types</title>
@@ -47,7 +45,7 @@
                 </action>
             </block>
             <block type="cartographee/buyersguide_layer_filter_step_container" name="buyersguide_steps" as="buyersguide_steps" template="cartographee/buyersguide/step/Container.phtml">
-                <block type="cartographee/buyersguide_layer_filter_step_completekits_projector_size" name="step_1" as="step_1" template="cartographee/buyersguide/step/Diagram.phtml">
+                <block type="cartographee/buyersguide_layer_filter_step_generic" name="step_1" as="step_1" template="cartographee/buyersguide/step/Diagram.phtml">
                     <action method="setQ"><q>1</q></action>
                     <action method="setStepConfig">
                         <config>
@@ -63,31 +61,31 @@
                                     <title>Tiny</title>
                                     <desc>Height: 55-75mm
                                         Depth: 106-137mm</desc>
-                                    <action>step:2[MATCHBOX-R]</action>
+                                    <action>step:2[MATCHBOX]; preselect_id_hid_projectors_size:47375; set_step_5:wattage_watt35</action>
                                 </tiny>
                                 <small>
                                     <title>Small</title>
                                     <desc>Height: 75-80mm
                                         Depth: 136-138mm</desc>
-                                    <action>step:2[MATCHBOX-R, MH16.0-R]</action>
+                                    <action>step:2[MATCHBOX, MH1]; preselect_id_hid_projectors_size:47375, 50325, 50326; set_step_5:wattage_watt35</action>
                                 </small>
                                 <medium>
                                     <title>Medium</title>
                                     <desc>Height: 80-95mm
                                         Depth: 138-149mm</desc>
-                                    <action>step:2[MH16.0-R, MD2S3.0-R]</action>
+                                    <action>step:2[MH1, MD2S]; preselect_id_hid_projectors_size:50325, 50326, 47735, 48286, 47736, 48287</action>
                                 </medium>
                                 <large>
                                     <title>Large</title>
                                     <desc>Height: 95mm +
                                         Depth: 149mm +</desc>
-                                    <action>step:2[MD2S3.0-R, FXR3.0-R]</action>
+                                    <action>step:2[MD2S, FXR]; preselect_id_hid_projectors_size:47735, 48286, 47736, 48287, 47822, 47825, 47823, 47824</action>
                                 </large>
                             </options>
                         </config>
                     </action>
                 </block>
-                <block type="cartographee/buyersguide_layer_filter_step_completekits_projector_performance" name="step_2" as="step_2" template="cartographee/buyersguide/step/Performance.phtml">
+                <block type="cartographee/buyersguide_layer_filter_step_generic" name="step_2" as="step_2" template="cartographee/buyersguide/step/Performance.phtml">
                     <action method="setQ"><q>2</q></action>
                     <action method="setStepConfig">
                         <config>
@@ -100,42 +98,42 @@
                                 <install>Install Difficulty</install>
                             </performance_aspects>
                             <options>
-                                <MATCHBOX-R>
+                                <MATCHBOX>
                                     <title>Matchbox</title>
-                                    <action>step:5</action> <!-- Need to set up group in step 4, as this is a _SKIP -->
+                                    <action>step:5; remove_preselect:hid_projectors_size; preselect_id_hid_projectors_performance:47375; set_step_3:_SKIP; preselect_id_shroud:49839; set_step_4:_SKIP;</action> <!-- Need to set up group in step 4, as this is a _SKIP -->
                                     <aspects>
                                         <output>4</output>
                                         <sharp>6</sharp>
                                         <install>3</install>
                                     </aspects>
-                                </MATCHBOX-R>
-                                <MH16.0-R>
+                                </MATCHBOX>
+                                <MH1>
                                     <title>Mini H1</title>
-                                    <action>step:3[MH16.0-R]</action>
+                                    <action>step:3[MH1]; remove_preselect:hid_projectors_size; preselect_id_hid_projectors_performance:50325, 50326</action>
                                     <aspects>
                                         <output>7</output>
                                         <sharp>8</sharp>
                                         <install>5</install>
                                     </aspects>
-                                </MH16.0-R>
-                                <MD2S3.0-R>
+                                </MH1>
+                                <MD2S>
                                     <title>Mini D2S</title>
-                                    <action>step:3[MD2S3.0-R]</action>
+                                    <action>step:3[MD2S]; remove_preselect:hid_projectors_size; preselect_id_hid_projectors_performance:47735, 48286, 47736, 48287</action>
                                     <aspects>
                                         <output>8</output>
                                         <sharp>8</sharp>
                                         <install>6</install>
                                     </aspects>
-                                </MD2S3.0-R>
-                                <FXR3.0-R>
+                                </MD2S>
+                                <FXR>
                                     <title>FXR</title>
-                                    <action>step:3[FXR3.0-R]</action>
+                                    <action>step:3[FXR]; remove_preselect:hid_projectors_size; preselect_id_hid_projectors_performance:47822, 47825, 47823, 47824</action>
                                     <aspects>
                                         <output>9</output>
                                         <sharp>9</sharp>
                                         <install>9</install>
                                     </aspects>
-                                </FXR3.0-R>
+                                </FXR>
                                 <stock>
                                     <title>Baseline (Stock)</title>
                                     <active>0</active>
@@ -148,7 +146,7 @@
                         </config>
                     </action>
                 </block>
-                <block type="cartographee/buyersguide_layer_filter_step_completekits_projector_orientation" name="step_3" as="step_3" template="cartographee/buyersguide/step/Binary.phtml">
+                <block type="cartographee/buyersguide_layer_filter_step_generic" name="step_3" as="step_3" template="cartographee/buyersguide/step/Binary.phtml">
                     <action method="setQ"><q>3</q></action>
                     <action method="setStepConfig">
                         <config>
@@ -172,29 +170,29 @@
                                 </rhd>
                             </binary>
                             <options>
-                                <MH16.0-R>
+                                <MH1>
                                     <binary>
-                                        <lhd><action>step:4/minih1</action></lhd>
-                                        <rhd><action>step:4/minih1</action></rhd>
+                                        <lhd><action>step:4/minih1; remove_preselect:hid_projectors_performance; preselect_id_hid_projectors_orientation:50325</action></lhd>
+                                        <rhd><action>step:4/minih1; remove_preselect:hid_projectors_performance; preselect_id_hid_projectors_orientation:50326</action></rhd>
                                     </binary>
-                                </MH16.0-R>
-                                <MD2S3.0-R>
+                                </MH1>
+                                <MD2S>
                                     <binary>
-                                        <lhd><action>step:4/minid2so</action></lhd>
-                                        <rhd><action>step:4/minid2so</action></rhd>
+                                        <lhd><action>step:4/minid2so; remove_preselect:hid_projectors_performance; preselect_id_hid_projectors_orientation:47735, 48286</action></lhd>
+                                        <rhd><action>step:4/minid2so; remove_preselect:hid_projectors_performance; preselect_id_hid_projectors_orientation:47736, 48287</action></rhd>
                                     </binary>
-                                </MD2S3.0-R>
-                                <FXR3.0-R>
+                                </MD2S>
+                                <FXR>
                                     <binary>
-                                        <lhd><action>step:4/fxr30</action></lhd>
-                                        <rhd><action>step:4/fxr30</action></rhd>
+                                        <lhd><action>step:4/fxr30; remove_preselect:hid_projectors_performance; preselect_id_hid_projectors_orientation:47822, 47825</action></lhd>
+                                        <rhd><action>step:4/fxr30; remove_preselect:hid_projectors_performance; preselect_id_hid_projectors_orientation:47823, 47824</action></rhd>
                                     </binary>
-                                </FXR3.0-R>
+                                </FXR>
                             </options>
                         </config>
                     </action>
                 </block>
-                <block type="cartographee/buyersguide_layer_filter_step_completekits_shroud" name="step_4" as="step_4" template="cartographee/buyersguide/step/Ribbon.phtml">
+                <block type="cartographee/buyersguide_layer_filter_step_generic" name="step_4" as="step_4" template="cartographee/buyersguide/step/Ribbon.phtml">
                     <action method="setQ"><q>4</q></action>
                     <action method="setStepConfig">
                         <config>
@@ -211,62 +209,62 @@
                                     <title>Round</title>
                                     <image><url>images/productcategory/shrouds-round.svg</url></image>
                                     <action>
-                                        <minih1>step:5</minih1>
-                                        <minid2so>step:5</minid2so>
-                                        <minid2sx>step:5</minid2sx>
-                                        <fxr30>step:5</fxr30>
-                                        <other>step:5</other>
+                                        <minih1>step:5; preselect_id_shroud:47372, 47373, 47691, 47803, 47801, 47806, 47673, 47675, 47671, 47683, 47668, 47677, 47685, 49061, 47666</minih1>
+                                        <minid2so>step:5; preselect_id_shroud:47691, 47803, 47801, 47806, 47673, 47675, 47671, 47683, 47668, 49061, 47666</minid2so>
+                                        <minid2sx>step:5; preselect_id_shroud:48296</minid2sx>
+                                        <fxr30>step:5; preselect_id_shroud:47691, 47803, 47801, 47806, 47673, 47675, 47671, 47668, 49061, 47666</fxr30>
+                                        <other>step:5; preselect_id_shroud:47691, 47803, 47801, 47806, 47673, 47675, 47671, 47668, 49061, 47666</other>
                                     </action>
                                 </round>
                                 <oval>
                                     <title>Oval</title>
                                     <image><url>images/productcategory/shrouds-oval.svg</url></image>
                                     <action>
-                                        <minih1>step:5</minih1>
-                                        <minid2so>step:5</minid2so>
-                                        <minid2sx>step:5</minid2sx>
-                                        <fxr30>step:5</fxr30>
-                                        <other>step:5</other>
+                                        <minih1>step:5; preselect_id_shroud:47687, 47681</minih1>
+                                        <minid2so>step:5; preselect_id_shroud:47687, 47681</minid2so>
+                                        <minid2sx>step:5; preselect_id_shroud:48994, 48295</minid2sx>
+                                        <fxr30>step:5; preselect_id_shroud:47687, 47681</fxr30>
+                                        <other>step:5; preselect_id_shroud:47687, 47681</other>
                                     </action>
                                 </oval>
                                 <flatsided>
                                     <title>Flat-sided</title>
                                     <image><url>images/productcategory/shrouds-flatsided.svg</url></image>
                                     <action>
-                                        <minih1>step:5</minih1>
-                                        <minid2so>step:5</minid2so>
-                                        <minid2sx>step:5</minid2sx>
-                                        <fxr30>step:5</fxr30>
-                                        <other>step:5</other>
+                                        <minih1>step:5; preselect_id_shroud:47689, 47679, 47670</minih1>
+                                        <minid2so>step:5; preselect_id_shroud:47689, 47679, 47670</minid2so>
+                                        <minid2sx>step:5; preselect_id_shroud:48994, 48295</minid2sx>
+                                        <fxr30>step:5; preselect_id_shroud:47689, 47679, 47670</fxr30>
+                                        <other>step:5; preselect_id_shroud:47689, 47679, 47670</other>
                                     </action>
                                 </flatsided>
                                 <big>
                                     <title>Big</title>
                                     <image><url>images/productcategory/shrouds-large.svg</url></image>
                                     <action>
-                                        <minih1>step:5</minih1>
-                                        <minid2so>step:5</minid2so>
-                                        <minid2sx>step:5</minid2sx>
-                                        <fxr30>step:5</fxr30>
-                                        <other>step:5</other>
+                                        <minih1>step:5; preselect_id_shroud:47691, 47803, 47801, 47806, 47673, 47675, 47671, 47668, 47677, 47685, 49061, 47666</minih1>
+                                        <minid2so>step:5; preselect_id_shroud:47691, 47803, 47801, 47806, 47673, 47675, 47668, 49061, 47666, 47671</minid2so>
+                                        <minid2sx>step:5; preselect_id_shroud:49190, 49216, 48296, 48994</minid2sx>
+                                        <fxr30>step:5; preselect_id_shroud:47691, 47803, 47801, 47806, 47673, 47675, 47668, 49061, 47666, 47671</fxr30>
+                                        <other>step:5; preselect_id_shroud:47691, 47803, 47801, 47806, 47673, 47675, 47668, 49061, 47666, 47671</other>
                                     </action>
                                 </big>
                                 <odd>
                                     <title>Compact/Odd</title>
                                     <image><url>images/productcategory/shrouds-small.svg</url></image>
                                     <action>
-                                        <minih1>step:5[watt35]</minih1>
-                                        <minid2so>step:5</minid2so>
-                                        <minid2sx>step:5</minid2sx>
-                                        <fxr30>step:5</fxr30>
-                                        <other>step:5</other>
+                                        <minih1>step:5[watt35]; preselect_id_shroud:47372, 47373</minih1>
+                                        <minid2so>step:5; preselect_id_shroud:47689, 47679, 47670, 47668</minid2so>
+                                        <minid2sx>step:5; preselect_id_shroud:48296, 49190</minid2sx>
+                                        <fxr30>step:5; preselect_id_shroud:47689, 47679, 47670, 47668</fxr30>
+                                        <other>step:5; preselect_id_shroud:48296, 49190</other>
                                     </action>
                                 </odd>
                             </options>
                         </config>
                     </action>
                 </block>
-                <block type="cartographee/buyersguide_layer_filter_step_completekits_ballast" name="step_5" as="step_5" template="cartographee/buyersguide/step/Binary.phtml">
+                <block type="cartographee/buyersguide_layer_filter_step_generic" name="step_5" as="step_5" template="cartographee/buyersguide/step/Binary.phtml">
                     <action method="setQ"><q>5</q></action>
                     <action method="setStepConfig">
                         <config>
@@ -286,10 +284,8 @@
                             <options>
                                 <wattage>
                                     <binary>
-                                        <!--<watt35><action>step:done</action></watt35>-->
-                                        <!--<watt55><action>step:done</action></watt55>-->
-                                        <watt35><action>step:6</action></watt35>
-                                        <watt55><action>step:6</action></watt55>
+                                        <watt35><action>step:6; preselect_id_ballast:49455, 49458, 49457</action></watt35>
+                                        <watt55><action>step:6; preselect_id_ballast:49456, 49458, 49457</action></watt55>
                                     </binary>
                                 </wattage>
                             </options>
@@ -391,10 +387,12 @@
                                 <watt35>
                                     <title>35 Watt Ballast</title>
                                     <info_template>cartographee/buyersguide/info/35WattBallast.phtml</info_template>
+                                    <product_id>49455</product_id>
                                 </watt35>
                                 <watt55>
                                     <title>50 Watt Ballast</title>
                                     <info_template>cartographee/buyersguide/info/55WattBallast.phtml</info_template>
+                                    <product_id>49456</product_id>
                                 </watt55>
                             </binary>
                             <options>
@@ -484,7 +482,7 @@
                                     <image>
                                         <url>images/productcategory/projectors-matchbox.svg</url>
                                     </image>
-                                    <action>sku:MICROGAT-R</action>
+                                    <action>product_id:50230; done</action>
                                 </matchbox>
                                 <miniH1>
                                     <title>Mini H1</title>
@@ -530,54 +528,54 @@
                                     <title>Round</title>
                                     <image><url>images/productcategory/shrouds-round.svg</url></image>
                                     <action>
-                                        <minih1>sku:MiniGat-R, GRAPH-R, APOLLO-R, APOLLO2-R, APOLLO3-R, ORBIT-R, MCR-R, Panamera-R, GTIR-R, BULLET-R, GAT2.0-R, GATLING-R, G37C-R, G37-R</minih1>
-                                        <minid2so>sku:APOLLO-R, APOLLO2-R, APOLLO3-R, ORBIT-R, MCR-R, Panamera-R, GTIR-R, BULLET-R, G37C-R, G37-R</minid2so>
-                                        <minid2sx>sku:Gatling2.0Square-R</minid2sx>
-                                        <fxr30>sku:APOLLO-R, APOLLO2-R, APOLLO3-R, ORBIT-R, MCR-R, Panamera-R, BULLET-R, G37C-R, G37-R</fxr30>
-                                        <other>sku:APOLLO-R, APOLLO2-R, APOLLO3-R, ORBIT-R, MCR-R, Panamera-R, BULLET-R, G37C-R, G37-R</other>
+                                        <minih1>product_id:48605, 48606, 48301, 47809, 47808, 48313, 48311, 48359, 48309, 48303, 48308, 48307, 49063, 48306; done</minih1>
+                                        <minid2so>product_id:48301, 47809, 47808, 48313, 48311, 48359, 48309, 48303, 49063, 48306; done</minid2so>
+                                        <minid2sx>product_id:49071; done</minid2sx>
+                                        <fxr30>product_id:48301, 47809, 47808, 48313, 48311, 48359, 48303, 49063, 48306; done</fxr30>
+                                        <other>product_id:48301, 47809, 47808, 48313, 48311, 48359, 48303, 49063, 48306; done</other>
                                     </action>
                                 </round>
                                 <oval>
                                     <title>Oval</title>
                                     <image><url>images/productcategory/shrouds-oval.svg</url></image>
                                     <action>
-                                        <minih1>sku:E55R-R, OCULAR-R</minih1>
-                                        <minid2so>sku:E55R-R, OCULAR-R</minid2so>
-                                        <minid2sx>sku:Apollo2SQ-R, OcularSquare-R</minid2sx>
-                                        <fxr30>sku:E55R-R, OCULAR-R</fxr30>
-                                        <other>sku:E55R-R, OCULAR-R</other>
+                                        <minih1>product_id:48305, 48312; done</minih1>
+                                        <minid2so>product_id:48305, 48312; done</minid2so>
+                                        <minid2sx>product_id:49064, 49070; done</minid2sx>
+                                        <fxr30>product_id:48305, 48312; done</fxr30>
+                                        <other>product_id:48305, 48312; done</other>
                                     </action>
                                 </oval>
                                 <flatsided>
                                     <title>Flat-sided</title>
                                     <image><url>images/productcategory/shrouds-flatsided.svg</url></image>
                                     <action>
-                                        <minih1>sku:E46R-R, E46EXT-R, IRIS-R</minih1>
-                                        <minid2so>sku:E46R-R, E46EXT-R, IRIS-R</minid2so>
-                                        <minid2sx>sku:Apollo2SQ-R, OcularSquare-R</minid2sx>
-                                        <fxr30>sku:E46R-R, E46EXT-R, IRIS-R</fxr30>
-                                        <other>sku:E46R-R, E46EXT-R, IRIS-R</other>
+                                        <minih1>product_id:48302, 48304, 48310; done</minih1>
+                                        <minid2so>product_id:48302, 48304, 48310; done</minid2so>
+                                        <minid2sx>product_id:49064, 49070; done</minid2sx>
+                                        <fxr30>product_id:48302, 48304, 48310; done</fxr30>
+                                        <other>product_id:48302, 48304, 48310; done</other>
                                     </action>
                                 </flatsided>
                                 <big>
                                     <title>Big</title>
                                     <image><url>images/productcategory/shrouds-large.svg</url></image>
                                     <action>
-                                        <minih1>sku:APOLLO-R, APOLLO2-R, APOLLO3-R, ORBIT-R, MCR-R, Panamera-R, BULLET-R, GAT2.0-R, GATLING-R, G37C-R, G37-R</minih1>
-                                        <minid2so>sku:APOLLO-R, APOLLO2-R, APOLLO3-R, ORBIT-R, MCR-R, BULLET-R, G37C-R, G37-R, Panamera-R</minid2so>
-                                        <minid2sx>sku:PanaSquare-R, Apollo1Square-R, Gatling2.0Square-R, Apollo2SQ-R</minid2sx>
-                                        <fxr30>sku:APOLLO-R, APOLLO2-R, APOLLO3-R, ORBIT-R, MCR-R, BULLET-R, G37C-R, G37-R, Panamera-R</fxr30>
-                                        <other>sku:APOLLO-R, APOLLO2-R, APOLLO3-R, ORBIT-R, MCR-R, BULLET-R, G37C-R, G37-R, Panamera-R</other>
+                                        <minih1>product_id:48301, 47809, 47808, 48313, 48311, 48359, 48303, 48308, 48307, 49063, 48306; done</minih1>
+                                        <minid2so>product_id:48301, 47809, 47808, 48313, 48311, 48303, 49063, 48306, 48359; done</minid2so>
+                                        <minid2sx>product_id:49192, 49073, 49071, 49064; done</minid2sx>
+                                        <fxr30>product_id:48301, 47809, 47808, 48313, 48311, 48303, 49063, 48306, 48359; done</fxr30>
+                                        <other>product_id:48301, 47809, 47808, 48313, 48311, 48303, 49063, 48306, 48359; done</other>
                                     </action>
                                 </big>
                                 <odd>
                                     <title>Compact/Odd</title>
                                     <image><url>images/productcategory/shrouds-small.svg</url></image>
                                     <action>
-                                        <minih1>sku:MiniGat-R, GRAPH-R</minih1>
-                                        <minid2so>sku:E46-R, E46EXT-R, IRIS-R, BULLET-R</minid2so>
-                                        <minid2sx>sku:Gatling2.0Square-R, PanaSquare-R</minid2sx>
-                                        <fxr30>sku:E46-R, E46EXT-R, IRIS-R, BULLET-R</fxr30>
+                                        <minih1>product_id:48605, 48606; done</minih1>
+                                        <minid2so>product_id:48302, 48304, 48310, 48303; done</minid2so>
+                                        <minid2sx>product_id:49071, 49192; done</minid2sx>
+                                        <fxr30>product_id:48302, 48304, 48310, 48303; done</fxr30>
                                         <other>step:contactus</other>
                                     </action>
                                 </odd>
@@ -648,8 +646,8 @@
                                         <url>images/productcategory/bulbs-D2S.svg</url>
                                     </image>
                                     <action>
-                                        <w35>sku:XB35-D2SB-R</w35>
-                                        <w55>sku:XB55-D2SB-R</w55>
+                                        <w35>product_id:49888; done</w35>
+                                        <w55>product_id:49894; done</w55>
                                     </action>
                                 </d2s>
                                 <d2r>
@@ -658,8 +656,8 @@
                                         <url>images/productcategory/bulbs-D2R.svg</url>
                                     </image>
                                     <action>
-                                        <w35>sku:XB35-D2SB-R</w35>
-                                        <w55>sku:XB55-D2SB-R</w55>
+                                        <w35>product_id:49888; done</w35>
+                                        <w55>product_id:49894; done</w55>
                                     </action>
                                 </d2r>
                                 <h1>
@@ -668,8 +666,8 @@
                                         <url>images/productcategory/bulbs-h1.svg</url>
                                     </image>
                                     <action>
-                                        <w35>sku:XB35-AMPB-R</w35>
-                                        <w55>sku:XB55-AMPB-R</w55>
+                                        <w35>product_id:49895; done</w35>
+                                        <w55>product_id:49945; done</w55>
                                     </action>
                                 </h1>
                                 <h3>
@@ -678,8 +676,8 @@
                                         <url>images/productcategory/bulbs-h3.svg</url>
                                     </image>
                                     <action>
-                                        <w35>sku:XB35-AMPB-R</w35>
-                                        <w55>sku:XB55-AMPB-R</w55>
+                                        <w35>product_id:49895; done</w35>
+                                        <w55>product_id:49945; done</w55>
                                     </action>
                                 </h3>
                                 <h4>
@@ -688,8 +686,8 @@
                                         <url>images/productcategory/bulbs-h4.svg</url>
                                     </image>
                                     <action>
-                                        <w35>sku:XB35-AMPB-R</w35>
-                                        <w55>sku:XB55-AMPB-R</w55>
+                                        <w35>product_id:49895; done</w35>
+                                        <w55>product_id:49945; done</w55>
                                     </action>
                                 </h4>
                                 <h7>
@@ -698,8 +696,8 @@
                                         <url>images/productcategory/bulbs-h7.svg</url>
                                     </image>
                                     <action>
-                                        <w35>sku:XB35-AMPB-R</w35>
-                                        <w55>sku:XB55-AMPB-R</w55>
+                                        <w35>product_id:49895; done</w35>
+                                        <w55>product_id:49945; done</w55>
                                     </action>
                                 </h7>
                                 <h8>
@@ -708,8 +706,8 @@
                                         <url>images/productcategory/bulbs-h8.svg</url>
                                     </image>
                                     <action>
-                                        <w35>sku:XB35-AMPB-R</w35>
-                                        <w55>sku:XB55-AMPB-R</w55>
+                                        <w35>product_id:49895; done</w35>
+                                        <w55>product_id:49945; done</w55>
                                     </action>
                                 </h8>
                                 <h9>
@@ -718,8 +716,8 @@
                                         <url>images/productcategory/bulbs-h9.svg</url>
                                     </image>
                                     <action>
-                                        <w35>sku:XB35-AMPB-R</w35>
-                                        <w55>sku:XB55-AMPB-R</w55>
+                                        <w35>product_id:49895; done</w35>
+                                        <w55>product_id:49945; done</w55>
                                     </action>
                                 </h9>
                                 <h10>
@@ -728,8 +726,8 @@
                                         <url>images/productcategory/bulbs-h10.svg</url>
                                     </image>
                                     <action>
-                                        <w35>sku:XB35-AMPB-R</w35>
-                                        <w55>sku:XB55-AMPB-R</w55>
+                                        <w35>product_id:49895; done</w35>
+                                        <w55>product_id:49945; done</w55>
                                     </action>
                                 </h10>
                                 <h11>
@@ -738,8 +736,8 @@
                                         <url>images/productcategory/bulbs-h11.svg</url>
                                     </image>
                                     <action>
-                                        <w35>sku:XB35-AMPB-R</w35>
-                                        <w55>sku:XB55-AMPB-R</w55>
+                                        <w35>product_id:49895; done</w35>
+                                        <w55>product_id:49945; done</w55>
                                     </action>
                                 </h11>
                                 <h13>
@@ -748,8 +746,8 @@
                                         <url>images/productcategory/bulbs-h13.svg</url>
                                     </image>
                                     <action>
-                                        <w35>sku:XB35-AMPB-R</w35>
-                                        <w55>sku:XB55-AMPB-R</w55>
+                                        <w35>product_id:49895; done</w35>
+                                        <w55>product_id:49945; done</w55>
                                     </action>
                                 </h13>
                                 <x880>
@@ -758,8 +756,8 @@
                                         <url>images/productcategory/bulbs-880.svg</url>
                                     </image>
                                     <action>
-                                        <w35>sku:XB35-AMPB-R</w35>
-                                        <w55>sku:XB55-AMPB-R</w55>
+                                        <w35>product_id:49895; done</w35>
+                                        <w55>product_id:49945; done</w55>
                                     </action>
                                 </x880>
                                 <x9005>
@@ -768,8 +766,8 @@
                                         <url>images/productcategory/bulbs-9005.svg</url>
                                     </image>
                                     <action>
-                                        <w35>sku:XB35-AMPB-R</w35>
-                                        <w55>sku:XB55-AMPB-R</w55>
+                                        <w35>product_id:49895; done</w35>
+                                        <w55>product_id:49945; done</w55>
                                     </action>
                                 </x9005>
                                 <x9006>
@@ -778,8 +776,8 @@
                                         <url>images/productcategory/bulbs-9006.svg</url>
                                     </image>
                                     <action>
-                                        <w35>sku:XB35-AMPB-R</w35>
-                                        <w55>sku:XB55-AMPB-R</w55>
+                                        <w35>product_id:49895; done</w35>
+                                        <w55>product_id:49945; done</w55>
                                     </action>
                                 </x9006>
                                 <x9007>
@@ -788,8 +786,8 @@
                                         <url>images/productcategory/bulbs-9007.svg</url>
                                     </image>
                                     <action>
-                                        <w35>sku:XB35-AMPB-R</w35>
-                                        <w55>sku:XB55-AMPB-R</w55>
+                                        <w35>product_id:49895; done</w35>
+                                        <w55>product_id:49945; done</w55>
                                     </action>
                                 </x9007>
                                 <x9012>
@@ -798,8 +796,8 @@
                                         <url>images/productcategory/bulbs-9012.svg</url>
                                     </image>
                                     <action>
-                                        <w35>sku:XB35-AMPB-R</w35>
-                                        <w55>sku:XB55-AMPB-R</w55>
+                                        <w35>product_id:49895; done</w35>
+                                        <w55>product_id:49945; done</w55>
                                     </action>
                                 </x9012>
                                 <d2h>
@@ -808,8 +806,8 @@
                                         <url>images/productcategory/bulbs-D2H.svg</url>
                                     </image>
                                     <action>
-                                        <w35>sku:XB35-AMPB-R</w35>
-                                        <w55>sku:XB55-AMPB-R</w55>
+                                        <w35>product_id:49895; done</w35>
+                                        <w55>product_id:49945; done</w55>
                                     </action>
                                 </d2h>
                                 <h16>
@@ -818,8 +816,8 @@
                                         <url>images/productcategory/bulbs-h16.svg</url>
                                     </image>
                                     <action>
-                                        <w35>sku:XB35-AMPB-R</w35>
-                                        <w55>sku:XB55-AMPB-R</w55>
+                                        <w35>product_id:49895; done</w35>
+                                        <w55>product_id:49945; done</w55>
                                     </action>
                                 </h16>
                             </options>
@@ -1059,19 +1057,16 @@
                 <action method="setStepConfig">
                     <config>
                         <id>projector_function</id>
-                        <!--<apply_to_direct_fit>true</apply_to_direct_fit>-->
                         <options>
                             <all>
                                 <title>All Function Types</title>
-                                <!--<action>step:1</action>-->
                             </all>
                             <headlights>
                                 <title>Headlights</title>
-                                <!--<action>step:1</action>-->
                             </headlights>
                             <foglights>
                                 <title>Fog Lights</title>
-                                <action>sku:MATCHBOX-R</action>
+                                <action>product_id:48635; done</action>
                             </foglights>
                         </options>
                     </config>
@@ -1096,25 +1091,25 @@
                                     <title>Tiny</title>
                                     <desc>Height: 55-75mm
                                         Depth: 106-137mm</desc>
-                                    <action>step:2[MATCHBOX-R]</action>
+                                    <action>step:2[MATCHBOX]; product_id:48635</action>
                                 </tiny>
                                 <small>
                                     <title>Small</title>
                                     <desc>Height: 75-80mm
                                         Depth: 136-138mm</desc>
-                                    <action>step:2[MATCHBOX-R, MH16.0-R]</action>
+                                    <action>step:2[MATCHBOX, MH1]; product_id:48635, 51206</action>
                                 </small>
                                 <medium>
                                     <title>Medium</title>
                                     <desc>Height: 80-95mm
                                         Depth: 138-149mm</desc>
-                                    <action>step:2[MH16.0-R, MD2S3.0-R]</action>
+                                    <action>step:2[MH1, MD2S]; product_id:51206, 48297</action>
                                 </medium>
                                 <large>
                                     <title>Large</title>
                                     <desc>Height: 95mm +
                                         Depth: 149mm +</desc>
-                                    <action>step:2[MD2S3.0-R, FXR3.0-R]</action>
+                                    <action>step:2[MD2S, FXR]; product_id: 48297, 48298</action>
                                 </large>
                             </options>
                         </config>
@@ -1133,42 +1128,42 @@
                                 <install>Install Difficulty</install>
                             </performance_aspects>
                             <options>
-                                <MATCHBOX-R>
+                                <MATCHBOX>
                                     <title>Matchbox</title>
-                                    <action>sku:MATCHBOX-R</action>
+                                    <action>product_id:48635; done</action>
                                     <aspects>
                                         <output>4</output>
                                         <sharp>6</sharp>
                                         <install>3</install>
                                     </aspects>
-                                </MATCHBOX-R>
-                                <MH16.0-R>
+                                </MATCHBOX>
+                                <MH1>
                                     <title>Mini H1</title>
-                                    <action>step:3[MH16.0-R]</action>
+                                    <action>step:3[MH1]; product_id:51206</action>
                                     <aspects>
                                         <output>7</output>
                                         <sharp>8</sharp>
                                         <install>5</install>
                                     </aspects>
-                                </MH16.0-R>
-                                <MD2S3.0-R>
+                                </MH1>
+                                <MD2S>
                                     <title>Mini D2S</title>
-                                    <action>step:3[MD2S3.0-R]</action>
+                                    <action>step:3[MD2S]; product_id:48297</action>
                                     <aspects>
                                         <output>8</output>
                                         <sharp>8</sharp>
                                         <install>6</install>
                                     </aspects>
-                                </MD2S3.0-R>
-                                <FXR3.0-R>
+                                </MD2S>
+                                <FXR>
                                     <title>FXR</title>
-                                    <action>step:3[FXR3.0-R]</action>
+                                    <action>step:3[FXR]; product_id:48298</action>
                                     <aspects>
                                         <output>9</output>
                                         <sharp>9</sharp>
                                         <install>9</install>
                                     </aspects>
-                                </FXR3.0-R>
+                                </FXR>
                                 <stock>
                                     <title>Baseline (Stock)</title>
                                     <active>0</active>
@@ -1204,24 +1199,24 @@
                                 </rhd>
                             </binary>
                             <options>
-                                <MH16.0-R>
+                                <MH1>
                                     <binary>
-                                        <lhd><action>sku:MH16.0-R[MH16-LH]</action></lhd>
-                                        <rhd><action>sku:MH16.0-R[MH16-RH]</action></rhd>
+                                        <lhd><action>product_id:51206[50325]; done</action></lhd>
+                                        <rhd><action>product_id:51206[50326]; done</action></rhd>
                                     </binary>
-                                </MH16.0-R>
-                                <MD2S3.0-R>
+                                </MH1>
+                                <MD2S>
                                     <binary>
-                                        <lhd><action>sku:MD2S3.0-R[MD2S-3LH]</action></lhd>
-                                        <rhd><action>sku:MD2S3.0-R[MD2S-3RH]</action></rhd>
+                                        <lhd><action>product_id:48297[48286, 47735]; done</action></lhd>
+                                        <rhd><action>product_id:48297[48287, 47736]; done</action></rhd>
                                     </binary>
-                                </MD2S3.0-R>
-                                <FXR3.0-R>
+                                </MD2S>
+                                <FXR>
                                     <binary>
-                                        <lhd><action>sku:FXR3.0-R[FXR3-3LH]</action></lhd>
-                                        <rhd><action>sku:FXR3.0-R[FXR3-3RH]</action></rhd>
+                                        <lhd><action>product_id:48298[47822, 47825]; done</action></lhd>
+                                        <rhd><action>product_id:48298[47823, 47824]; done</action></rhd>
                                     </binary>
-                                </FXR3.0-R>
+                                </FXR>
                             </options>
                         </config>
                     </action>

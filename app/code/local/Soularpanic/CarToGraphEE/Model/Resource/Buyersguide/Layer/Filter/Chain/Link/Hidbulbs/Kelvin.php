@@ -4,7 +4,8 @@ class Soularpanic_CarToGraphEE_Model_Resource_Buyersguide_Layer_Filter_Chain_Lin
 
     public function applyFilterToCollection($filter, $option)
     {
-        Mage::log('HID Bulbs Kelvin resource starting up...', null, 'trs_guide.log');
+        $logger = Mage::helper('cartographee');
+        $logger->log('HID Bulbs Kelvin resource starting up...');
         $value = $option->getValue();
 
         $_dfBundleTarget = 'HID Bulbs';
@@ -14,7 +15,7 @@ class Soularpanic_CarToGraphEE_Model_Resource_Buyersguide_Layer_Filter_Chain_Lin
         $state = $filter->getChainState();
 
         if ($value) {
-            Mage::log("Altering SQL...", null, 'trs_guide.log');
+            $logger->log("Altering SQL...");
             $collection = $filter->getLayer()->getProductCollection();
             $directFitSelect = $collection->getSelect();
 
@@ -29,7 +30,7 @@ class Soularpanic_CarToGraphEE_Model_Resource_Buyersguide_Layer_Filter_Chain_Lin
                     [])
                 ->joinLeft([$f => $catalogProductTable],
                     "$f.entity_id = bulb_package_options.product_id and $f.name like '$likeStr'",
-                    [$columnAlias => "GROUP_CONCAT(DISTINCT $f.sku SEPARATOR ',')"])
+                    [$columnAlias => "GROUP_CONCAT(DISTINCT $f.entity_id SEPARATOR ',')"])
                 ->where("$f.sku is not null")
                 ->having("$columnAlias is not null");
 
@@ -42,32 +43,32 @@ class Soularpanic_CarToGraphEE_Model_Resource_Buyersguide_Layer_Filter_Chain_Lin
 
                 if ($crossRefSqlValue) {
                     $subselect = Mage::getSingleton('core/resource')->getConnection('core_read')->select();
-                    $x = 'x';
-                    $y = 'y';
-                    $z = 'z';
+                    $subselectLinkAlias = 'subselect_link';
+                    $subselectProductAlias = 'subselect_product';
+                    $subselectAttributeSetAlias = 'subselect_attribute_set';
                     $subselect
-                        ->from([$x => $this->getTable('cartographee/linkcarproduct')],
+                        ->from([$subselectLinkAlias => $this->getTable('cartographee/linkcarproduct')],
                             [ 'car_id' ])
-                        ->join([$y => $catalogProductTable],
-                            "$x.product_id = $y.entity_id",
-                            [ 'sku' ])
-                        ->join([$z => $this->getTable('eav/attribute_set')],
-                            "$y.attribute_set_id = $z.attribute_set_id",
+                        ->join([$subselectProductAlias => $catalogProductTable],
+                            "$subselectLinkAlias.product_id = $subselectProductAlias.entity_id",
+                            [ 'entity_id' ])
+                        ->join([$subselectAttributeSetAlias => $this->getTable('eav/attribute_set')],
+                            "$subselectProductAlias.attribute_set_id = $subselectAttributeSetAlias.attribute_set_id",
                             [])
-                        ->where("$z.attribute_set_name = '$_dfBundleTarget'")
-                        ->where("$x.type = '$crossRefSqlValue'");
-                    Mage::log("\n\nSubselect SQL:\n".$subselect->__toString(), null, 'trs_guide.log');
+                        ->where("$subselectAttributeSetAlias.attribute_set_name = '$_dfBundleTarget'")
+                        ->where("$subselectLinkAlias.type = '$crossRefSqlValue'");
+                    $logger->log("\n\nSubselect SQL:\n".$subselect->__toString());
 
-                    $foo = "foo";
+                    $subselectAlias = "subselect";
                     $directFitSelect
-                        ->joinLeft([$foo => $subselect],
-                            "$foo.car_id = car.entity_id",
+                        ->joinLeft([$subselectAlias => $subselect],
+                            "$subselectAlias.car_id = car.entity_id",
                             [])
-                        ->where("if($foo.sku is not null, $f.sku in ($foo.sku), true)");
+                        ->where("if($subselectAlias.entity_id is not null, $f.entity_id in ($subselectAlias.entity_id), true)");
                 }
             }
 
-            Mage::log("HID Bulbs Kelvin SQL:\n{$directFitSelect->__toString()}", null, 'trs_guide.log');
+            $logger->log("HID Bulbs Kelvin SQL:\n{$directFitSelect->__toString()}");
 
             $state['action'] = 'step:done';
             $filter->setChainState($state);
@@ -75,7 +76,7 @@ class Soularpanic_CarToGraphEE_Model_Resource_Buyersguide_Layer_Filter_Chain_Lin
 
 
 
-        Mage::log("Request vars:\n".print_r(Mage::app()->getRequest()->getParams(), true), null, 'trs_guide.log');
+        $logger->log("Request vars:\n".print_r(Mage::app()->getRequest()->getParams(), true));
         return $this;
     }
 

@@ -17,7 +17,8 @@ class Soularpanic_CarToGraphEE_Admin_CartographeeController
 
 
     public function processExcelAction() {
-        Mage::log('processExcelAction - start', null, 'trs_guide.log');
+        $logger = Mage::helper('cartographee');
+        $logger->log('processExcelAction - start');
 
         $response = Mage::app()->getResponse();
 
@@ -39,16 +40,16 @@ class Soularpanic_CarToGraphEE_Admin_CartographeeController
         $lastMake = null;
 
         foreach ($excelObj->getAllSheets() as $worksheet) {
-            $this->log("Processing worksheet [{$worksheet->getTitle()}]");
+            $logger->log("Processing worksheet [{$worksheet->getTitle()}]");
             $lastRow = $worksheet->getHighestDataRow();
-            $this->log("got last row ($lastRow)");
+            $logger->log("got last row ($lastRow)");
             $lastCol = $worksheet->getHighestDataColumn();
-            $this->log("got last col ($lastCol)");
+            $logger->log("got last col ($lastCol)");
             $keyRow = [];
-            $this->log("beginning to iterate through sheet...");
+            $logger->log("beginning to iterate through sheet...");
             for ($row = 1; $row <= $lastRow; $row++) {
                 $relation = [];
-                $this->log("key row ($row): ".print_r($keyRow,true));
+                $logger->log("key row ($row): ".print_r($keyRow,true));
                 for ($col = 'A'; $col != $lastCol; $col++) {
                     if ($worksheet->cellExists($col.$row)) {
                         $cell = $worksheet->getCell($col.$row);
@@ -73,7 +74,7 @@ class Soularpanic_CarToGraphEE_Admin_CartographeeController
                     $_relations = $carHelper->getCarProductRelations($car, $_relationRow);
                     foreach ($_relations as $_relation) {
 
-                        Mage::log("relation: (".print_r($_relation, true).")", null, 'trs_guide.log');
+                        $logger->log("relation: (".print_r($_relation, true).")");
 
                         $link = Mage::getModel('cartographee/linkcarproduct');
                         $link->setData($_relation);
@@ -83,59 +84,34 @@ class Soularpanic_CarToGraphEE_Admin_CartographeeController
             }
         }
 
-//        $data = $excelHelper->parseExcel($excelPath);
-//
-//        $lastMake = null;
-//        foreach ($data as $relationRow) {
-//
-//            $make = $relationRow['make'] ?: $lastMake;
-//            $lastMake = $make;
-//            $relationRow['make'] = $make;
-//
-//            $car = $carHelper->fetchCar($relationRow);
-//
-//            $relations = $carHelper->getCarProductRelations($car, $relationRow);
-//            Mage::log("beginning loop", null, 'trs_guide.log');
-//            foreach ($relations as $relation) {
-//
-//                Mage::log("relation: (".print_r($relation, true).")", null, 'trs_guide.log');
-//
-//                $link = Mage::getModel('cartographee/linkcarproduct');
-//                $link->setData($relation);
-//                $link->save();
-//            }
-//        }
+
         return $this;
     }
 
 
     protected function _saveExcelFile() {
-        Mage::log("saving excel file...", null, 'trs_guide.log');
+        $logger = Mage::helper('cartographee');
+        $logger->log("saving excel file...");
         $requestKey = Mage::helper('cartographee/excel')->getUploadElementName();
         $filename = Varien_File_Uploader::getCorrectFileName($_FILES[$requestKey]['name']);
-        Mage::log("filename: $filename", null, 'trs_guide.log');
+        $logger->log("filename: $filename");
         if ($filename) {
             $uploader = new Varien_File_Uploader($requestKey);
             $uploader->setAllowedExtensions(['xls'])
                 ->setAllowRenameFiles(false)
                 ->setFilesDispersion(false);
             $path = Mage::getBaseDir('var').DS.'tmp'.DS;
-            Mage::log("writing to disk...", null, 'trs_guide.log');
+            $logger->log("writing to disk...");
             try {
                 $uploader->save($path, $filename);
                 return $path.$filename;
             }
             catch (Exception $e) {
-                Mage::log("FAILED!~ {$e->getMessage()}", null, 'trs_guide.log');
+                $logger->log("FAILED!~ {$e->getMessage()}");
                 Mage::getSingleton('adminhtml/session')->addError("Error saving {$filename}: {$e->getMessage()}");
                 return false;
             }
         }
         return false;
-    }
-
-    protected function log($message) {
-        Mage::log($message, null, 'trs_guide.log');
-        return $this;
     }
 }

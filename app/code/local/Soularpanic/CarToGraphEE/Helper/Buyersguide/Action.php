@@ -9,40 +9,57 @@ class Soularpanic_CarToGraphEE_Helper_Buyersguide_Action
 
 
     public function isTerminal($actionStr) {
-        return strpos($actionStr, 'sku:') === 0;
+        return (strpos($actionStr, 'sku:') === 0 || strpos($actionStr, 'product_id:') === 0);
     }
 
 
     public function applyActionToCollection($filter, $actionsStr) {
         $this->log('applying action to collection - start');
         $actions = explode(';', $actionsStr);
+        $toReturn = true;
         foreach ($actions as $actionStr) {
             list($action, $value) = explode(':', $actionStr, 2);
             $action = trim($action);
             $value = trim($value);
             $this->log("action: [{$action}]; value: [{$value}]");
             if ($action == 'sku') {
-                return $this->_applySkuToCollection($filter, $value);
+                $toReturn &= $this->_applySkuToCollection($filter, $value);
+            }
+            if ($action == 'product_id') {
+                $toReturn &= $this->_applyIdToCollection($filter, $value);
             }
             elseif ($action == 'step') {
-                return $this->_applyStepToCollection($filter, $value);
+                $toReturn &= $this->_applyStepToCollection($filter, $value);
             }
             elseif ($action == 'sql') {
 //                return $this->_applySqlToCollection($filter, $value, false);
-                return $this->_applySqlToCollection($filter, $value, "step:next");
+                $toReturn &= $this->_applySqlToCollection($filter, $value, "step:next");
             }
             elseif ($action == 'fit_sql') {
 //                return $this->_applySqlToCollection($filter, $value, true);
-                return $this->_applySqlToCollection($filter, $value, "step:directfit");
+                $toReturn &= $this->_applySqlToCollection($filter, $value, "step:directfit");
+            }
+            elseif (strpos($action, 'preselect_id') === 0) {
+                $toReturn &= $this->_applyPreselectIdToCollection($filter, $action, $value);
+            }
+            elseif ($action == 'remove_preselect') {
+                $toReturn &= $this->_applyRemovePreselectToCollection($filter, $value);
+            }
+            elseif (strpos($action, 'set') === 0) {
+                $toReturn &= $this->_applySetToRequest($action, $value);
             }
             elseif (strpos($action, '(') === 0) {
-                return $this->_applyComplex($filter, $action);
+                $toReturn &= $this->_applyComplex($filter, $action);
+            }
+            elseif ($action == 'done') {
+                return false;
             }
             else {
                 $this->log("Unhandled action: [{$action}]/[{$value}]", null, 'trs_guide.log');
                 return false;
             }
         }
+        return $toReturn;
     }
 
 
@@ -130,19 +147,93 @@ class Soularpanic_CarToGraphEE_Helper_Buyersguide_Action
         return false;
     }
 
+    protected function _applyIdToCollection($filter, $idAction) {
+        $this->log("applying id action");
+
+        $idPairs = explode(',', $idAction);
+
+        /*
+         * Split action string up into id[preselect ids] strings
+         */
+        $actionRemainder = trim($idAction);
+        $remainderMatch = true;
+        $actionMatches = [];
+        $actionMatch = [];
+        while($remainderMatch && strlen($actionRemainder)) {
+            $remainderMatch = preg_match('(^(\d+(?:\[[\d\s,]+\])?)[\s,]*)', $actionRemainder, $actionMatch);
+            if ($remainderMatch) {
+                $actionMatches[] = $actionMatch[1];
+                $actionRemainder = substr($actionRemainder, strlen($actionMatch[0]));
+            }
+        }
+
+
+
+        $idPreselects = [];
+        $sqlNeedsPreselect = false;
+
+        foreach($actionMatches as $idPair) {
+            $idMatches = [];
+            $idMatched = preg_match('((\d+)(?:\[([\d, ]+)\])?)', $idPair, $idMatches);
+            if ($idMatched) {
+                $id = $idMatches[1];
+                $preselect = count($idMatches) > 1 ? $idMatches[2] : '';
+                if ($preselect) {
+                    $sqlNeedsPreselect = true;
+                }
+                $idPreselects[$id] = $preselect;
+            }
+        }
+//        foreach ($idPairs as $idPair) {
+//            $matches = [];
+//            $matched = preg_match('/^([^\[]+)(?:\[([^\]]+)\])?$/', trim($idPair), $matches);
+//
+//            if ($matched) {
+//                $id = $matches[1];
+//                $preselect = count($matches > 1) ? $matches[2] : '';
+//                $idPreselects[$id] = $preselect;
+//            }
+//        }
+
+        $idInStmt = "e.entity_id in ('" . implode("', '", array_keys($idPreselects)) . "')";
+
+        $preselectStmtArr = array_map(
+            function($id, $preselector) { return "select '{$id}' as product_id, '{$preselector}' as preselect"; },
+            array_keys($idPreselects),
+            $idPreselects
+        );
+
+        $preselectStmt = '('.implode(' union ', $preselectStmtArr).')';
+
+        $select = $filter->getLayer()->getProductCollection()->getSelect();
+        /*
+         * Can only use preselects once w/o table naming conflict; YAGNI
+         */
+        if ($sqlNeedsPreselect) {
+            $select
+                ->joinLeft(['preselects' => new Zend_Db_Expr($preselectStmt)],
+                    "e.entity_id = preselects.product_id",
+                    ['preselect']);
+        }
+        $select->where($idInStmt);
+
+        $this->log("id SQL:\n".$select->__toString());
+        return false;
+    }
+
 
     protected function _applyStepToCollection($filter, $step) {
-        $this->log("checking step value ({$step}) for sku filters...");
-        $collection = $filter->getLayer()->getProductCollection();
-        $matches = [];
-        $matched = preg_match('/^\d+\[([^\]]+)\]/', $step, $matches);
-        if ($matched) {
-            $this->log("sku filter matches: ".print_r($matches, true));
-            $skusRawStr = $matches[1];
-            $skus = implode("', '", array_map("trim", explode(',', $skusRawStr)));
-            $collection->getSelect()->where("e.sku IN ('{$skus}')");
-            $this->log("collection sql: ".$collection->getSelect()->__toString());
-        }
+//        $this->log("checking step value ({$step}) for sku filters...");
+//        $collection = $filter->getLayer()->getProductCollection();
+//        $matches = [];
+//        $matched = preg_match('/^\d+\[([^\]]+)\]/', $step, $matches);
+//        if ($matched) {
+//            $this->log("sku filter matches: ".print_r($matches, true));
+//            $skusRawStr = $matches[1];
+//            $skus = implode("', '", array_map("trim", explode(';', $skusRawStr)));
+//            $collection->getSelect()->where("e.sku IN ('{$skus}')");
+//            $this->log("collection sql: ".$collection->getSelect()->__toString());
+//        }
         return true;
     }
 
@@ -183,4 +274,58 @@ class Soularpanic_CarToGraphEE_Helper_Buyersguide_Action
         }
         return true;
     }
+
+    protected function _applyPreselectIdToCollection($filter, $action, $value) {
+
+        $this->log("Altering SQL for preselect...");
+
+        $dfBundleTarget = substr($action, strlen("preselect_id_"));
+        $f = "f_$dfBundleTarget";
+        $collection = $filter->getLayer()->getProductCollection();
+        $directFitSelect = $collection->getSelect();
+
+        //$originalSelect = clone $directFitSelect;
+        $fitIds = "('".implode("','", array_map('trim', explode(',', $value)))."')";
+        $columnAlias = "preselect_$dfBundleTarget";
+        $directFitSelect
+            ->joinLeft([$f => $collection->getResource()->getTable('catalog/product_flat').'_'.Mage::app()->getStore()->getStoreId()],
+                "$f.entity_id = package_options.product_id and $f.entity_id in $fitIds",
+                [$columnAlias => "GROUP_CONCAT(DISTINCT $f.entity_id SEPARATOR ',')"])
+            ->orWhere("$f.sku is not null")
+            ->having("$columnAlias is not null");
+
+        $this->log("Preselect SQL:\n{$directFitSelect->__toString()}");
+        return true;
+    }
+
+    protected function _applyRemovePreselectToCollection($filter, $value) {
+        $preselectKey = "preselect_$value";
+
+        $select = $filter->getLayer()->getProductCollection()->getSelect();
+        $columns = $select->getPart('columns');
+        $having = $select->getPart('having');
+
+        $select->reset('columns');
+        foreach ($columns as $k => $v) {
+            if ($v[2] != $preselectKey) {
+                $select->columns([$v[2] => $v[1]], $v[0]);
+            }
+        }
+
+        $select->reset('having');
+        foreach ($having as $k => $v) {
+            if (strpos($v, $preselectKey) === false) {
+                $select->having($v);
+            }
+        }
+
+        return true;
+    }
+
+    protected function _applySetToRequest($action, $value) {
+        $key = substr($action, strlen('set_'));
+        Mage::app()->getRequest()->setParam($key, $value);
+        return true;
+    }
+
 }
